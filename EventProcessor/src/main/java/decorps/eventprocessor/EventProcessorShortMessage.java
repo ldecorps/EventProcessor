@@ -6,6 +6,8 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
+import decorps.eventprocessor.dsi.DsiTetraMap;
+
 public class EventProcessorShortMessage extends ShortMessage {
 	protected static DsiTetraMap dsiTetraMap = new DsiTetraMap();
 	public final ShortMessage shortMessage;

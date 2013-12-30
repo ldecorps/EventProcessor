@@ -9,6 +9,7 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
+import decorps.eventprocessor.dsi.DsiTetraMap;
 import decorps.eventprocessor.rules.Rule;
 
 public class EventProcessor implements MidiDevice {

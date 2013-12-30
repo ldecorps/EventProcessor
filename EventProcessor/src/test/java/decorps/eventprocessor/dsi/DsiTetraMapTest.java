@@ -1,5 +1,10 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.dsi;
 
+import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
+import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
+import static decorps.eventprocessor.utils.BaseUtils.byteToHex;
+import static decorps.eventprocessor.utils.BaseUtils.printOutBinaryMessage;
+import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -7,13 +12,20 @@ import static org.junit.Assert.assertTrue;
 
 import javax.sound.midi.SysexMessage;
 
+import junit.framework.Assert;
+
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.NotImplementedException;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import decorps.eventprocessor.EventProcessorShortMessageComposite;
+import decorps.eventprocessor.EventProcessorTest;
+import decorps.eventprocessor.TestingDSITetraInfo;
+
 public class DsiTetraMapTest {
 
+	private static final String CHANNEL_ONE = "0000";
+	private static final String PROGAM_ONE = "000 0001";
 	final SysexMessage sampleMsg = EventProcessorTest
 			.getSampleProgramDataDumpSysexMessage();
 	final DsiTetraMap cut = new DsiTetraMap();
@@ -64,11 +76,11 @@ public class DsiTetraMapTest {
 	}
 
 	void checkBinaryToString(int oneByte, String representation) {
-		assertThat(DsiTetraMap.byteToBinary((byte) oneByte), is(representation));
+		assertThat(byteToBinary((byte) oneByte), is(representation));
 	}
 
 	void checkStringToByte(String representation, int oneByte) {
-		assertThat(DsiTetraMap.binaryToByte(representation), is((byte) oneByte));
+		assertThat(binaryToByte(representation), is((byte) oneByte));
 	}
 
 	@Test
@@ -92,28 +104,22 @@ public class DsiTetraMapTest {
 		byte[] next8BytePackets = ArrayUtils.subarray(
 				sysexMessageMinusEndOfExclusiveMinusFiveFirstBytes, 0, 64);
 
-		DsiTetraMap.printOutBytesAsHexa(next8BytePackets);
-		DsiTetraMap.printOutBinaryMessage(next8BytePackets);
+		printOutBytesAsHexa(next8BytePackets);
+		printOutBinaryMessage(next8BytePackets);
 		for (int i = 0; i < 8; i++)
-			assertEquals(
-					"row "
-							+ (i + 1)
-							+ " is "
-							+ DsiTetraMap
-									.byteToBinary(MSB(next8BytePackets[i * 8])),
-					0, MSB(next8BytePackets[i * 8]));
+			assertEquals("row " + (i + 1) + " is "
+					+ byteToBinary(MSB(next8BytePackets[i * 8])), 0,
+					MSB(next8BytePackets[i * 8]));
 	}
 
 	private byte MSB(byte currentByte) {
-		String byteAsBinary = DsiTetraMap.byteToBinary(currentByte);
+		String byteAsBinary = byteToBinary(currentByte);
 		return Byte.parseByte(byteAsBinary.substring(0, 4), 2);
 	}
 
 	@Test
 	public void Hexa18Is11000() throws Exception {
-		assertEquals(
-				DsiTetraMap.byteToHex(DsiTetraMap.binaryToByte("0001 1000")),
-				"18");
+		assertEquals(byteToHex(binaryToByte("0001 1000")), "18");
 	}
 
 	@Test
@@ -123,6 +129,7 @@ public class DsiTetraMapTest {
 
 	@Test
 	public void canRecognizeAProgramChangeForTetra() throws Exception {
-		throw new NotImplementedException();
+		Assert.assertTrue(cut.isProgramChange("1100 " + CHANNEL_ONE, "0"
+				+ PROGAM_ONE, null));
 	}
 }

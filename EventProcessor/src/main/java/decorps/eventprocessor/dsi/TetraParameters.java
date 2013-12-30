@@ -1,4 +1,4 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.dsi;
 
 public enum TetraParameters {
 	Oscillator1Frequency(0), Oscillator2FineTune(1);

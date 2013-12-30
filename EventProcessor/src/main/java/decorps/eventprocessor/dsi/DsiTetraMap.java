@@ -1,9 +1,18 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.dsi;
+
+import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
+import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
+import static decorps.eventprocessor.utils.BaseUtils.byteToHex;
+import static decorps.eventprocessor.utils.BaseUtils.printOutBinaryMessage;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
+
+import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.EventProcessorShortMessage;
+import decorps.eventprocessor.EventProcessorShortMessageComposite;
 
 public class DsiTetraMap {
 
@@ -33,37 +42,6 @@ public class DsiTetraMap {
 				&& messageAsBytes[2] == Program_Data;
 	}
 
-	public static void printOutHexaMessage(SysexMessage message) {
-		printOutBytesAsHexa(message.getData());
-	}
-
-	static void printOutBytesAsHexa(byte[] data) {
-		int counter = 0;
-		String messageAsString = "";
-		for (byte currentByte : data) {
-			String byteAsBinary = byteToBinary(currentByte);
-			messageAsString += byteToHex(binaryToByte(byteAsBinary)) + " ";
-			counter++;
-			if (counter == 8) {
-				counter = 0;
-				messageAsString += "\r\n";
-			}
-		}
-		System.out.println(messageAsString);
-	}
-
-	static void printOutBinaryMessage(byte[] data) {
-		String messageAsString = "";
-		for (byte currentByte : data) {
-			messageAsString += byteToBinary(currentByte) + "\r\n";
-		}
-		System.out.println(messageAsString);
-	}
-
-	static public String byteToHex(byte currentByte) {
-		return String.format("%02X", currentByte);
-	}
-
 	private void doByte(
 			EventProcessorShortMessageComposite eventProcessorShortMessageComposite,
 			byte currentByte) {
@@ -89,19 +67,11 @@ public class DsiTetraMap {
 		return -9 == currentByte;
 	}
 
-	static public String byteToBinary(byte currentByte) {
-		String message = String.format("%8s",
-				Integer.toBinaryString(currentByte & 0xFF)).replace(' ', '0');
-		return message.substring(0, 4) + " " + message.substring(4, 8);
-	}
-
-	public static byte binaryToByte(String representation) {
-		return (byte) Short.parseShort(
-				representation.substring(0, 9).replace(" ", ""), 2);
-	}
-
 	public static boolean isTetra(Info info) {
 		return NAME.equals(info.getName()) && VENDOR.equals(info.getVendor());
 	}
 
+	public boolean isProgramChange(String status, String second, String third) {
+		return null == third && status.startsWith("1100");
+	}
 }

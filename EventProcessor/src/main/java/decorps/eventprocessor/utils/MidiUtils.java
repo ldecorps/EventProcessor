@@ -1,4 +1,4 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.utils;
 
 import java.util.ArrayList;
 import java.util.List;
