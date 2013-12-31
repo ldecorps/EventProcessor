@@ -18,6 +18,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import decorps.eventprocessor.EventProcessorShortMessage;
 import decorps.eventprocessor.EventProcessorShortMessageComposite;
 import decorps.eventprocessor.EventProcessorTest;
 import decorps.eventprocessor.TestingDSITetraInfo;
@@ -30,13 +31,6 @@ public class DsiTetraMapTest {
 			.getSampleProgramDataDumpSysexMessage();
 	final DsiTetraMap cut = new DsiTetraMap();
 	EventProcessorShortMessageComposite result = cut.convert(sampleMsg);
-
-	@Test
-	public void newMap_shouldMap_Oscillator1Frequency() throws Exception {
-		EventProcessorShortMessageComposite result = cut.convert(sampleMsg);
-		assertThat(result.get(0).getData1(),
-				is(TetraParameters.Oscillator1Frequency.parm));
-	}
 
 	@Test
 	public void convertStringToByte() throws Exception {
@@ -129,7 +123,8 @@ public class DsiTetraMapTest {
 
 	@Test
 	public void canRecognizeAProgramChangeForTetra() throws Exception {
-		Assert.assertTrue(cut.isProgramChange("1100 " + CHANNEL_ONE, "0"
-				+ PROGAM_ONE, null));
+		EventProcessorShortMessage midiMessage = EventProcessorShortMessage
+				.build("1100 " + CHANNEL_ONE, "0" + PROGAM_ONE, null);
+		Assert.assertTrue(midiMessage.is(TetraParameters.ProgramChange));
 	}
 }

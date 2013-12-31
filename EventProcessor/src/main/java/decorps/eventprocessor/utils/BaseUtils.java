@@ -13,8 +13,7 @@ public class BaseUtils {
 	}
 
 	public static byte binaryToByte(String representation) {
-		return (byte) Short.parseShort(
-				representation.substring(0, 9).replace(" ", ""), 2);
+		return (byte) Short.parseShort(representation.replace(" ", ""), 2);
 	}
 
 	static public String byteToBinary(byte currentByte) {
@@ -44,6 +43,22 @@ public class BaseUtils {
 
 	public static void printOutHexaMessage(SysexMessage message) {
 		printOutBytesAsHexa(message.getData());
+	}
+
+	public static boolean MsbEquals(String expectedMsb, int actualByte) {
+		final byte msb = getMsb((byte) actualByte);
+		final byte expectedMsbAsByte = binaryToByte(expectedMsb);
+		return msb == expectedMsbAsByte;
+	}
+
+	public static int byeToInt(byte byteToBeConverted) {
+		return Integer.valueOf(
+				Integer.toBinaryString(byteToBeConverted & 0xFF), 2);
+	}
+
+	public static byte getMsb(byte eightBits) {
+		String binary = byteToBinary(eightBits);
+		return binaryToByte(binary.substring(0, 4));
 	}
 
 }

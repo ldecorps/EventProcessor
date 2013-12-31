@@ -1,11 +1,14 @@
 package decorps.eventprocessor.dsi;
 
+import decorps.eventprocessor.EventProcessorShortMessage;
+import decorps.eventprocessor.utils.BaseUtils;
+
 public enum TetraParameters {
-	Oscillator1Frequency(0), Oscillator2FineTune(1);
+	Oscillator1Frequency, Oscillator2FineTune, ProgramChange;
 
-	TetraParameters(int parm) {
-		this.parm = parm;
+	public boolean is(EventProcessorShortMessage eventProcessorShortMessage) {
+		return BaseUtils.MsbEquals("1100",
+				eventProcessorShortMessage.shortMessage.getStatus())
+				&& eventProcessorShortMessage.getData2() == 0;
 	}
-
-	final public int parm;
 }

@@ -1,5 +1,7 @@
 package decorps.eventprocessor;
 
+import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
@@ -7,6 +9,7 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.dsi.DsiTetraMap;
+import decorps.eventprocessor.dsi.TetraParameters;
 
 public class EventProcessorShortMessage extends ShortMessage {
 	protected static DsiTetraMap dsiTetraMap = new DsiTetraMap();
@@ -104,5 +107,34 @@ public class EventProcessorShortMessage extends ShortMessage {
 
 	public void send(Receiver receiver, long timestamp) {
 		receiver.send(this, timestamp);
+	}
+
+	public static EventProcessorShortMessage build(int status, int second,
+			int third) {
+		ShortMessage shortMessage;
+		try {
+			shortMessage = new ShortMessage(status, second, third);
+			return EventProcessorShortMessage.build(shortMessage);
+		} catch (InvalidMidiDataException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		}
+	}
+
+	public static EventProcessorShortMessage build(String status,
+			String second, String third) {
+		if (null != status && null != second && null != third) {
+			return EventProcessorShortMessage.build(binaryToByte(status),
+					binaryToByte(second), binaryToByte(third));
+		} else if (null != status && null != second) {
+			return EventProcessorShortMessage.build(binaryToByte(status),
+					binaryToByte(second), 0);
+		}
+		throw new EventProcessorException(
+				"cannot build shortmessage with null values yet");
+	}
+
+	public boolean is(TetraParameters tetraParameter) {
+		return tetraParameter.is(this);
 	}
 }
