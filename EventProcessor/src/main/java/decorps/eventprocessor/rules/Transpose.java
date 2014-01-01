@@ -15,8 +15,8 @@ public class Transpose implements Rule {
 
 	@Override
 	public EventProcessorShortMessage transform(
-			EventProcessorShortMessage eventProvessorMidiMessage) {
-		ShortMessage incomingMessage = eventProvessorMidiMessage;
+			EventProcessorShortMessage eventProvessorShortMessage) {
+		ShortMessage incomingMessage = eventProvessorShortMessage.shortMessage;
 
 		int command = incomingMessage.getCommand();
 		int channel = incomingMessage.getChannel();

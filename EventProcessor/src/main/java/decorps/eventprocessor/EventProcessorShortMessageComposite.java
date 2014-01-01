@@ -12,7 +12,7 @@ public class EventProcessorShortMessageComposite extends
 	List<EventProcessorShortMessage> eventProcessorShortMessages = new ArrayList<EventProcessorShortMessage>();
 
 	EventProcessorShortMessageComposite(ShortMessage shortMessage) {
-		super(null);
+		super(shortMessage);
 	}
 
 	protected EventProcessorShortMessageComposite(SysexMessage message) {

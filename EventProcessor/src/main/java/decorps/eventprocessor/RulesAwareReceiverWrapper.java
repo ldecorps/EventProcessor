@@ -11,7 +11,7 @@ import javax.sound.midi.Receiver;
 
 public class RulesAwareReceiverWrapper implements Receiver {
 	private final Receiver receiver;
-	private final List<MidiMessage> midiMessages = new ArrayList<MidiMessage>();
+	private final List<EventProcessorShortMessage> midiMessages = new ArrayList<EventProcessorShortMessage>();
 	public final Set<Action> actions = new HashSet<Action>();
 
 	protected RulesAwareReceiverWrapper(Receiver receiver) {
@@ -42,7 +42,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		}
 	}
 
-	public MidiMessage getSentMidiMessage() {
+	public EventProcessorShortMessage getSentMidiMessage() {
 		return midiMessages.get(0);
 	}
 

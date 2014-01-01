@@ -19,4 +19,5 @@ public class RuleTest {
 				TetraParameters.ProgramChange);
 		assertThat(cut.getActions(), not(empty()));
 	}
+
 }

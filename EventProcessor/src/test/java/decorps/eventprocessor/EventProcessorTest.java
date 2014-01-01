@@ -19,7 +19,6 @@ import java.util.Collection;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
-import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
@@ -75,7 +74,7 @@ public class EventProcessorTest {
 		return myMsg;
 	}
 
-	private MidiMessage getSentMessage() {
+	private EventProcessorShortMessage getSentMessage() {
 		return ((RulesAwareReceiverWrapper) cut.getReceiver())
 				.getSentMidiMessage();
 	}
@@ -83,16 +82,14 @@ public class EventProcessorTest {
 	@Test
 	public void midiMessageIsPassedAlong() throws Exception {
 		ShortMessage myMsg = sendMiddleC();
-		assertThat(((ShortMessage) getSentMessage()).getData1(),
-				is(myMsg.getData1()));
+		assertThat(getSentMessage().getData1(), is(myMsg.getData1()));
 	}
 
 	@Test
 	public void canTranspose_Plus3() throws Exception {
 		cut.registerDefaultRule(new Transpose(3));
 		ShortMessage middleC = sendMiddleC();
-		assertThat(((ShortMessage) getSentMessage()).getData1(),
-				is(middleC.getData1() + 3));
+		assertThat(getSentMessage().getData1(), is(middleC.getData1() + 3));
 	}
 
 	private void sendSysEx() throws InvalidMidiDataException,
