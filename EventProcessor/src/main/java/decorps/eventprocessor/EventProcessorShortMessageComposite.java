@@ -30,13 +30,13 @@ public class EventProcessorShortMessageComposite extends
 		return new EventProcessorShortMessageComposite(new ShortMessage());
 	}
 
-	public EventProcessorShortMessage get(int i) {
+	public EventProcessorMidiMessage get(int i) {
 		return eventProcessorShortMessages.get(i);
 	}
 
 	@Override
 	public void send(Receiver receiver, long timestamp) {
-		for (EventProcessorShortMessage eventProcessorShortMessage : eventProcessorShortMessages)
+		for (EventProcessorMidiMessage eventProcessorShortMessage : eventProcessorShortMessages)
 			receiver.send(eventProcessorShortMessage, timestamp);
 	}
 }

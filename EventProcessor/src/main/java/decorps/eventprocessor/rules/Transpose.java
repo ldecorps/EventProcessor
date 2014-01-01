@@ -4,6 +4,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.EventProcessorMidiMessage;
 import decorps.eventprocessor.EventProcessorShortMessage;
 
 public class Transpose implements Rule {
@@ -14,9 +15,9 @@ public class Transpose implements Rule {
 	}
 
 	@Override
-	public EventProcessorShortMessage transform(
-			EventProcessorShortMessage eventProvessorShortMessage) {
-		ShortMessage incomingMessage = eventProvessorShortMessage.shortMessage;
+	public EventProcessorMidiMessage transform(
+			EventProcessorMidiMessage eventProvessorShortMessage) {
+		ShortMessage incomingMessage = ((EventProcessorShortMessage) eventProvessorShortMessage).shortMessage;
 
 		int command = incomingMessage.getCommand();
 		int channel = incomingMessage.getChannel();
@@ -31,7 +32,7 @@ public class Transpose implements Rule {
 			throw new EventProcessorException(e);
 		}
 
-		EventProcessorShortMessage result = EventProcessorShortMessage
+		EventProcessorMidiMessage result = EventProcessorShortMessage
 				.build(outgoingMessage);
 
 		return result;

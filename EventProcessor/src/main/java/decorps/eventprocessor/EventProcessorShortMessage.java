@@ -4,18 +4,12 @@ import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import decorps.eventprocessor.dsi.DsiTetraMap;
-import decorps.eventprocessor.dsi.TetraParameters;
-
 public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static ShortMessage NullShortMessage = new ShortMessage();
-	protected static DsiTetraMap dsiTetraMap = new DsiTetraMap();
-
-	public static EventProcessorShortMessage build(int status, int second,
+	public static EventProcessorMidiMessage build(int status, int second,
 			int third) {
 		ShortMessage shortMessage;
 		try {
@@ -37,7 +31,7 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 				+ message.getClass().getSimpleName());
 	}
 
-	public static EventProcessorShortMessage build(String status,
+	public static EventProcessorMidiMessage build(String status,
 			String second, String third) {
 		if (null != status && null != second && null != third) {
 			return EventProcessorShortMessage.build(binaryToByte(status),
@@ -105,14 +99,6 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	@Override
 	public int hashCode() {
 		return shortMessage.hashCode();
-	}
-
-	public boolean is(TetraParameters tetraParameter) {
-		return tetraParameter.is(this);
-	}
-
-	public void send(Receiver receiver, long timestamp) {
-		receiver.send(this, timestamp);
 	}
 
 	public void setMessage(int status) throws InvalidMidiDataException {

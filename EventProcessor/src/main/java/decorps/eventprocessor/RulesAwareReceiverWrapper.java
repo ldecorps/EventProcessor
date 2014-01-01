@@ -25,20 +25,20 @@ public class RulesAwareReceiverWrapper implements Receiver {
 	@Override
 	public void send(MidiMessage message, long timeStamp) {
 		midiMessages.clear();
-		EventProcessorShortMessage eventProvessorShortMessage = EventProcessorShortMessage
+		EventProcessorShortMessage eventProcessorShortMessage = EventProcessorShortMessage
 				.build(message);
 		if (actions.isEmpty()) {
-			eventProvessorShortMessage.send(receiver, timeStamp);
-			this.midiMessages.add(eventProvessorShortMessage);
+			eventProcessorShortMessage.send(receiver, timeStamp);
+			this.midiMessages.add(eventProcessorShortMessage);
 			return;
 		}
 
 		for (Action action : actions) {
-			if (action.shouldTriggerOn(eventProvessorShortMessage))
-				eventProvessorShortMessage = action.rule
-						.transform(eventProvessorShortMessage);
-			eventProvessorShortMessage.send(receiver, timeStamp);
-			this.midiMessages.add(eventProvessorShortMessage);
+			if (action.shouldTriggerOn(eventProcessorShortMessage))
+				eventProcessorShortMessage = action.rule.transform(
+						eventProcessorShortMessage).getAsShortMessage();
+			eventProcessorShortMessage.send(receiver, timeStamp);
+			this.midiMessages.add(eventProcessorShortMessage);
 		}
 	}
 

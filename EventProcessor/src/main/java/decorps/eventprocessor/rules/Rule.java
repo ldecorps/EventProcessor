@@ -1,10 +1,10 @@
 package decorps.eventprocessor.rules;
 
-import decorps.eventprocessor.EventProcessorShortMessage;
+import decorps.eventprocessor.EventProcessorMidiMessage;
 
 public interface Rule {
 
-	EventProcessorShortMessage transform(
-			EventProcessorShortMessage eventProvessorMidiMessage);
+	EventProcessorMidiMessage transform(
+			EventProcessorMidiMessage eventProvessorMidiMessage);
 
 }

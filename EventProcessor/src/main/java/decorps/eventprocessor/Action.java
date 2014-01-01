@@ -19,8 +19,8 @@ public class Action {
 	}
 
 	public boolean shouldTriggerOn(
-			EventProcessorShortMessage eventProvessorShortMessage) {
-		return eventProvessorShortMessage.is(tetraParameter);
+			EventProcessorMidiMessage eventProvessorMidiMessage) {
+		return eventProvessorMidiMessage.is(tetraParameter);
 	}
 
 }

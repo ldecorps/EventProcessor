@@ -18,6 +18,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import decorps.eventprocessor.EventProcessorMidiMessage;
 import decorps.eventprocessor.EventProcessorShortMessage;
 import decorps.eventprocessor.EventProcessorShortMessageComposite;
 import decorps.eventprocessor.EventProcessorTest;
@@ -123,7 +124,7 @@ public class DsiTetraMapTest {
 
 	@Test
 	public void canRecognizeAProgramChangeForTetra() throws Exception {
-		EventProcessorShortMessage midiMessage = EventProcessorShortMessage
+		EventProcessorMidiMessage midiMessage = EventProcessorShortMessage
 				.build("1100 " + CHANNEL_ONE, "0" + PROGAM_ONE, null);
 		Assert.assertTrue(midiMessage.is(TetraParameters.ProgramChange));
 	}
