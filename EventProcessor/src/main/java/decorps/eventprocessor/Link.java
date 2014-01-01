@@ -1,6 +1,5 @@
 package decorps.eventprocessor;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.sound.midi.Transmitter;
@@ -13,7 +12,6 @@ public class Link {
 	public final RulesAwareReceiverWrapper receiver;
 	public final Transmitter transmitter;
 	private long timeWhenOpened;
-	public final Set<Action> actions = new HashSet<Action>();
 
 	private Link(RulesAwareReceiverWrapper receiver, Transmitter transmitter) {
 		this.timeWhenOpened = TIME_WHEN_NOT_OPENED;
@@ -45,6 +43,10 @@ public class Link {
 	}
 
 	public void register(Rule rule, TetraParameters tetraParameter) {
-		actions.add(Action.build(rule, tetraParameter));
+		receiver.registerAction(Action.build(rule, tetraParameter));
+	}
+
+	public Set<Action> getActions() {
+		return receiver.actions;
 	}
 }

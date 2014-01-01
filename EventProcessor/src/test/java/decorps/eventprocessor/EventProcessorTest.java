@@ -89,7 +89,7 @@ public class EventProcessorTest {
 
 	@Test
 	public void canTranspose_Plus3() throws Exception {
-		cut.addRule(new Transpose(3));
+		cut.registerDefaultRule(new Transpose(3));
 		ShortMessage middleC = sendMiddleC();
 		assertThat(((ShortMessage) getSentMessage()).getData1(),
 				is(middleC.getData1() + 3));

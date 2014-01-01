@@ -18,4 +18,9 @@ public class Action {
 		return new Action(rule, tetraParameter);
 	}
 
+	public boolean shouldTriggerOn(
+			EventProcessorShortMessage eventProvessorShortMessage) {
+		return eventProvessorShortMessage.is(tetraParameter);
+	}
+
 }

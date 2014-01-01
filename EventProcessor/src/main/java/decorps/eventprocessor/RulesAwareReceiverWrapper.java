@@ -9,12 +9,10 @@ import java.util.Set;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
-import decorps.eventprocessor.rules.Rule;
-
 public class RulesAwareReceiverWrapper implements Receiver {
-	private final Set<Rule> rules = new HashSet<Rule>();
 	private final Receiver receiver;
 	private final List<MidiMessage> midiMessages = new ArrayList<MidiMessage>();
+	public final Set<Action> actions = new HashSet<Action>();
 
 	protected RulesAwareReceiverWrapper(Receiver receiver) {
 		this.receiver = receiver;
@@ -29,22 +27,19 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		midiMessages.clear();
 		EventProcessorShortMessage eventProvessorShortMessage = EventProcessorShortMessage
 				.build(message);
-		if (rules.isEmpty()) {
+		if (actions.isEmpty()) {
 			eventProvessorShortMessage.send(receiver, timeStamp);
 			this.midiMessages.add(eventProvessorShortMessage);
 			return;
 		}
 
-		for (Rule rule : rules) {
-			eventProvessorShortMessage = rule
-					.transform(eventProvessorShortMessage);
+		for (Action action : actions) {
+			if (action.shouldTriggerOn(eventProvessorShortMessage))
+				eventProvessorShortMessage = action.rule
+						.transform(eventProvessorShortMessage);
 			eventProvessorShortMessage.send(receiver, timeStamp);
 			this.midiMessages.add(eventProvessorShortMessage);
 		}
-	}
-
-	public void add(Rule rule) {
-		rules.add(rule);
 	}
 
 	public MidiMessage getSentMidiMessage() {
@@ -64,4 +59,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		throw new EventProcessorException("Not Implemented Yet");
 	}
 
+	public void registerAction(Action action) {
+		actions.add(action);
+	}
 }

@@ -10,6 +10,7 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
 import decorps.eventprocessor.dsi.DsiTetraMap;
+import decorps.eventprocessor.dsi.TetraParameters;
 import decorps.eventprocessor.rules.Rule;
 
 public class EventProcessor implements MidiDevice {
@@ -95,10 +96,6 @@ public class EventProcessor implements MidiDevice {
 		return Arrays.asList(new Transmitter[] { link.transmitter });
 	}
 
-	public void addRule(Rule rule) {
-		link.receiver.add(rule);
-	}
-
 	public static boolean isTetraPluggedIn() {
 		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
 			if (DsiTetraMap.isTetra(info))
@@ -123,5 +120,9 @@ public class EventProcessor implements MidiDevice {
 			}
 		}
 		throw new EventProcessorException("Could not get a receiver from Tetra");
+	}
+
+	public void registerDefaultRule(Rule rule) {
+		link.register(rule, TetraParameters.ANY_MESSAGE);
 	}
 }

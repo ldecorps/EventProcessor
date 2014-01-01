@@ -1,5 +1,9 @@
 package decorps.eventprocessor.rules;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
+
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
@@ -13,5 +17,6 @@ public class RuleTest {
 	public void canRegisterARuleToAProgramChange() throws Exception {
 		cut.register(new ProgramDumpRequestRule(),
 				TetraParameters.ProgramChange);
+		assertThat(cut.getActions(), not(empty()));
 	}
 }
