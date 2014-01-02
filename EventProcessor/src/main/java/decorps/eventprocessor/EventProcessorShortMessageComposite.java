@@ -34,7 +34,6 @@ public class EventProcessorShortMessageComposite extends
 		return eventProcessorShortMessages.get(i);
 	}
 
-	@Override
 	public void send(Receiver receiver, long timestamp) {
 		for (EventProcessorMidiMessage eventProcessorShortMessage : eventProcessorShortMessages)
 			receiver.send(eventProcessorShortMessage, timestamp);

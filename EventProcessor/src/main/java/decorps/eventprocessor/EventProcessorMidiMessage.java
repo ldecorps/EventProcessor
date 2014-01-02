@@ -2,13 +2,16 @@ package decorps.eventprocessor;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
+import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.dsi.DsiTetraMap;
 import decorps.eventprocessor.dsi.TetraParameter;
+import decorps.eventprocessor.utils.DumpReceiver;
 
 public abstract class EventProcessorMidiMessage extends MidiMessage {
 
 	protected static DsiTetraMap dsiTetraMap = new DsiTetraMap();
+	public static Object wait = new Object();
 
 	protected EventProcessorMidiMessage(byte[] data) {
 		super(data);
@@ -25,6 +28,13 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 	}
 
 	public void send(Receiver receiver, long timestamp) {
-		receiver.send(this, timestamp);
+		ShortMessage toSend = this.getAsShortMessage().shortMessage;
+		System.out.println("sending: " + DumpReceiver.decodeMessage(toSend)
+				+ " with timestamp " + timestamp + " to receiver "
+				+ receiver.toString());
+		receiver.send(toSend, timestamp);
+		synchronized (wait) {
+			wait.notify();
+		}
 	}
 }

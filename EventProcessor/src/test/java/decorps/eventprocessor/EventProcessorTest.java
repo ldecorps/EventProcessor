@@ -4,41 +4,31 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiDevice;
-import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 import org.junit.Test;
 
 import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.rules.ProgramDumpRequestRule;
 import decorps.eventprocessor.rules.Transpose;
+import decorps.eventprocessor.utils.DumpReceiver;
 
 public class EventProcessorTest {
 
 	EventProcessor cut = EventProcessor.build();
-
-	@Before
-	public void open() throws MidiUnavailableException {
-		cut.open();
-	}
 
 	@Test
 	public void newEventProcessor_shouldHaveAReceiver() {
@@ -51,21 +41,10 @@ public class EventProcessorTest {
 	}
 
 	@Test
-	public void newEventProcessor_HasNotSetTheReceiverInTheTransmitter()
+	public void newEventProcessor_HasSetTheReceiverInTheTransmitter()
 			throws Exception {
 		assertThat(EventProcessor.build().getDefaultRemoteReceiver(),
-				nullValue());
-	}
-
-	@Test
-	public void eventProcess_IsAMidiDevice() throws Exception {
-		assertThat(cut, isA(MidiDevice.class));
-	}
-
-	@Test
-	public void onceOpened_theReceiverIsSetInTheTransmitter() throws Exception {
-		assertThat(cut.getDefaultRemoteReceiver(),
-				sameInstance(cut.getReceiver()));
+				notNullValue());
 	}
 
 	private ShortMessage sendMiddleC() throws InvalidMidiDataException {
@@ -77,8 +56,7 @@ public class EventProcessorTest {
 	}
 
 	private EventProcessorShortMessage getSentMessage() {
-		return ((RulesAwareReceiverWrapper) cut.getReceiver())
-				.getSentMidiMessage();
+		return cut.fromTetra.receiver.getSentMidiMessage();
 	}
 
 	@Test
@@ -116,9 +94,8 @@ public class EventProcessorTest {
 		return myMsg;
 	}
 
-	private Collection<? extends Object> getSentMessages() {
-		return ((RulesAwareReceiverWrapper) cut.getReceiver())
-				.getSentMidiMessages();
+	private List<EventProcessorShortMessage> getSentMessages() {
+		return cut.fromTetra.receiver.getSentMidiMessages();
 	}
 
 	@Test
@@ -128,21 +105,15 @@ public class EventProcessorTest {
 	}
 
 	@Test
-	public void onlySupportsOneReceiverAndOneTransmitter() throws Exception {
-		assertThat(cut.getMaxReceivers(), is(1));
-		assertThat(cut.getMaxTransmitters(), is(1));
-	}
-
-	@Test
-	public void willDefaultReceiverToDummy_ifTetrasReceiverIsNotAvailable()
+	public void willDefaultReceiverToDump_ifTetrasReceiverIsNotAvailable()
 			throws Exception {
 		EventProcessor cut = EventProcessor.build();
 		if (!EventProcessor.isTetraPluggedIn())
 			assertThat(cut.fromTetra.receiver.getRawReceiver(),
-					instanceOf(DummyReceiver.class));
+					instanceOf(DumpReceiver.class));
 		else {
 			assertThat(cut.fromTetra.receiver.getRawReceiver(),
-					not(instanceOf(DummyReceiver.class)));
+					not(instanceOf(DumpReceiver.class)));
 		}
 	}
 

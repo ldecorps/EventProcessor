@@ -9,6 +9,7 @@ import javax.sound.midi.SysexMessage;
 
 public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static ShortMessage NullShortMessage = new ShortMessage();
+
 	public static EventProcessorMidiMessage build(int status, int second,
 			int third) {
 		ShortMessage shortMessage;
@@ -31,8 +32,8 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 				+ message.getClass().getSimpleName());
 	}
 
-	public static EventProcessorMidiMessage build(String status,
-			String second, String third) {
+	public static EventProcessorMidiMessage build(String status, String second,
+			String third) {
 		if (null != status && null != second && null != third) {
 			return EventProcessorShortMessage.build(binaryToByte(status),
 					binaryToByte(second), binaryToByte(third));

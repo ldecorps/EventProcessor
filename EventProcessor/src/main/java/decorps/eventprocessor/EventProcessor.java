@@ -1,8 +1,6 @@
 package decorps.eventprocessor;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.sound.midi.MidiDevice;
@@ -15,14 +13,17 @@ import decorps.eventprocessor.dsi.DsiTetraMap;
 import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.rules.Rule;
 
-public class EventProcessor implements MidiDevice {
-	public Link fromTetra;
-	Set<Action> actions = new HashSet<Action>();
+public class EventProcessor {
+	public final Link fromKeyboardToTetra;
+	final public Link fromTetra;
+	final Set<Action> actions;
+	final LinkFactory linkFactory;
 
 	protected EventProcessor() {
-		this.fromTetra = Link.build(RulesAwareReceiverWrapper.build(
-				tryToGetTetraOrDefaultToDummyReceiver(), actions),
-				getDefaultDummyLocalTansmitter());
+		actions = new HashSet<Action>();
+		linkFactory = new LinkFactory(actions);
+		fromKeyboardToTetra = linkFactory.buildFromKeyboardToTetra();
+		fromTetra = linkFactory.buildFromTetraIfPluggedInToLocal();
 	}
 
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {
@@ -41,62 +42,6 @@ public class EventProcessor implements MidiDevice {
 
 	public static EventProcessor build() {
 		return new EventProcessor();
-	}
-
-	@Override
-	public Info getDeviceInfo() {
-		return new EventProcessorInfo("EventProcessor", "LDECORPS",
-				"EventProcessor", "1");
-	}
-
-	@Override
-	public void open() {
-		fromTetra.open();
-	}
-
-	@Override
-	public void close() {
-		fromTetra.close();
-	}
-
-	@Override
-	public boolean isOpen() {
-		return fromTetra.isOpen();
-	}
-
-	@Override
-	public long getMicrosecondPosition() {
-		return fromTetra.getMicrosecondPosition();
-	}
-
-	@Override
-	public int getMaxReceivers() {
-		return 1;
-	}
-
-	@Override
-	public int getMaxTransmitters() {
-		return 1;
-	}
-
-	@Override
-	public Receiver getReceiver() {
-		return fromTetra.receiver;
-	}
-
-	@Override
-	public List<Receiver> getReceivers() {
-		return Arrays.asList(new Receiver[] { fromTetra.receiver });
-	}
-
-	@Override
-	public Transmitter getTransmitter() {
-		return fromTetra.transmitter;
-	}
-
-	@Override
-	public List<Transmitter> getTransmitters() {
-		return Arrays.asList(new Transmitter[] { fromTetra.transmitter });
 	}
 
 	public static boolean isTetraPluggedIn() {
@@ -146,4 +91,5 @@ public class EventProcessor implements MidiDevice {
 	public Set<Action> getActions() {
 		return actions;
 	}
+
 }

@@ -1,7 +1,6 @@
 package decorps.eventprocessor;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +46,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		return midiMessages.get(0);
 	}
 
-	public Collection<? extends Object> getSentMidiMessages() {
+	public List<EventProcessorShortMessage> getSentMidiMessages() {
 		return midiMessages;
 	}
 
@@ -55,12 +54,12 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		return receiver;
 	}
 
-	@Override
-	public void close() {
-		throw new EventProcessorException("Not Implemented Yet");
-	}
-
 	public void registerAction(Action action) {
 		actions.add(action);
+	}
+
+	@Override
+	public void close() {
+		receiver.close();
 	}
 }

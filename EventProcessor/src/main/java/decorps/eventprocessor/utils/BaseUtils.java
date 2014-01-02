@@ -5,11 +5,16 @@ import javax.sound.midi.SysexMessage;
 public class BaseUtils {
 
 	static public void printOutBinaryMessage(byte[] data) {
+		String messageAsString = bytesToString(data);
+		System.out.println(messageAsString);
+	}
+
+	public static String bytesToString(byte[] data) {
 		String messageAsString = "";
 		for (byte currentByte : data) {
 			messageAsString += byteToBinary(currentByte) + "\r\n";
 		}
-		System.out.println(messageAsString);
+		return messageAsString;
 	}
 
 	public static byte binaryToByte(String representation) {
