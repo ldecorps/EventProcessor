@@ -4,7 +4,7 @@ import decorps.eventprocessor.EventProcessorException;
 import decorps.eventprocessor.EventProcessorMidiMessage;
 import decorps.eventprocessor.utils.BaseUtils;
 
-public enum TetraParameters {
+public enum TetraParameter {
 	Oscillator1Frequency {
 		@Override
 		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {

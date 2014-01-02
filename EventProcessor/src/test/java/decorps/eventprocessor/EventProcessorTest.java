@@ -27,6 +27,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import decorps.eventprocessor.dsi.TetraParameter;
+import decorps.eventprocessor.rules.ProgramDumpRequestRule;
 import decorps.eventprocessor.rules.Transpose;
 
 public class EventProcessorTest {
@@ -40,12 +42,12 @@ public class EventProcessorTest {
 
 	@Test
 	public void newEventProcessor_shouldHaveAReceiver() {
-		assertThat(EventProcessor.build().link.receiver, notNullValue());
+		assertThat(EventProcessor.build().fromTetra.receiver, notNullValue());
 	}
 
 	@Test
 	public void newEventProcessor_shouldHaveATransmitter() throws Exception {
-		assertThat(EventProcessor.build().link.transmitter, notNullValue());
+		assertThat(EventProcessor.build().fromTetra.transmitter, notNullValue());
 	}
 
 	@Test
@@ -136,11 +138,17 @@ public class EventProcessorTest {
 			throws Exception {
 		EventProcessor cut = EventProcessor.build();
 		if (!EventProcessor.isTetraPluggedIn())
-			assertThat(cut.link.receiver.getRawReceiver(),
+			assertThat(cut.fromTetra.receiver.getRawReceiver(),
 					instanceOf(DummyReceiver.class));
 		else {
-			assertThat(cut.link.receiver.getRawReceiver(),
+			assertThat(cut.fromTetra.receiver.getRawReceiver(),
 					not(instanceOf(DummyReceiver.class)));
 		}
+	}
+
+	@Test
+	public void canRegisterARuleToAProgramChange() throws Exception {
+		cut.registerAction(new ProgramDumpRequestRule(),
+				TetraParameter.ProgramChange, cut.fromTetra);
 	}
 }

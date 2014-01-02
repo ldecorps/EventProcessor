@@ -2,7 +2,6 @@ package decorps.eventprocessor;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,14 +11,16 @@ import javax.sound.midi.Receiver;
 public class RulesAwareReceiverWrapper implements Receiver {
 	private final Receiver receiver;
 	private final List<EventProcessorShortMessage> midiMessages = new ArrayList<EventProcessorShortMessage>();
-	public final Set<Action> actions = new HashSet<Action>();
+	public final Set<Action> actions;
 
-	protected RulesAwareReceiverWrapper(Receiver receiver) {
+	protected RulesAwareReceiverWrapper(Receiver receiver, Set<Action> actions) {
 		this.receiver = receiver;
+		this.actions = actions;
 	}
 
-	public static RulesAwareReceiverWrapper build(Receiver receiver) {
-		return new RulesAwareReceiverWrapper(receiver);
+	public static RulesAwareReceiverWrapper build(Receiver receiver,
+			Set<Action> actions) {
+		return new RulesAwareReceiverWrapper(receiver, actions);
 	}
 
 	@Override

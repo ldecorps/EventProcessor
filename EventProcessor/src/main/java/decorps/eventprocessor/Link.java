@@ -4,19 +4,16 @@ import java.util.Set;
 
 import javax.sound.midi.Transmitter;
 
-import decorps.eventprocessor.dsi.TetraParameters;
-import decorps.eventprocessor.rules.Rule;
-
 public class Link {
 	private static final long TIME_WHEN_NOT_OPENED = -1L;
 	public final RulesAwareReceiverWrapper receiver;
 	public final Transmitter transmitter;
 	private long timeWhenOpened;
 
-	private Link(RulesAwareReceiverWrapper receiver, Transmitter transmitter) {
+	private Link(RulesAwareReceiverWrapper in, Transmitter out) {
 		this.timeWhenOpened = TIME_WHEN_NOT_OPENED;
-		this.receiver = receiver;
-		this.transmitter = transmitter;
+		this.receiver = in;
+		this.transmitter = out;
 	}
 
 	public static Link build(RulesAwareReceiverWrapper receiver,
@@ -42,11 +39,8 @@ public class Link {
 		return System.currentTimeMillis() - timeWhenOpened;
 	}
 
-	public void register(Rule rule, TetraParameters tetraParameter) {
-		receiver.registerAction(Action.build(rule, tetraParameter));
-	}
-
 	public Set<Action> getActions() {
 		return receiver.actions;
 	}
+
 }

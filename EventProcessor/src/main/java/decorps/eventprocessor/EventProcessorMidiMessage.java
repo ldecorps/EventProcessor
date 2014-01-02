@@ -4,7 +4,7 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
 import decorps.eventprocessor.dsi.DsiTetraMap;
-import decorps.eventprocessor.dsi.TetraParameters;
+import decorps.eventprocessor.dsi.TetraParameter;
 
 public abstract class EventProcessorMidiMessage extends MidiMessage {
 
@@ -14,7 +14,7 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		super(data);
 	}
 
-	public boolean is(TetraParameters tetraParameter) {
+	public boolean is(TetraParameter tetraParameter) {
 		return tetraParameter.is(this);
 	}
 

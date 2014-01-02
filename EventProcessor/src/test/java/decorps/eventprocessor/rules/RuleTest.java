@@ -7,17 +7,15 @@ import static org.hamcrest.Matchers.not;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.Link;
-import decorps.eventprocessor.dsi.TetraParameters;
+import decorps.eventprocessor.dsi.TetraParameter;
 
 public class RuleTest {
-	final Link cut = EventProcessor.build().link;
+	final EventProcessor eventProcessor = EventProcessor.build();
 
 	@Test
 	public void canRegisterARuleToAProgramChange() throws Exception {
-		cut.register(new ProgramDumpRequestRule(),
-				TetraParameters.ProgramChange);
-		assertThat(cut.getActions(), not(empty()));
+		eventProcessor.registerAction(new ProgramDumpRequestRule(),
+				TetraParameter.ProgramChange);
+		assertThat(eventProcessor.getActions(), not(empty()));
 	}
-
 }

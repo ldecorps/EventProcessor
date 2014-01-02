@@ -126,6 +126,6 @@ public class DsiTetraMapTest {
 	public void canRecognizeAProgramChangeForTetra() throws Exception {
 		EventProcessorMidiMessage midiMessage = EventProcessorShortMessage
 				.build("1100 " + CHANNEL_ONE, "0" + PROGAM_ONE, null);
-		Assert.assertTrue(midiMessage.is(TetraParameters.ProgramChange));
+		Assert.assertTrue(midiMessage.is(TetraParameter.ProgramChange));
 	}
 }

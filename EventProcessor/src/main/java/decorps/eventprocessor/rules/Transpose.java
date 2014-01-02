@@ -7,7 +7,7 @@ import decorps.eventprocessor.EventProcessorException;
 import decorps.eventprocessor.EventProcessorMidiMessage;
 import decorps.eventprocessor.EventProcessorShortMessage;
 
-public class Transpose implements Rule {
+public class Transpose implements Rule, ToTetra, FromTetra {
 	final public int transposeBy;
 
 	public Transpose(int transposeBy) {
