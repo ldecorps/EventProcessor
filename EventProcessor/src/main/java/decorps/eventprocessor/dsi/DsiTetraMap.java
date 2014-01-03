@@ -18,9 +18,13 @@ public class DsiTetraMap {
 
 	private static final String VENDOR = "Dave Smith Instruments";
 	private static final String NAME = "DSI Tetra";
+	public static final byte System_Exclusive = binaryToByte("1111 0000");
 	public static final byte DSI_ID = binaryToByte("0000 0001");
 	public static final byte Tetra_ID = binaryToByte("0010 0110");
 	public static final byte Program_Data = binaryToByte("0000 0010");
+	public static final byte Request_Program_Transmit = binaryToByte("0000 0101");
+	public static final byte End_Of_Exclusive = binaryToByte("1111 0111");
+
 	private byte[] messageAsBytes;
 
 	public EventProcessorShortMessageComposite convert(SysexMessage message) {
@@ -73,5 +77,13 @@ public class DsiTetraMap {
 
 	public boolean isProgramChange(String status, String second, String third) {
 		return null == third && status.startsWith("1100");
+	}
+
+	public static byte buildBankNumber(byte bankNumber) {
+		return bankNumber;
+	}
+
+	public static byte buildProgramNumber(byte programNumber) {
+		return programNumber;
 	}
 }
