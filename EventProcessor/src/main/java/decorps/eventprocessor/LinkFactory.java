@@ -50,6 +50,7 @@ public class LinkFactory {
 				device = MidiSystem.getMidiDevice(info);
 				if (device.getMaxReceivers() == 0)
 					continue;
+				device.open();
 				System.out.println("connected to " + info.getName()
 						+ " receiver");
 				return device.getReceiver();
@@ -98,7 +99,6 @@ public class LinkFactory {
 				device = MidiSystem.getMidiDevice(info);
 				if (device.getMaxTransmitters() == 0)
 					continue;
-				device.open();
 				System.out.println("connected to " + info.getName()
 						+ " transmitter");
 				return device.getTransmitter();

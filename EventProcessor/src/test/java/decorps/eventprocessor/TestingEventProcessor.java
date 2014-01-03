@@ -9,7 +9,6 @@ public class TestingEventProcessor {
 		EventProcessor eventProcessor = new EventProcessor();
 		eventProcessor.registerAction(new Transpose(-12),
 				TetraParameter.ANY_MESSAGE, eventProcessor.fromKeyboardToTetra);
-
 		synchronized (EventProcessorMidiMessage.wait) {
 			EventProcessorMidiMessage.wait.wait();
 		}
