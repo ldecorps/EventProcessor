@@ -1,5 +1,7 @@
 package decorps.eventprocessor;
 
+import static decorps.eventprocessor.utils.BaseUtils.logoutMidiMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +11,7 @@ import javax.sound.midi.Receiver;
 
 public class RulesAwareReceiverWrapper implements Receiver {
 	private final Receiver receiver;
-	private final List<EventProcessorShortMessage> midiMessages = new ArrayList<EventProcessorShortMessage>();
+	private final List<EventProcessorMidiMessage> midiMessages = new ArrayList<EventProcessorMidiMessage>();
 	public final Set<Action> actions;
 
 	protected RulesAwareReceiverWrapper(Receiver receiver, Set<Action> actions) {
@@ -34,19 +36,26 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		}
 
 		for (Action action : actions) {
-			if (action.shouldTriggerOn(eventProcessorShortMessage))
-				eventProcessorShortMessage = action.rule.transform(
-						eventProcessorShortMessage).getAsShortMessage();
-			eventProcessorShortMessage.send(receiver, timeStamp);
-			this.midiMessages.add(eventProcessorShortMessage);
+			System.out.println("Receiving ..."
+					+ logoutMidiMessage(eventProcessorShortMessage));
+			if (!action.shouldTriggerOn(eventProcessorShortMessage))
+				continue;
+			System.out.println("will react upon receiving "
+					+ action.tetraParameter.name());
+			EventProcessorMidiMessage eventProcessorMidiMessage = action.rule
+					.transform(eventProcessorShortMessage);
+			System.out.println("Sending ..."
+					+ logoutMidiMessage(eventProcessorMidiMessage));
+			eventProcessorMidiMessage.send(receiver, timeStamp);
+			this.midiMessages.add(eventProcessorMidiMessage);
 		}
 	}
 
 	public EventProcessorShortMessage getSentMidiMessage() {
-		return midiMessages.get(0);
+		return midiMessages.get(0).getAsShortMessage();
 	}
 
-	public List<EventProcessorShortMessage> getSentMidiMessages() {
+	public List<EventProcessorMidiMessage> getSentMidiMessages() {
 		return midiMessages;
 	}
 

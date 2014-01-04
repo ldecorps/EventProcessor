@@ -3,7 +3,7 @@ package decorps.eventprocessor;
 import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.rules.Transpose;
 
-public class TestingEventProcessor {
+public class TestingTranspose {
 
 	public static void main(String[] args) throws InterruptedException {
 		EventProcessor eventProcessor = new EventProcessor();

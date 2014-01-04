@@ -15,7 +15,7 @@ import decorps.eventprocessor.rules.Rule;
 
 public class EventProcessor {
 	public final Link fromKeyboardToTetra;
-	final public Link fromTetra;
+	final public Link fromTetraToTetra;
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 
@@ -23,7 +23,7 @@ public class EventProcessor {
 		actions = new HashSet<Action>();
 		linkFactory = new LinkFactory(actions);
 		fromKeyboardToTetra = linkFactory.buildFromKeyboardToTetra();
-		fromTetra = linkFactory.buildFromTetraIfPluggedInToLocal();
+		fromTetraToTetra = linkFactory.buildFromTetraToTetraIfPluggedIn();
 	}
 
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {
@@ -37,7 +37,7 @@ public class EventProcessor {
 	}
 
 	Receiver getDefaultRemoteReceiver() {
-		return fromTetra.transmitter.getReceiver();
+		return fromTetraToTetra.transmitter.getReceiver();
 	}
 
 	public static EventProcessor build() {
@@ -71,7 +71,7 @@ public class EventProcessor {
 	}
 
 	public void registerDefaultRule(Rule rule) {
-		registerAction(rule, TetraParameter.ANY_MESSAGE, fromTetra);
+		registerAction(rule, TetraParameter.ANY_MESSAGE, fromTetraToTetra);
 	}
 
 	public void registerAction(Rule rule, TetraParameter tetraParameter,
@@ -85,7 +85,7 @@ public class EventProcessor {
 	}
 
 	public void registerAction(Rule rule, TetraParameter tetraParameter) {
-		registerAction(rule, tetraParameter, fromTetra);
+		registerAction(rule, tetraParameter, fromTetraToTetra);
 	}
 
 	public Set<Action> getActions() {

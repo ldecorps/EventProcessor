@@ -20,12 +20,18 @@ public class LinkFactory {
 		this.actions = actions;
 	}
 
-	public Link buildFromTetraIfPluggedInToLocal() {
-		return build(tryToGetTetraOrDefaultToDumpReceiver(),
-				getDefaultDummyLocalTansmitter());
+	public Link buildFromTetraToTetraIfPluggedIn() {
+		return build(tryToGetTetraOrDefaultDummyTransmitter(),
+				tryToGetTetraOrDefaultToDumpReceiver());
 	}
 
-	Link build(Receiver receiver, Transmitter transmitter) {
+	private Transmitter tryToGetTetraOrDefaultDummyTransmitter() {
+		if (isTetraPluggedIn())
+			return getTetraTransmitter();
+		return getDefaultDummyLocalTansmitter();
+	}
+
+	Link build(Transmitter transmitter, Receiver receiver) {
 		return Link.build(RulesAwareReceiverWrapper.build(receiver, actions),
 				transmitter);
 	}
@@ -38,6 +44,7 @@ public class LinkFactory {
 	}
 
 	Transmitter getDefaultDummyLocalTansmitter() {
+		System.out.println("connected to dummy transmitter");
 		return new DummyTransmitter();
 	}
 
@@ -78,18 +85,6 @@ public class LinkFactory {
 		return false;
 	}
 
-	public Link buildFromLocalToTetraIfPluggedIn() {
-		return build(getDefaultDumpLocalReceiver(),
-				tryToGetTetraOrDefaultToDummyTransmitter());
-
-	}
-
-	private Transmitter tryToGetTetraOrDefaultToDummyTransmitter() {
-		if (isTetraPluggedIn())
-			return getTetraTransmitter();
-		return new DummyTransmitter();
-	}
-
 	private Transmitter getTetraTransmitter() {
 		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
 			if (!DsiTetraMap.isTetra(info))
@@ -99,8 +94,9 @@ public class LinkFactory {
 				device = MidiSystem.getMidiDevice(info);
 				if (device.getMaxTransmitters() == 0)
 					continue;
-				System.out.println("connected to " + info.getName()
-						+ " transmitter");
+				device.open();
+				System.out
+						.println("opening " + info.getName() + " transmitter");
 				return device.getTransmitter();
 			} catch (MidiUnavailableException e) {
 				e.printStackTrace();
@@ -111,13 +107,14 @@ public class LinkFactory {
 				"Could not get a transmitter from Tetra");
 	}
 
-	private Receiver getDefaultDumpLocalReceiver() {
+	Receiver getDefaultDumpLocalReceiver() {
+		System.out.println("Connected to DumpReceiver");
 		return new DumpReceiver(System.out);
 	}
 
 	public Link buildFromKeyboardToTetra() {
-		return build(tryToGetTetraOrDefaultToDumpReceiver(),
-				tryToGetKeyboardOrDefaultDummyTransmitter());
+		return build(tryToGetKeyboardOrDefaultDummyTransmitter(),
+				tryToGetTetraOrDefaultToDumpReceiver());
 	}
 
 	Transmitter tryToGetKeyboardOrDefaultDummyTransmitter() {
@@ -130,8 +127,8 @@ public class LinkFactory {
 				if (device.getMaxTransmitters() == 0)
 					continue;
 				device.open();
-				System.out.println("connected to " + info.getName()
-						+ " transmitter");
+				System.out
+						.println("opening " + info.getName() + " transmitter");
 				return device.getTransmitter();
 			} catch (MidiUnavailableException e) {
 				e.printStackTrace();

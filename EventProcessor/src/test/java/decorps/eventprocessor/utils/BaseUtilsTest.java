@@ -20,7 +20,6 @@ public class BaseUtilsTest {
 	@Test
 	public void canGrabMsb() throws Exception {
 		byte eightBits = binaryToByte("1100 0000");
-
 		assertEquals(BaseUtils.getMsb(eightBits), binaryToByte("1100"));
 	}
 }

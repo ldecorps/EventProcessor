@@ -198,7 +198,7 @@ public class DumpReceiver implements Receiver {
 		return "[" + getHexString(message) + "] " + strMessage;
 	}
 
-	String decodeMessage(SysexMessage message) {
+	public String decodeMessage(SysexMessage message) {
 		byte[] abData = message.getData();
 		String strMessage = null;
 		// System.out.println("sysex status: " + message.getStatus());

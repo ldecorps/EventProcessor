@@ -14,7 +14,7 @@ public class RuleTest {
 
 	@Test
 	public void canRegisterARuleToAProgramChange() throws Exception {
-		eventProcessor.registerAction(new ProgramDumpRequestRule(),
+		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange);
 		assertThat(eventProcessor.getActions(), not(empty()));
 	}

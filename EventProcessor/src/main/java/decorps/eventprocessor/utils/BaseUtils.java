@@ -2,7 +2,12 @@ package decorps.eventprocessor.utils;
 
 import javax.sound.midi.SysexMessage;
 
+import decorps.eventprocessor.EventProcessorMidiMessage;
+
 public class BaseUtils {
+
+	public static final String LINE_SEPARATOR = System
+			.getProperty("line.separator");
 
 	static public void printOutBinaryMessage(byte[] data) {
 		String messageAsString = bytesToString(data);
@@ -66,4 +71,20 @@ public class BaseUtils {
 		return binaryToByte(binary.substring(0, 4));
 	}
 
+	public static byte getLsb(byte eightBits) {
+		String binary = byteToBinary(eightBits);
+		return binaryToByte(binary.substring(4, 8));
+	}
+
+	public static String logoutMidiMessage(
+			EventProcessorMidiMessage eventProcessorMidiMessage) {
+		return LINE_SEPARATOR
+				+ BaseUtils.bytesToString(eventProcessorMidiMessage
+						.getMessage())
+				+ " "
+				+ (eventProcessorMidiMessage.isShortMessage() ? DumpReceiver
+						.decodeMessage(eventProcessorMidiMessage
+								.getAsShortMessage().shortMessage)
+						: eventProcessorMidiMessage.getAsSysexMessage());
+	}
 }

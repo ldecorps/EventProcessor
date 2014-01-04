@@ -23,6 +23,7 @@ public class DsiTetraMap {
 	public static final byte Tetra_ID = binaryToByte("0010 0110");
 	public static final byte Program_Data = binaryToByte("0000 0010");
 	public static final byte Request_Program_Transmit = binaryToByte("0000 0101");
+	public static final byte RequestProgramEditBufferTransmit = binaryToByte("0000 0110");
 	public static final byte End_Of_Exclusive = binaryToByte("1111 0111");
 
 	private byte[] messageAsBytes;

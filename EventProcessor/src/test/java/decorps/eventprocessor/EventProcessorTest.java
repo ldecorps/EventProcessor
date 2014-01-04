@@ -22,7 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import decorps.eventprocessor.dsi.TetraParameter;
-import decorps.eventprocessor.rules.ProgramDumpRequestRule;
+import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
 
@@ -32,12 +32,14 @@ public class EventProcessorTest {
 
 	@Test
 	public void newEventProcessor_shouldHaveAReceiver() {
-		assertThat(EventProcessor.build().fromTetra.receiver, notNullValue());
+		assertThat(EventProcessor.build().fromTetraToTetra.receiver,
+				notNullValue());
 	}
 
 	@Test
 	public void newEventProcessor_shouldHaveATransmitter() throws Exception {
-		assertThat(EventProcessor.build().fromTetra.transmitter, notNullValue());
+		assertThat(EventProcessor.build().fromTetraToTetra.transmitter,
+				notNullValue());
 	}
 
 	@Test
@@ -56,7 +58,7 @@ public class EventProcessorTest {
 	}
 
 	private EventProcessorShortMessage getSentMessage() {
-		return cut.fromTetra.receiver.getSentMidiMessage();
+		return cut.fromTetraToTetra.receiver.getSentMidiMessage();
 	}
 
 	@Test
@@ -94,8 +96,8 @@ public class EventProcessorTest {
 		return myMsg;
 	}
 
-	private List<EventProcessorShortMessage> getSentMessages() {
-		return cut.fromTetra.receiver.getSentMidiMessages();
+	private List<EventProcessorMidiMessage> getSentMessages() {
+		return cut.fromTetraToTetra.receiver.getSentMidiMessages();
 	}
 
 	@Test
@@ -109,17 +111,17 @@ public class EventProcessorTest {
 			throws Exception {
 		EventProcessor cut = EventProcessor.build();
 		if (!EventProcessor.isTetraPluggedIn())
-			assertThat(cut.fromTetra.receiver.getRawReceiver(),
+			assertThat(cut.fromKeyboardToTetra.receiver.getRawReceiver(),
 					instanceOf(DumpReceiver.class));
 		else {
-			assertThat(cut.fromTetra.receiver.getRawReceiver(),
+			assertThat(cut.fromKeyboardToTetra.receiver.getRawReceiver(),
 					not(instanceOf(DumpReceiver.class)));
 		}
 	}
 
 	@Test
 	public void canRegisterARuleToAProgramChange() throws Exception {
-		cut.registerAction(new ProgramDumpRequestRule(),
-				TetraParameter.ProgramChange, cut.fromTetra);
+		cut.registerAction(new ProgramEditBufferDumpRequest(),
+				TetraParameter.ProgramChange, cut.fromTetraToTetra);
 	}
 }

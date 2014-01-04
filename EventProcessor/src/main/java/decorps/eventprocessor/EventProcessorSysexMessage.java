@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiMessage;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.utils.BaseUtils;
 
-public class EventProcessorSysexMessage extends MidiMessage {
+public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 
 	final public SysexMessage sysexMessage;
 
