@@ -10,6 +10,7 @@ import javax.sound.midi.Transmitter;
 
 import decorps.eventprocessor.akai.AkaiMap;
 import decorps.eventprocessor.dsi.DsiTetraMap;
+import decorps.eventprocessor.korg.KorgMap;
 import decorps.eventprocessor.utils.DumpReceiver;
 
 public class LinkFactory {
@@ -85,6 +86,14 @@ public class LinkFactory {
 		return false;
 	}
 
+	public static boolean isKorgMicroKey25PluggedIn() {
+		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+			if (KorgMap.isMicroKey25(info))
+				return true;
+		}
+		return false;
+	}
+
 	private Transmitter getTetraTransmitter() {
 		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
 			if (!DsiTetraMap.isTetra(info))
@@ -119,7 +128,7 @@ public class LinkFactory {
 
 	Transmitter tryToGetKeyboardOrDefaultDummyTransmitter() {
 		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
-			if (!AkaiMap.isLpk25(info))
+			if (!AkaiMap.isLpk25(info) && !KorgMap.isMicroKey25(info))
 				continue;
 			MidiDevice device;
 			try {

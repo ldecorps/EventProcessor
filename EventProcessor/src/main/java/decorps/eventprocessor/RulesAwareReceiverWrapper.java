@@ -40,11 +40,11 @@ public class RulesAwareReceiverWrapper implements Receiver {
 					+ logoutMidiMessage(eventProcessorShortMessage));
 			if (!action.shouldTriggerOn(eventProcessorShortMessage))
 				continue;
-			System.out.println("will react upon receiving "
+			System.out.print("will react upon receiving "
 					+ action.tetraParameter.name());
 			EventProcessorMidiMessage eventProcessorMidiMessage = action.rule
 					.transform(eventProcessorShortMessage);
-			System.out.println("Sending ..."
+			System.out.println(" by sending "
 					+ logoutMidiMessage(eventProcessorMidiMessage));
 			eventProcessorMidiMessage.send(receiver, timeStamp);
 			this.midiMessages.add(eventProcessorMidiMessage);

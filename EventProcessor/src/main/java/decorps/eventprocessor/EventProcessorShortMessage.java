@@ -120,4 +120,9 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public String toString() {
 		return shortMessage.toString();
 	}
+
+	@Override
+	protected MidiMessage getMidiMessage() {
+		return shortMessage;
+	}
 }

@@ -13,7 +13,18 @@ public class LinkFactoryTest {
 		if (LinkFactory.isAkaiLpk25PluggedIn())
 			assertThat(linkFactory.tryToGetKeyboardOrDefaultDummyTransmitter(),
 					not(instanceOf(DummyTransmitter.class)));
-		else
+		else if (!LinkFactory.isKorgMicroKey25PluggedIn())
+			assertThat(linkFactory.tryToGetKeyboardOrDefaultDummyTransmitter(),
+					instanceOf(DummyTransmitter.class));
+	}
+
+	@Test
+	public void canConnectToMicrokey25() throws Exception {
+		LinkFactory linkFactory = new LinkFactory(null);
+		if (LinkFactory.isKorgMicroKey25PluggedIn())
+			assertThat(linkFactory.tryToGetKeyboardOrDefaultDummyTransmitter(),
+					not(instanceOf(DummyTransmitter.class)));
+		else if (!LinkFactory.isAkaiLpk25PluggedIn())
 			assertThat(linkFactory.tryToGetKeyboardOrDefaultDummyTransmitter(),
 					instanceOf(DummyTransmitter.class));
 	}

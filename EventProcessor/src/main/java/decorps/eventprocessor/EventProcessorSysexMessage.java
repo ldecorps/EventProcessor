@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiMessage;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.utils.BaseUtils;
@@ -31,7 +32,8 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 	protected EventProcessorSysexMessage(byte[] data) {
 		super(data);
 		try {
-			sysexMessage = new SysexMessage(data, data.length);
+			sysexMessage = new SysexMessage(SysexMessage.SYSTEM_EXCLUSIVE,
+					data, data.length);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(e);
@@ -47,4 +49,8 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 		return new EventProcessorSysexMessage(bytes);
 	}
 
+	@Override
+	protected MidiMessage getMidiMessage() {
+		return sysexMessage;
+	}
 }

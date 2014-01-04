@@ -31,11 +31,13 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 
 	public void send(Receiver receiver, long timestamp) {
 		System.out.println("Sending... " + BaseUtils.logoutMidiMessage(this));
-		receiver.send(this, timestamp);
+		receiver.send(getMidiMessage(), timestamp);
 		synchronized (wait) {
 			wait.notify();
 		}
 	}
+
+	abstract protected MidiMessage getMidiMessage();
 
 	public EventProcessorSysexMessage getAsSysexMessage() {
 		if (this instanceof EventProcessorSysexMessage)
