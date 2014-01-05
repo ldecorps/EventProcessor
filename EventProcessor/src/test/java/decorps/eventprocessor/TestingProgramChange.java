@@ -1,8 +1,8 @@
 package decorps.eventprocessor;
 
-import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
+import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class TestingProgramChange {
 

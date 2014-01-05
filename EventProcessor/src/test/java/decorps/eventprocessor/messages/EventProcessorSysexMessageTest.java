@@ -5,7 +5,7 @@ import javax.sound.midi.SysexMessage;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 
 public class EventProcessorSysexMessageTest {
 	@Test

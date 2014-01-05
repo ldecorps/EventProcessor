@@ -1,4 +1,4 @@
-package decorps.eventprocessor.dsi;
+package decorps.eventprocessor.vendors.dsi;
 
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;

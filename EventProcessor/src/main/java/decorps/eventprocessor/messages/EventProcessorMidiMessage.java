@@ -3,9 +3,9 @@ package decorps.eventprocessor.messages;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
-import decorps.eventprocessor.dsi.DsiTetraMap;
-import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.utils.BaseUtils;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public abstract class EventProcessorMidiMessage extends MidiMessage {
 

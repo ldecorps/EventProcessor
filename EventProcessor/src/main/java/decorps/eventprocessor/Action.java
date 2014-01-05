@@ -3,9 +3,9 @@ package decorps.eventprocessor;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
-import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.Rule;
+import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class Action {
 

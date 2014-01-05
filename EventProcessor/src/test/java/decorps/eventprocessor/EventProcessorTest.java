@@ -21,12 +21,12 @@ import javax.sound.midi.SysexMessage;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
+import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class EventProcessorTest {
 

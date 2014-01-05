@@ -1,4 +1,4 @@
-package decorps.eventprocessor.akai;
+package decorps.eventprocessor.vendors.akai;
 
 import javax.sound.midi.MidiDevice.Info;
 

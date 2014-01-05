@@ -1,4 +1,4 @@
-package decorps.eventprocessor.dsi;
+package decorps.eventprocessor.vendors.dsi;
 
 import decorps.eventprocessor.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;

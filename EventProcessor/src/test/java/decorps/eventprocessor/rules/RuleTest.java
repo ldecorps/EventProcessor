@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.not;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class RuleTest {
 	final EventProcessor eventProcessor = EventProcessor.build();

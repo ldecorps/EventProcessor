@@ -9,9 +9,9 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
-import decorps.eventprocessor.dsi.DsiTetraMap;
-import decorps.eventprocessor.dsi.TetraParameter;
 import decorps.eventprocessor.rules.Rule;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class EventProcessor {
 	public final Link fromKeyboardToTetra;

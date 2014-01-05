@@ -8,10 +8,10 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
-import decorps.eventprocessor.akai.AkaiMap;
-import decorps.eventprocessor.dsi.DsiTetraMap;
-import decorps.eventprocessor.korg.KorgMap;
 import decorps.eventprocessor.utils.DumpReceiver;
+import decorps.eventprocessor.vendors.akai.AkaiMap;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.korg.KorgMap;
 
 public class LinkFactory {
 

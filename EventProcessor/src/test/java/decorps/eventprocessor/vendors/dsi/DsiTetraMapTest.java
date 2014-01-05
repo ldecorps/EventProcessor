@@ -1,4 +1,4 @@
-package decorps.eventprocessor.dsi;
+package decorps.eventprocessor.vendors.dsi;
 
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
@@ -23,6 +23,8 @@ import decorps.eventprocessor.TestingDSITetraInfo;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class DsiTetraMapTest {
 

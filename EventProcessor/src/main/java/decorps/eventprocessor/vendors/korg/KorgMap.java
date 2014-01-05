@@ -1,4 +1,4 @@
-package decorps.eventprocessor.korg;
+package decorps.eventprocessor.vendors.korg;
 
 import javax.sound.midi.MidiDevice.Info;
 
