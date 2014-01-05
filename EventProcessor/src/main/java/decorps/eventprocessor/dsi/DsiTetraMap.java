@@ -11,8 +11,8 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.EventProcessorException;
-import decorps.eventprocessor.EventProcessorShortMessage;
-import decorps.eventprocessor.EventProcessorShortMessageComposite;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
+import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
 
 public class DsiTetraMap {
 

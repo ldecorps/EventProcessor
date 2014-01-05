@@ -1,15 +1,16 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.messages;
 
 import javax.sound.midi.SysexMessage;
 
 import org.junit.Test;
 
+import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.dsi.DsiTetraMap;
 
 public class EventProcessorSysexMessageTest {
 	@Test
 	public void canSendOneSysEx() throws Exception {
-		EventProcessor eventProcessor = new EventProcessor();
+		EventProcessor eventProcessor = EventProcessor.build();
 		SysexMessage sysexMessage = new SysexMessage(
 				DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry,
 				DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry.length);

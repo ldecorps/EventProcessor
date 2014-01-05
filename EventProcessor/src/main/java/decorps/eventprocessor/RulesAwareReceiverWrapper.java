@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.PauseBeforeSend;
 
 public class RulesAwareReceiverWrapper implements Receiver {

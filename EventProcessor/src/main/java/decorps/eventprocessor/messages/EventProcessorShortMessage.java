@@ -1,4 +1,4 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.messages;
 
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 
@@ -6,6 +6,8 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
+
+import decorps.eventprocessor.EventProcessorException;
 
 public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static ShortMessage NullShortMessage = new ShortMessage();

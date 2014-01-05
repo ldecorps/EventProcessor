@@ -1,6 +1,6 @@
 package decorps.eventprocessor.rules;
 
-import decorps.eventprocessor.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 
 public interface Rule {
 

@@ -4,6 +4,7 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
 import decorps.eventprocessor.dsi.TetraParameter;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.Rule;
 
 public class Action {

@@ -1,7 +1,7 @@
 package decorps.eventprocessor.dsi;
 
 import decorps.eventprocessor.EventProcessorException;
-import decorps.eventprocessor.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public enum TetraParameter {

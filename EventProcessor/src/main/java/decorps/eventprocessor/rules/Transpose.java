@@ -4,8 +4,8 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.EventProcessorException;
-import decorps.eventprocessor.EventProcessorMidiMessage;
-import decorps.eventprocessor.EventProcessorShortMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
 
 public class Transpose implements Rule, ToTetra, FromTetra {
 	final public int transposeBy;

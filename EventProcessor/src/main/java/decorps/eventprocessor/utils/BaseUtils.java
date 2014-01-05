@@ -2,7 +2,7 @@ package decorps.eventprocessor.utils;
 
 import javax.sound.midi.SysexMessage;
 
-import decorps.eventprocessor.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 
 public class BaseUtils {
 

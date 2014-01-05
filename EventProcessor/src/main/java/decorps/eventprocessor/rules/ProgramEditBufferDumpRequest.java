@@ -5,8 +5,8 @@ import static decorps.eventprocessor.dsi.DsiTetraMap.End_Of_Exclusive;
 import static decorps.eventprocessor.dsi.DsiTetraMap.RequestProgramEditBufferTransmit;
 import static decorps.eventprocessor.dsi.DsiTetraMap.System_Exclusive;
 import static decorps.eventprocessor.dsi.DsiTetraMap.Tetra_ID;
-import decorps.eventprocessor.EventProcessorMidiMessage;
-import decorps.eventprocessor.EventProcessorSysexMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 
 public class ProgramEditBufferDumpRequest implements Rule, ToTetra,
 		PauseBeforeSend {
