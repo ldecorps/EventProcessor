@@ -213,7 +213,7 @@ public class DumpReceiver implements Receiver {
 		return strMessage;
 	}
 
-	String decodeMessage(MetaMessage message) {
+	static String decodeMessage(MetaMessage message) {
 		byte[] abData = message.getData();
 		String strMessage = null;
 		// System.out.println("data array length: " + abData.length);

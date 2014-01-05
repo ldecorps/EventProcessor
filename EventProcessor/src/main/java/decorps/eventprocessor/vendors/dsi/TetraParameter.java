@@ -20,9 +20,9 @@ public enum TetraParameter {
 	ProgramChange {
 		@Override
 		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
-			return BaseUtils.MsbEquals("1100", eventProcessorMidiMessage
-					.getAsShortMessage().getStatus())
-					&& eventProcessorMidiMessage.getAsShortMessage().getData2() == 0;
+			return eventProcessorMidiMessage.getAsShortMessage().getData2() == 0
+					&& BaseUtils.MsbEquals("1100", eventProcessorMidiMessage
+							.getAsShortMessage().getStatus());
 		}
 	},
 	ANY_MESSAGE {

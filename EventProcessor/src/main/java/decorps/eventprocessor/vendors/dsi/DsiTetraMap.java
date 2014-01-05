@@ -11,6 +11,7 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
 
@@ -31,7 +32,7 @@ public class DsiTetraMap {
 	public static final byte End_Of_Exclusive = binaryToByte("1111 0111");
 	public static final byte[] Universal_System_Exclusive_Message_Device_Inquiry = new byte[] {
 			System_Exclusive, Non_realtime_message, Midi_Channel_all,
-			Inquiry_Message, Inquiry_Request, End_Of_Exclusive };
+			Inquiry_Message, Inquiry_Request };
 
 	private byte[] messageAsBytes;
 
@@ -49,9 +50,13 @@ public class DsiTetraMap {
 	}
 
 	boolean isValidTetraProgramDump() {
-		return 444 == messageAsBytes.length && messageAsBytes[0] == DSI_ID
-				&& messageAsBytes[1] == Tetra_ID
-				&& messageAsBytes[2] == Program_Data;
+		boolean result = true;
+		result &= 445 == messageAsBytes.length;
+		result &= messageAsBytes[0] == DsiTetraMap.System_Exclusive;
+		result &= messageAsBytes[1] == DSI_ID;
+		result &= messageAsBytes[2] == Tetra_ID;
+		result &= messageAsBytes[3] == Program_Data;
+		return result;
 	}
 
 	private void doByte(
@@ -70,7 +75,7 @@ public class DsiTetraMap {
 							+ byteToHexa(currentByte) + " "
 							+ byteToBinary(currentByte), e);
 		}
-		EventProcessorShortMessage eventProcessorShortMessage = EventProcessorShortMessage
+		EventProcessorShortMessage eventProcessorShortMessage = (EventProcessorShortMessage) EventProcessorMidiMessage
 				.build(shortMessage);
 		eventProcessorShortMessageComposite.add(eventProcessorShortMessage);
 	}

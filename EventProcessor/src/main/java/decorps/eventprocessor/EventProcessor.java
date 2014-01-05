@@ -16,6 +16,8 @@ import decorps.eventprocessor.vendors.dsi.TetraParameter;
 public class EventProcessor {
 	public final Link fromKeyboardToTetra;
 	final public Link fromTetraToTetra;
+	public Link fromLocalToTetra;
+	public Link fromTetraToLocal;
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 
@@ -24,6 +26,8 @@ public class EventProcessor {
 		linkFactory = new LinkFactory(actions);
 		fromKeyboardToTetra = linkFactory.buildFromKeyboardToTetra();
 		fromTetraToTetra = linkFactory.buildFromTetraToTetraIfPluggedIn();
+		fromLocalToTetra = linkFactory.buildFromLocalToTetraIfPluggedIn();
+		fromTetraToLocal = linkFactory.buildFromTetraIfPluggedInToLocal();
 	}
 
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {

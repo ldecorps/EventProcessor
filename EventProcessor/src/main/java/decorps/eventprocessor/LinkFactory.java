@@ -146,4 +146,14 @@ public class LinkFactory {
 		}
 		return getDefaultDummyLocalTansmitter();
 	}
+
+	public Link buildFromLocalToTetraIfPluggedIn() {
+		return build(getDefaultDummyLocalTansmitter(),
+				tryToGetTetraOrDefaultToDumpReceiver());
+	}
+
+	public Link buildFromTetraIfPluggedInToLocal() {
+		return build(tryToGetTetraOrDefaultDummyTransmitter(),
+				getDefaultDumpLocalReceiver());
+	}
 }

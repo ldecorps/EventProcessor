@@ -90,7 +90,7 @@ public class EventProcessorTest {
 			bytes = IOUtils.toByteArray(new FileInputStream(new File(
 					"src/test/resources/oneProgram")));
 			int length = bytes.length;
-			myMsg.setMessage(bytes, length);
+			myMsg.setMessage(SysexMessage.SYSTEM_EXCLUSIVE, bytes, length);
 		} catch (IOException | InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(e);

@@ -14,7 +14,8 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 
 	final public SysexMessage sysexMessage;
 
-	public static EventProcessorSysexMessage build(SysexMessage sysexMessage) {
+	protected static EventProcessorSysexMessage buildSysexMessage(
+			SysexMessage sysexMessage) {
 		return new EventProcessorSysexMessage(sysexMessage.getData());
 	}
 
@@ -33,7 +34,8 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 	protected EventProcessorSysexMessage(byte[] data) {
 		super(data);
 		try {
-			sysexMessage = new SysexMessage(data, data.length);
+			sysexMessage = new SysexMessage(SysexMessage.SYSTEM_EXCLUSIVE,
+					data, data.length);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(e);

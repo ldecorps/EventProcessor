@@ -32,7 +32,7 @@ public class Transpose implements Rule, ToTetra, FromTetra {
 			throw new EventProcessorException(e);
 		}
 
-		EventProcessorMidiMessage result = EventProcessorShortMessage
+		EventProcessorMidiMessage result = EventProcessorMidiMessage
 				.build(outgoingMessage);
 
 		return result;

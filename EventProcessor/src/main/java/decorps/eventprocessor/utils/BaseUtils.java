@@ -1,8 +1,12 @@
 package decorps.eventprocessor.utils;
 
+import javax.sound.midi.MetaMessage;
+import javax.sound.midi.MidiMessage;
+import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 
 public class BaseUtils {
 
@@ -102,12 +106,9 @@ public class BaseUtils {
 
 	public static String logoutMidiMessage(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
-		return LINE_SEPARATOR
-				+ (eventProcessorMidiMessage.isShortMessage() ? DumpReceiver
-						.decodeMessage(eventProcessorMidiMessage
-								.getAsShortMessage().shortMessage)
-						: DumpReceiver.decodeMessage(eventProcessorMidiMessage
-								.getAsSysexMessage().sysexMessage));
+		return LINE_SEPARATOR + decodeMessage(eventProcessorMidiMessage)
+				+ LINE_SEPARATOR
+				+ bytesToBinary(eventProcessorMidiMessage.getMessage());
 	}
 
 	public static String bytesToHexa(byte[] bytes) {
@@ -115,5 +116,18 @@ public class BaseUtils {
 		for (byte currentByte : bytes)
 			result += byteToHexa(currentByte) + " ";
 		return result;
+	}
+
+	public static String decodeMessage(MidiMessage message) {
+		if (message instanceof ShortMessage)
+			return DumpReceiver.decodeMessage((ShortMessage) message);
+		else if (message instanceof SysexMessage)
+			return DumpReceiver.decodeMessage((SysexMessage) message);
+		else if (message instanceof MetaMessage)
+			return DumpReceiver.decodeMessage((MetaMessage) message);
+		else if (message instanceof EventProcessorSysexMessage)
+			return DumpReceiver
+					.decodeMessage(((EventProcessorSysexMessage) message).sysexMessage);
+		return "Cannot decode message";
 	}
 }

@@ -5,7 +5,6 @@ import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
-import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.EventProcessorException;
 
@@ -17,21 +16,16 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 		ShortMessage shortMessage;
 		try {
 			shortMessage = new ShortMessage(status, second, third);
-			return EventProcessorShortMessage.build(shortMessage);
+			return EventProcessorShortMessage.buildShortMessage(shortMessage);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(e);
 		}
 	}
 
-	public static EventProcessorShortMessage build(MidiMessage message) {
-		if (message instanceof ShortMessage)
-			return new EventProcessorShortMessage((ShortMessage) message);
-		if (message instanceof SysexMessage)
-			return new EventProcessorShortMessageComposite(
-					(SysexMessage) message);
-		throw new IllegalArgumentException("Not supported type "
-				+ message.getClass().getSimpleName());
+	protected static EventProcessorShortMessage buildShortMessage(
+			ShortMessage message) {
+		return new EventProcessorShortMessage(message);
 	}
 
 	public static EventProcessorMidiMessage build(String status, String second,

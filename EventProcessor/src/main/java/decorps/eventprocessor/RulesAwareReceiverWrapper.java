@@ -1,6 +1,6 @@
 package decorps.eventprocessor;
 
-import static decorps.eventprocessor.utils.BaseUtils.logoutMidiMessage;
+import static decorps.eventprocessor.utils.BaseUtils.LINE_SEPARATOR;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,13 @@ import javax.sound.midi.Receiver;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.PauseBeforeSend;
+import decorps.eventprocessor.utils.BaseUtils;
 
 public class RulesAwareReceiverWrapper implements Receiver {
 	private final Receiver receiver;
 	private final List<EventProcessorMidiMessage> midiMessages = new ArrayList<EventProcessorMidiMessage>();
 	public final Set<Action> actions;
+	public static Object wait = new Object();
 
 	protected RulesAwareReceiverWrapper(Receiver receiver, Set<Action> actions) {
 		this.receiver = receiver;
@@ -30,26 +32,30 @@ public class RulesAwareReceiverWrapper implements Receiver {
 
 	@Override
 	public void send(MidiMessage message, long timeStamp) {
+		System.out.println("About to send " + BaseUtils.decodeMessage(message)
+				+ LINE_SEPARATOR
+				+ BaseUtils.bytesToBinary(message.getMessage()));
 		midiMessages.clear();
-		EventProcessorShortMessage eventProcessorShortMessage = EventProcessorShortMessage
+		EventProcessorMidiMessage eventProcessorMidiMessage = EventProcessorMidiMessage
 				.build(message);
 		if (actions.isEmpty()) {
-			eventProcessorShortMessage.send(receiver, timeStamp);
-			this.midiMessages.add(eventProcessorShortMessage);
+			eventProcessorMidiMessage.send(receiver, timeStamp);
+			this.midiMessages.add(eventProcessorMidiMessage);
 			return;
 		}
 
 		for (Action action : actions) {
-			System.out.println("Receiving ..."
-					+ logoutMidiMessage(eventProcessorShortMessage));
-			if (!action.shouldTriggerOn(eventProcessorShortMessage))
+			synchronized (wait) {
+				wait.notify();
+			}
+			if (!action.shouldTriggerOn(eventProcessorMidiMessage))
 				continue;
 			System.out.print("will react upon receiving "
 					+ action.tetraParameter.name());
-			EventProcessorMidiMessage eventProcessorMidiMessage = action.rule
-					.transform(eventProcessorShortMessage);
+			EventProcessorMidiMessage newEventProcessorMidiMessage = action.rule
+					.transform(eventProcessorMidiMessage);
 			System.out.println(" by sending "
-					+ logoutMidiMessage(eventProcessorMidiMessage));
+					+ BaseUtils.decodeMessage(newEventProcessorMidiMessage));
 			if (action.rule instanceof PauseBeforeSend)
 				try {
 					Thread.sleep(2000);
@@ -57,8 +63,8 @@ public class RulesAwareReceiverWrapper implements Receiver {
 					e.printStackTrace();
 					throw new EventProcessorException(e);
 				}
-			eventProcessorMidiMessage.send(receiver, timeStamp);
-			this.midiMessages.add(eventProcessorMidiMessage);
+			newEventProcessorMidiMessage.send(receiver, timeStamp);
+			this.midiMessages.add(newEventProcessorMidiMessage);
 		}
 	}
 
