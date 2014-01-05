@@ -10,16 +10,26 @@ public class BaseUtils {
 			.getProperty("line.separator");
 
 	static public void printOutBinaryMessage(byte[] data) {
-		String messageAsString = bytesToString(data);
+		String messageAsString = bytesToBinary(data);
 		System.out.println(messageAsString);
 	}
 
-	public static String bytesToString(byte[] data) {
+	public static String bytesToBinary(byte[] data) {
 		String messageAsString = "";
 		for (byte currentByte : data) {
-			messageAsString += byteToBinary(currentByte) + "\r\n";
+			messageAsString += byteToBinary(currentByte) + LINE_SEPARATOR;
 		}
 		return messageAsString;
+	}
+
+	public static byte[] binaryToBytes(String... representations) {
+		byte[] result = new byte[representations.length];
+		int counter = 0;
+		for (String representation : representations) {
+			result[counter++] = (byte) Short.parseShort(
+					representation.replace(" ", ""), 2);
+		}
+		return result;
 	}
 
 	public static byte binaryToByte(String representation) {
@@ -32,7 +42,21 @@ public class BaseUtils {
 		return message.substring(0, 4) + " " + message.substring(4, 8);
 	}
 
-	static public String byteToHex(byte currentByte) {
+	static public byte[] hexaToBytes(String... hexas) {
+		byte[] result = new byte[hexas.length];
+		int i = 0;
+		for (String hexa : hexas) {
+			result[i++] += (byte) Integer.parseInt(hexa, 16);
+		}
+		return result;
+	}
+
+	static public String hexaToBinary(String... hexas) {
+		byte[] bytes = hexaToBytes(hexas);
+		return bytesToBinary(bytes);
+	}
+
+	static public String byteToHexa(byte currentByte) {
 		return String.format("%02X", currentByte);
 	}
 
@@ -41,11 +65,11 @@ public class BaseUtils {
 		String messageAsString = "";
 		for (byte currentByte : data) {
 			String byteAsBinary = byteToBinary(currentByte);
-			messageAsString += byteToHex(binaryToByte(byteAsBinary)) + " ";
+			messageAsString += byteToHexa(binaryToByte(byteAsBinary)) + " ";
 			counter++;
 			if (counter == 8) {
 				counter = 0;
-				messageAsString += "\r\n";
+				messageAsString += LINE_SEPARATOR;
 			}
 		}
 		System.out.println(messageAsString);
@@ -79,12 +103,17 @@ public class BaseUtils {
 	public static String logoutMidiMessage(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
 		return LINE_SEPARATOR
-				+ BaseUtils.bytesToString(eventProcessorMidiMessage
-						.getMessage())
-				+ " "
 				+ (eventProcessorMidiMessage.isShortMessage() ? DumpReceiver
 						.decodeMessage(eventProcessorMidiMessage
 								.getAsShortMessage().shortMessage)
-						: eventProcessorMidiMessage.getAsSysexMessage());
+						: DumpReceiver.decodeMessage(eventProcessorMidiMessage
+								.getAsSysexMessage().sysexMessage));
+	}
+
+	public static String bytesToHexa(byte[] bytes) {
+		String result = "";
+		for (byte currentByte : bytes)
+			result += byteToHexa(currentByte) + " ";
+		return result;
 	}
 }

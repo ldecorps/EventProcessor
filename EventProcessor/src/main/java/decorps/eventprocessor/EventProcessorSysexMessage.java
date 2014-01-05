@@ -32,8 +32,7 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 	protected EventProcessorSysexMessage(byte[] data) {
 		super(data);
 		try {
-			sysexMessage = new SysexMessage(SysexMessage.SYSTEM_EXCLUSIVE,
-					data, data.length);
+			sysexMessage = new SysexMessage(data, data.length);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(e);

@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
+import decorps.eventprocessor.rules.PauseBeforeSend;
+
 public class RulesAwareReceiverWrapper implements Receiver {
 	private final Receiver receiver;
 	private final List<EventProcessorMidiMessage> midiMessages = new ArrayList<EventProcessorMidiMessage>();
@@ -46,6 +48,13 @@ public class RulesAwareReceiverWrapper implements Receiver {
 					.transform(eventProcessorShortMessage);
 			System.out.println(" by sending "
 					+ logoutMidiMessage(eventProcessorMidiMessage));
+			if (action.rule instanceof PauseBeforeSend)
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					throw new EventProcessorException(e);
+				}
 			eventProcessorMidiMessage.send(receiver, timeStamp);
 			this.midiMessages.add(eventProcessorMidiMessage);
 		}

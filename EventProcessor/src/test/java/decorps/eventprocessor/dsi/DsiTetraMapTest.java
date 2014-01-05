@@ -2,7 +2,7 @@ package decorps.eventprocessor.dsi;
 
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
-import static decorps.eventprocessor.utils.BaseUtils.byteToHex;
+import static decorps.eventprocessor.utils.BaseUtils.byteToHexa;
 import static decorps.eventprocessor.utils.BaseUtils.printOutBinaryMessage;
 import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,6 +41,7 @@ public class DsiTetraMapTest {
 		checkStringToByte("0001 0000", 16);
 		checkStringToByte("0010 0000", 32);
 		checkStringToByte("0100 0000", 64);
+		checkStringToByte("0111 1110", 126);
 		checkStringToByte("1000 0000", 128);
 		checkStringToByte("1111 1111", 255);
 	}
@@ -66,6 +67,7 @@ public class DsiTetraMapTest {
 		checkBinaryToString(16, "0001 0000");
 		checkBinaryToString(32, "0010 0000");
 		checkBinaryToString(64, "0100 0000");
+		checkBinaryToString(126, "0111 1110");
 		checkBinaryToString(128, "1000 0000");
 		checkBinaryToString(255, "1111 1111");
 	}
@@ -114,7 +116,7 @@ public class DsiTetraMapTest {
 
 	@Test
 	public void Hexa18Is11000() throws Exception {
-		assertEquals(byteToHex(binaryToByte("0001 1000")), "18");
+		assertEquals(byteToHexa(binaryToByte("0001 1000")), "18");
 	}
 
 	@Test

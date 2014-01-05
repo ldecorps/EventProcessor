@@ -22,7 +22,7 @@ public class ProgramEditBufferDumpRequestTest {
 	@Test
 	public void willReactUpondSeingaProgramChange() throws Exception {
 		byte[] programChange = new byte[] { -112, 64, 127 };
-		System.out.println(BaseUtils.bytesToString(programChange));
+		System.out.println(BaseUtils.bytesToBinary(programChange));
 	}
 
 }
