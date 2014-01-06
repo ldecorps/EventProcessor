@@ -13,7 +13,8 @@ public class TestingProgramChange {
 
 		synchronized (EventProcessorMidiMessage.wait) {
 			try {
-				EventProcessorMidiMessage.wait.wait();
+				// EventProcessorMidiMessage.wait.wait();
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				throw new EventProcessorException(e);

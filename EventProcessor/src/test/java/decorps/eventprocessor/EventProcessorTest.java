@@ -91,7 +91,10 @@ public class EventProcessorTest {
 					"src/test/resources/oneProgram")));
 			int length = bytes.length;
 			myMsg.setMessage(SysexMessage.SYSTEM_EXCLUSIVE, bytes, length);
-		} catch (IOException | InvalidMidiDataException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(e);
 		}

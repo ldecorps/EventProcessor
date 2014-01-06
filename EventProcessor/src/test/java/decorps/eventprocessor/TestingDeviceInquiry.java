@@ -12,7 +12,8 @@ public class TestingDeviceInquiry {
 
 		SysexMessage sysex;
 		try {
-			sysex = new SysexMessage(
+			sysex = new SysexMessage();
+			sysex.setMessage(
 					DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry,
 					DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry.length);
 		} catch (InvalidMidiDataException e1) {

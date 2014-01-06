@@ -15,7 +15,8 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 			int third) {
 		ShortMessage shortMessage;
 		try {
-			shortMessage = new ShortMessage(status, second, third);
+			shortMessage = new ShortMessage();
+			shortMessage.setMessage(status, second, third);
 			return EventProcessorShortMessage.buildShortMessage(shortMessage);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();

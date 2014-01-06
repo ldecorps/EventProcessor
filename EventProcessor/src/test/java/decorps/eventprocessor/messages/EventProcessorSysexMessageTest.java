@@ -11,10 +11,12 @@ public class EventProcessorSysexMessageTest {
 	@Test
 	public void canSendOneSysEx() throws Exception {
 		EventProcessor eventProcessor = EventProcessor.build();
-		SysexMessage sysexMessage = new SysexMessage(
-				SysexMessage.SYSTEM_EXCLUSIVE,
-				DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry,
-				DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry.length);
+		SysexMessage sysexMessage = new SysexMessage();
+		sysexMessage
+				.setMessage(
+						SysexMessage.SYSTEM_EXCLUSIVE,
+						DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry,
+						DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry.length);
 		eventProcessor.fromTetraToTetra.receiver.send(sysexMessage, -1);
 	}
 }

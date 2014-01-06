@@ -26,7 +26,8 @@ public class Transpose implements Rule, ToTetra, FromTetra {
 
 		ShortMessage outgoingMessage;
 		try {
-			outgoingMessage = new ShortMessage(command, channel, data1, data2);
+			outgoingMessage = new ShortMessage();
+			outgoingMessage.setMessage(command, channel, data1, data2);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(e);

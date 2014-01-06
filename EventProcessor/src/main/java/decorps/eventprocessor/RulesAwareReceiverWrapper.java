@@ -32,7 +32,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 
 	@Override
 	public void send(MidiMessage message, long timeStamp) {
-		System.out.println("About to send " + BaseUtils.decodeMessage(message)
+		System.out.println("Receiving " + BaseUtils.decodeMessage(message)
 				+ LINE_SEPARATOR
 				+ BaseUtils.bytesToBinary(message.getMessage()));
 		midiMessages.clear();
@@ -43,29 +43,37 @@ public class RulesAwareReceiverWrapper implements Receiver {
 			this.midiMessages.add(eventProcessorMidiMessage);
 			return;
 		}
-
+		EventProcessorMidiMessage newEventProcessorMidiMessage = eventProcessorMidiMessage;
 		for (Action action : actions) {
-			synchronized (wait) {
-				wait.notify();
-			}
-			if (!action.shouldTriggerOn(eventProcessorMidiMessage))
-				continue;
-			System.out.print("will react upon receiving "
-					+ action.tetraParameter.name());
-			EventProcessorMidiMessage newEventProcessorMidiMessage = action.rule
-					.transform(eventProcessorMidiMessage);
-			System.out.println(" by sending "
-					+ BaseUtils.decodeMessage(newEventProcessorMidiMessage));
-			if (action.rule instanceof PauseBeforeSend)
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					throw new EventProcessorException(e);
-				}
-			newEventProcessorMidiMessage.send(receiver, timeStamp);
-			this.midiMessages.add(newEventProcessorMidiMessage);
+			newEventProcessorMidiMessage = doAction(timeStamp,
+					newEventProcessorMidiMessage, action);
 		}
+		synchronized (wait) {
+			wait.notify();
+		}
+
+	}
+
+	public EventProcessorMidiMessage doAction(long timeStamp,
+			EventProcessorMidiMessage eventProcessorMidiMessage, Action action) {
+		if (!action.shouldTriggerOn(eventProcessorMidiMessage))
+			return eventProcessorMidiMessage;
+		System.out.print("will react upon receiving "
+				+ action.tetraParameter.name());
+		EventProcessorMidiMessage newEventProcessorMidiMessage = action.rule
+				.transform(eventProcessorMidiMessage);
+		System.out.println(" by sending "
+				+ BaseUtils.decodeMessage(newEventProcessorMidiMessage));
+		if (action.rule instanceof PauseBeforeSend)
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				throw new EventProcessorException(e);
+			}
+		newEventProcessorMidiMessage.send(receiver, timeStamp);
+		this.midiMessages.add(newEventProcessorMidiMessage);
+		return newEventProcessorMidiMessage;
 	}
 
 	public EventProcessorShortMessage getSentMidiMessage() {
