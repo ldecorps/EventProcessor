@@ -1,5 +1,7 @@
 package decorps.eventprocessor.messages;
 
+import static decorps.eventprocessor.utils.BaseUtils.bytesToHexa;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,9 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 
 	protected static EventProcessorSysexMessage buildSysexMessage(
 			SysexMessage sysexMessage) {
-		return new EventProcessorSysexMessage(sysexMessage.getData());
+		EventProcessorSysexMessage result = new EventProcessorSysexMessage(
+				sysexMessage.getMessage());
+		return result;
 	}
 
 	public static EventProcessorSysexMessage build(String... bytes) {
@@ -35,11 +39,11 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 		super(data);
 		try {
 			sysexMessage = new SysexMessage();
-			sysexMessage.setMessage(SysexMessage.SYSTEM_EXCLUSIVE, data,
-					data.length);
+			sysexMessage.setMessage(data, data.length);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
-			throw new EventProcessorException(e);
+			throw new EventProcessorException("Could not build sysex "
+					+ bytesToHexa(data), e);
 		}
 	}
 

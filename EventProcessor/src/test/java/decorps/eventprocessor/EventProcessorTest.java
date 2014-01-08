@@ -60,7 +60,7 @@ public class EventProcessorTest {
 	}
 
 	private EventProcessorShortMessage getSentMessage() {
-		return cut.fromTetraToTetra.receiver.getSentMidiMessage();
+		return cut.fromTetraToTetra.receiver.getFirstSentMidiMessage();
 	}
 
 	@Test

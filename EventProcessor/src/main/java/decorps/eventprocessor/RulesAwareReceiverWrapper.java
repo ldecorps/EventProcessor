@@ -76,7 +76,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		return newEventProcessorMidiMessage;
 	}
 
-	public EventProcessorShortMessage getSentMidiMessage() {
+	public EventProcessorShortMessage getFirstSentMidiMessage() {
 		return midiMessages.get(0).getAsShortMessage();
 	}
 

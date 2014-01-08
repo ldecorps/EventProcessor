@@ -32,7 +32,7 @@ public class DsiTetraMap {
 	public static final byte End_Of_Exclusive = binaryToByte("1111 0111");
 	public static final byte[] Universal_System_Exclusive_Message_Device_Inquiry = new byte[] {
 			System_Exclusive, Non_realtime_message, Midi_Channel_all,
-			Inquiry_Message, Inquiry_Request };
+			Inquiry_Message, Inquiry_Request, End_Of_Exclusive };
 
 	private byte[] messageAsBytes;
 

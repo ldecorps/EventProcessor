@@ -18,6 +18,7 @@ public class EventProcessor {
 	final public Link fromTetraToTetra;
 	public Link fromLocalToTetra;
 	public Link fromTetraToLocal;
+	public Link fromLocalToLocal;
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 
@@ -28,6 +29,7 @@ public class EventProcessor {
 		fromTetraToTetra = linkFactory.buildFromTetraToTetraIfPluggedIn();
 		fromLocalToTetra = linkFactory.buildFromLocalToTetraIfPluggedIn();
 		fromTetraToLocal = linkFactory.buildFromTetraIfPluggedInToLocal();
+		fromLocalToLocal = linkFactory.buildFromLocalToLocal();
 	}
 
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {

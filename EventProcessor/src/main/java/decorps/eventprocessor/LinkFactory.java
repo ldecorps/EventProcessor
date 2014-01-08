@@ -156,4 +156,9 @@ public class LinkFactory {
 		return build(tryToGetTetraOrDefaultDummyTransmitter(),
 				getDefaultDumpLocalReceiver());
 	}
+
+	public Link buildFromLocalToLocal() {
+		return build(getDefaultDummyLocalTansmitter(),
+				getDefaultDumpLocalReceiver());
+	}
 }
