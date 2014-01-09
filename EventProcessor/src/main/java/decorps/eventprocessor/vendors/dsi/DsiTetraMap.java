@@ -29,10 +29,21 @@ public class DsiTetraMap {
 	public static final byte Program_Data = binaryToByte("0000 0010");
 	public static final byte Request_Program_Transmit = binaryToByte("0000 0101");
 	public static final byte RequestProgramEditBufferTransmit = binaryToByte("0000 0110");
+
+	public static final byte Select_Program_Mode = binaryToByte("0011 0000");
+	public static final byte Select_Combo_Mode = binaryToByte("0011 0001");
+
 	public static final byte End_Of_Exclusive = binaryToByte("1111 0111");
+
 	public static final byte[] Universal_System_Exclusive_Message_Device_Inquiry = new byte[] {
 			System_Exclusive, Non_realtime_message, Midi_Channel_all,
 			Inquiry_Message, Inquiry_Request, End_Of_Exclusive };
+	public static final byte[] Mode_Change__ProgramChange = new byte[] {
+			System_Exclusive, DSI_ID, Tetra_ID, Select_Program_Mode,
+			End_Of_Exclusive };
+	public static final byte[] Mode_Change__ComboChange = new byte[] {
+			System_Exclusive, DSI_ID, Tetra_ID, Select_Combo_Mode,
+			End_Of_Exclusive };
 
 	private byte[] messageAsBytes;
 

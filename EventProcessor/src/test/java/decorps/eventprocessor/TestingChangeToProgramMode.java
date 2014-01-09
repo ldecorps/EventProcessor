@@ -1,13 +1,11 @@
 package decorps.eventprocessor;
 
-import static decorps.eventprocessor.utils.BaseUtils.bytesToHexa;
-
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 
-public class TestingDeviceInquiry {
+public class TestingChangeToProgramMode {
 
 	public static void main(String[] args) {
 		EventProcessor eventProcessor = new EventProcessor();
@@ -15,9 +13,8 @@ public class TestingDeviceInquiry {
 		SysexMessage sysex;
 		try {
 			sysex = new SysexMessage();
-			sysex.setMessage(
-					DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry,
-					DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry.length);
+			sysex.setMessage(DsiTetraMap.Mode_Change__ProgramChange,
+					DsiTetraMap.Mode_Change__ProgramChange.length);
 		} catch (InvalidMidiDataException e1) {
 			e1.printStackTrace();
 			throw new EventProcessorException(e1);
@@ -27,18 +24,12 @@ public class TestingDeviceInquiry {
 
 		synchronized (RulesAwareReceiverWrapper.wait) {
 			try {
-				if (eventProcessor.fromTetraToLocal.receiver
-						.getSentMidiMessages().isEmpty())
-					RulesAwareReceiverWrapper.wait.wait();
 				RulesAwareReceiverWrapper.wait.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				throw new EventProcessorException(e);
 			}
 		}
-		System.out.println(bytesToHexa(eventProcessor.fromTetraToLocal.receiver
-				.getSentMidiMessages().get(0).getMessage()));
-		System.exit(0);
 	}
 
 }

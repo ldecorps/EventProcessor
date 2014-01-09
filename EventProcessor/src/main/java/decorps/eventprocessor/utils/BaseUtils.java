@@ -60,6 +60,11 @@ public class BaseUtils {
 		return bytesToBinary(bytes);
 	}
 
+	static public String binaryToHexa(String representation) {
+		byte toByte = binaryToByte(representation);
+		return byteToHexa(toByte);
+	}
+
 	static public String byteToHexa(byte currentByte) {
 		return String.format("%02X", currentByte);
 	}

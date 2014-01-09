@@ -23,8 +23,6 @@ import decorps.eventprocessor.TestingDSITetraInfo;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
-import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
-import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class DsiTetraMapTest {
 
@@ -131,5 +129,12 @@ public class DsiTetraMapTest {
 		EventProcessorMidiMessage midiMessage = EventProcessorShortMessage
 				.build("1100 " + CHANNEL_ONE, "0" + PROGAM_ONE, null);
 		Assert.assertTrue(midiMessage.is(TetraParameter.ProgramChange));
+	}
+
+	@Test
+	public void various() {
+		assertThat(new byte[] { (byte) 0xF0, (byte) 0x01, (byte) 0x26,
+				(byte) 0x31, (byte) 0xF7 },
+				is(DsiTetraMap.Mode_Change__ComboChange));
 	}
 }

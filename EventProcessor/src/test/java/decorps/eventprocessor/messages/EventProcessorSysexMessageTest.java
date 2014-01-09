@@ -10,15 +10,12 @@ import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.RulesAwareReceiverWrapper;
-import decorps.eventprocessor.rules.Echo;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
-import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class EventProcessorSysexMessageTest {
 	@Test
 	public void canSendOneSysEx() throws Exception {
 		EventProcessor eventProcessor = EventProcessor.build();
-		eventProcessor.registerAction(new Echo(), TetraParameter.ANY_MESSAGE);
 		SysexMessage sysexMessage = new SysexMessage();
 		sysexMessage
 				.setMessage(
@@ -38,4 +35,5 @@ public class EventProcessorSysexMessageTest {
 				bytesToHexa(sentSysex.getMessage()),
 				is(bytesToHexa(sysexMessage.getMessage())));
 	}
+
 }
