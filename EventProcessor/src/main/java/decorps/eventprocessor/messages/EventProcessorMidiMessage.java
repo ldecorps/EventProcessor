@@ -34,7 +34,8 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 
 	public void send(Receiver receiver, long timestamp) {
 		System.out.println("Sending... "
-				+ BaseUtils.decodeMessage(getMidiMessage()));
+				+ BaseUtils.decodeMessage(getMidiMessage())
+				+ " with timestamp " + timestamp);
 		receiver.send(getMidiMessage(), timestamp);
 		synchronized (wait) {
 			wait.notify();
