@@ -9,11 +9,13 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.Synthesizer;
 
+import decorps.eventprocessor.LinkFactory;
+
 public class MidiUtils {
 	public List<String> listMidiDevices() throws MidiUnavailableException {
 		final List<String> synthInfos = new ArrayList<String>();
 
-		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : LinkFactory.getMidiDeviceInfo()) {
 			String description = "";
 			final MidiDevice device = MidiSystem.getMidiDevice(info);
 			if (device instanceof Synthesizer) {

@@ -8,12 +8,14 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.SysexMessage;
 
+import decorps.eventprocessor.LinkFactory;
+
 public class SetLed {
 
 	public static void main(String[] args) throws MidiUnavailableException,
 			InvalidMidiDataException, InterruptedException {
 		Receiver lividReceiver = null;
-		for (Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (Info info : LinkFactory.getMidiDeviceInfo()) {
 			if (!info.getName().equals("Controls"))
 				continue;
 			MidiDevice tetra = MidiSystem.getMidiDevice(info);

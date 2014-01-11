@@ -3,6 +3,7 @@ package decorps.eventprocessor;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -28,4 +29,10 @@ public class LinkFactoryTest {
 			assertThat(linkFactory.tryToGetKeyboardOrDefaultDummyTransmitter(),
 					instanceOf(DummyTransmitter.class));
 	}
+
+	@Test
+	public void getMidiDeviceInfo_knowsWhenMmjIsWorking() throws Exception {
+		assertTrue(LinkFactory.isMmjRunning());
+	}
+
 }

@@ -3,6 +3,7 @@ package decorps.eventprocessor;
 import java.util.Set;
 
 import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
@@ -50,7 +51,7 @@ public class LinkFactory {
 	}
 
 	private Receiver getTetraReceiver() {
-		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : getMidiDeviceInfo()) {
 			if (!DsiTetraMap.isTetra(info))
 				continue;
 			MidiDevice device;
@@ -71,7 +72,7 @@ public class LinkFactory {
 	}
 
 	public static boolean isTetraPluggedIn() {
-		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : getMidiDeviceInfo()) {
 			if (DsiTetraMap.isTetra(info))
 				return true;
 		}
@@ -79,7 +80,7 @@ public class LinkFactory {
 	}
 
 	public static boolean isAkaiLpk25PluggedIn() {
-		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : getMidiDeviceInfo()) {
 			if (AkaiMap.isLpk25(info))
 				return true;
 		}
@@ -87,7 +88,7 @@ public class LinkFactory {
 	}
 
 	public static boolean isKorgMicroKey25PluggedIn() {
-		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : getMidiDeviceInfo()) {
 			if (KorgMap.isMicroKey25(info))
 				return true;
 		}
@@ -95,7 +96,7 @@ public class LinkFactory {
 	}
 
 	private Transmitter getTetraTransmitter() {
-		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : getMidiDeviceInfo()) {
 			if (!DsiTetraMap.isTetra(info))
 				continue;
 			MidiDevice device;
@@ -127,7 +128,7 @@ public class LinkFactory {
 	}
 
 	Transmitter tryToGetKeyboardOrDefaultDummyTransmitter() {
-		for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : getMidiDeviceInfo()) {
 			if (!AkaiMap.isLpk25(info) && !KorgMap.isMicroKey25(info))
 				continue;
 			MidiDevice device;
@@ -147,6 +148,10 @@ public class LinkFactory {
 		return getDefaultDummyLocalTansmitter();
 	}
 
+	public static Info[] getMidiDeviceInfo() {
+		return MidiSystem.getMidiDeviceInfo();
+	}
+
 	public Link buildFromLocalToTetraIfPluggedIn() {
 		return build(getDefaultDummyLocalTansmitter(),
 				tryToGetTetraOrDefaultToDumpReceiver());
@@ -160,5 +165,23 @@ public class LinkFactory {
 	public Link buildFromLocalToLocal() {
 		return build(getDefaultDummyLocalTansmitter(),
 				getDefaultDumpLocalReceiver());
+	}
+
+	static boolean isMmjRunning() {
+		Info[] midiDeviceInfos = LinkFactory.getMidiDeviceInfo();
+		String[] names = new String[midiDeviceInfos.length];
+		int i = 0;
+		for (Info info : midiDeviceInfos) {
+			names[i++] = info.getDescription()
+					.replace(" " + info.getName(), "") + " - " + info.getName();
+		}
+
+		for (String name : names) {
+			for (Info info : midiDeviceInfos) {
+				if (name.equals(info.getName()))
+					return true;
+			}
+		}
+		return false;
 	}
 }
