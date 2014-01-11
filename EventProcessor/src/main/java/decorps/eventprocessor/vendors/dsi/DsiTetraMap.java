@@ -96,7 +96,8 @@ public class DsiTetraMap {
 	}
 
 	public static boolean isTetra(Info info) {
-		return NAME.equals(info.getName()) && VENDOR.equals(info.getVendor());
+		return (NAME.equals(info.getName()) && VENDOR.equals(info.getVendor()))
+				|| info.getName().equals("USB Uno MIDI Interface");
 	}
 
 	public boolean isProgramChange(String status, String second, String third) {

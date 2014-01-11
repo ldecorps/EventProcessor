@@ -35,4 +35,20 @@ public class MidiUtils {
 		}
 		return synthInfos;
 	}
+
+	public static byte[] buildSysexMessage(int size, int... bytes) {
+		byte[] result = new byte[size];
+		result[0] = (byte) 0xF0;
+		result[result.length - 1] = (byte) 0xF7;
+		for (int i = 0; i < bytes.length; i++)
+			result[i + 1] = (byte) bytes[i];
+		return result;
+	}
+
+	public static byte[] addToArrayAfter(byte[] array, int addAfter,
+			int... bytes) {
+		for (int i = 0; i < bytes.length; i++)
+			array[i + addAfter + 1] = (byte) bytes[i];
+		return array;
+	}
 }

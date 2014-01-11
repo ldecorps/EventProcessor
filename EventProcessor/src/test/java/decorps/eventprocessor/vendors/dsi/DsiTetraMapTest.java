@@ -19,7 +19,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessorTest;
-import decorps.eventprocessor.TestingDSITetraInfo;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;

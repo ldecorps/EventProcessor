@@ -1,7 +1,11 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.snipets;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
+
+import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.RulesAwareReceiverWrapper;
 
 public class TestingSendingNote {
 

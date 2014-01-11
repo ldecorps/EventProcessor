@@ -22,7 +22,7 @@ public class EventProcessor {
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 
-	protected EventProcessor() {
+	public EventProcessor() {
 		actions = new HashSet<Action>();
 		linkFactory = new LinkFactory(actions);
 		fromKeyboardToTetra = linkFactory.buildFromKeyboardToTetra();

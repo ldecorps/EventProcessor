@@ -1,4 +1,4 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.snipets;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
@@ -8,30 +8,26 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.SysexMessage;
 
-public class ProgramComboSwitcher {
+public class SetLed {
 
 	public static void main(String[] args) throws MidiUnavailableException,
 			InvalidMidiDataException, InterruptedException {
-		Receiver tetraReceiver = null;
+		Receiver lividReceiver = null;
 		for (Info info : MidiSystem.getMidiDeviceInfo()) {
-			if (!info.getName().equals("DSI Tetra"))
+			if (!info.getName().equals("Controls"))
 				continue;
 			MidiDevice tetra = MidiSystem.getMidiDevice(info);
 			if (tetra.getMaxReceivers() == 0)
 				continue;
-			tetraReceiver = tetra.getReceiver();
+			lividReceiver = tetra.getReceiver();
 		}
-		byte progChange = (byte) 0x30;
-		byte comboChange = (byte) 0x31;
-		byte switchTo = progChange;
 
-		while (true) {
-			SysexMessage sysexMessage = new SysexMessage();
-			switchTo = switchTo == progChange ? comboChange : progChange;
-			sysexMessage.setMessage(new byte[] { (byte) 0xF0, (byte) 0x01,
-					(byte) 0x26, switchTo, (byte) 0xF7 }, 5);
-			tetraReceiver.send(sysexMessage, -1);
-			Thread.sleep(1000);
+		SysexMessage sysexMessage = new SysexMessage();
+		for (byte i = 0; i < 0x1F; i++) {
+			sysexMessage.setMessage(new byte[] { (byte) 0xF0, 0x0, 0x01, 0x61,
+					0x04, 0x04, i, i, i, i, i, i, i, i, (byte) 0xF7 }, 15);
+			Thread.sleep(5);
 		}
+		lividReceiver.send(sysexMessage, -1);
 	}
 }

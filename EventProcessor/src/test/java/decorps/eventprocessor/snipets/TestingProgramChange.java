@@ -1,5 +1,7 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.snipets;
 
+import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;

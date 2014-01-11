@@ -1,4 +1,4 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.vendors.dsi;
 
 import javax.sound.midi.MidiDevice.Info;
 
