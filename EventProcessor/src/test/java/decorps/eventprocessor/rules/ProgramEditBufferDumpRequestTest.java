@@ -8,9 +8,6 @@ import org.junit.Test;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public class ProgramEditBufferDumpRequestTest {
-	final byte BANK_ONE = 0;
-	final byte PROGRAM_ONE = 0;
-
 	final ProgramEditBufferDumpRequest programEditBufferDumpRequest = ProgramEditBufferDumpRequest
 			.build();
 

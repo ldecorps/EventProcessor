@@ -1,6 +1,9 @@
 package decorps.eventprocessor.snipets;
 
 import static decorps.eventprocessor.utils.BaseUtils.decodeMessage;
+import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.DSI_ID;
+import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.RequestProgramEditBufferTransmit;
+import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.Tetra_ID;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
@@ -11,8 +14,9 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.LinkFactory;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 
-public class ProgramComboSwitcher {
+public class SendOneEditBufferDumpRequest {
 
 	public static void main(String[] args) throws MidiUnavailableException,
 			InterruptedException, InvalidMidiDataException {
@@ -25,21 +29,20 @@ public class ProgramComboSwitcher {
 				continue;
 			tetraReceiver = tetra.getReceiver();
 		}
-		byte progChange = (byte) 0x30;
-		byte comboChange = (byte) 0x31;
-		byte switchTo = progChange;
+		byte[] EditBufferDumpRequest = new byte[] {
+				DsiTetraMap.System_Exclusive, DSI_ID, Tetra_ID,
+				RequestProgramEditBufferTransmit, DsiTetraMap.End_Of_Exclusive };
 		while (true) {
 			SysexMessage sysexMessage = new SysexMessage();
-			switchTo = switchTo == progChange ? comboChange : progChange;
 			try {
-				sysexMessage.setMessage(0xF0, new byte[] { (byte) 0x01,
-						(byte) 0x26, switchTo, (byte) (0xF7 & 0xFF) }, 4);
+				sysexMessage.setMessage(EditBufferDumpRequest,
+						EditBufferDumpRequest.length);
 			} catch (InvalidMidiDataException e) {
 				e.printStackTrace();
 			}
+			System.out.println("Sending " + decodeMessage(sysexMessage));
 			tetraReceiver.send(sysexMessage, -1);
-			System.out.println(decodeMessage(sysexMessage));
-			Thread.sleep(1000);
+			Thread.sleep(10000);
 		}
 	}
 }

@@ -10,8 +10,9 @@ public class TestingProgramChange {
 
 	public static void main(String[] args) {
 		EventProcessor eventProcessor = new EventProcessor();
+		// ProgramEditBufferDumpRequest
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
-				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
+				TetraParameter.ProgramChange, eventProcessor.fromLocalToTetra);
 
 		synchronized (EventProcessorMidiMessage.wait) {
 			try {

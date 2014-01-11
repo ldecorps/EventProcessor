@@ -19,6 +19,8 @@ public class DsiTetraMap {
 
 	private static final String VENDOR = "Dave Smith Instruments";
 	private static final String NAME = "DSI Tetra";
+	private static final String MMJ_NAME = "DSI Tetra - DSI Tetra";
+
 	public static final byte System_Exclusive = binaryToByte("1111 0000");
 	public static final byte Non_realtime_message = binaryToByte("0111 1110");
 	public static final byte Midi_Channel_all = binaryToByte("0111 1111");
@@ -97,7 +99,8 @@ public class DsiTetraMap {
 
 	public static boolean isTetra(Info info) {
 		return (NAME.equals(info.getName()) && VENDOR.equals(info.getVendor()))
-				|| info.getName().equals("USB Uno MIDI Interface");
+				|| info.getName().equals("USB Uno MIDI Interface")
+				|| info.getName().equals(MMJ_NAME);
 	}
 
 	public boolean isProgramChange(String status, String second, String third) {
