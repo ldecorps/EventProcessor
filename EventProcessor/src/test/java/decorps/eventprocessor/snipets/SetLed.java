@@ -15,7 +15,7 @@ public class SetLed {
 	public static void main(String[] args) throws MidiUnavailableException,
 			InvalidMidiDataException, InterruptedException {
 		Receiver lividReceiver = null;
-		for (Info info : LinkFactory.getMidiDeviceInfo()) {
+		for (Info info : LinkFactory.midiDeviceInfos) {
 			if (!info.getName().equals("Controls"))
 				continue;
 			MidiDevice tetra = MidiSystem.getMidiDevice(info);

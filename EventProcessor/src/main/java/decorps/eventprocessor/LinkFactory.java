@@ -1,5 +1,7 @@
 package decorps.eventprocessor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.sound.midi.MidiDevice;
@@ -17,6 +19,11 @@ import decorps.eventprocessor.vendors.korg.KorgMap;
 public class LinkFactory {
 
 	public final Set<Action> actions;
+	public static final Info[] midiDeviceInfos;
+
+	static {
+		midiDeviceInfos = LinkFactory.getMidiDeviceInfo();
+	}
 
 	LinkFactory(Set<Action> actions) {
 		this.actions = actions;
@@ -51,7 +58,7 @@ public class LinkFactory {
 	}
 
 	private Receiver getTetraReceiver() {
-		for (MidiDevice.Info info : getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : midiDeviceInfos) {
 			if (!DsiTetraMap.isTetra(info))
 				continue;
 			MidiDevice device;
@@ -72,7 +79,7 @@ public class LinkFactory {
 	}
 
 	public static boolean isTetraPluggedIn() {
-		for (MidiDevice.Info info : getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : midiDeviceInfos) {
 			if (DsiTetraMap.isTetra(info))
 				return true;
 		}
@@ -80,7 +87,7 @@ public class LinkFactory {
 	}
 
 	public static boolean isAkaiLpk25PluggedIn() {
-		for (MidiDevice.Info info : getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : midiDeviceInfos) {
 			if (AkaiMap.isLpk25(info))
 				return true;
 		}
@@ -88,7 +95,7 @@ public class LinkFactory {
 	}
 
 	public static boolean isKorgMicroKey25PluggedIn() {
-		for (MidiDevice.Info info : getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : midiDeviceInfos) {
 			if (KorgMap.isMicroKey25(info))
 				return true;
 		}
@@ -96,7 +103,7 @@ public class LinkFactory {
 	}
 
 	private Transmitter getTetraTransmitter() {
-		for (MidiDevice.Info info : getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : midiDeviceInfos) {
 			if (!DsiTetraMap.isTetra(info))
 				continue;
 			MidiDevice device;
@@ -128,7 +135,7 @@ public class LinkFactory {
 	}
 
 	Transmitter tryToGetKeyboardOrDefaultDummyTransmitter() {
-		for (MidiDevice.Info info : getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : midiDeviceInfos) {
 			if (!AkaiMap.isLpk25(info) && !KorgMap.isMicroKey25(info))
 				continue;
 			MidiDevice device;
@@ -148,8 +155,16 @@ public class LinkFactory {
 		return getDefaultDummyLocalTansmitter();
 	}
 
-	public static Info[] getMidiDeviceInfo() {
-		return MidiSystem.getMidiDeviceInfo();
+	private static Info[] getMidiDeviceInfo() {
+		Info[] infos = MidiSystem.getMidiDeviceInfo();
+		if (!isMmjRunning(infos))
+			return infos;
+		List<Info> infoList = new ArrayList<>();
+		for (Info info : infos) {
+			if (isMmjAware(infos, info.getName()))
+				infoList.add(info);
+		}
+		return infoList.toArray(new Info[infoList.size()]);
 	}
 
 	public Link buildFromLocalToTetraIfPluggedIn() {
@@ -167,20 +182,29 @@ public class LinkFactory {
 				getDefaultDumpLocalReceiver());
 	}
 
-	static boolean isMmjRunning() {
-		Info[] midiDeviceInfos = LinkFactory.getMidiDeviceInfo();
-		String[] names = new String[midiDeviceInfos.length];
+	static boolean isMmjRunning(final Info[] infos) {
+		String[] names = new String[infos.length];
 		int i = 0;
-		for (Info info : midiDeviceInfos) {
-			names[i++] = info.getDescription()
-					.replace(" " + info.getName(), "") + " - " + info.getName();
+		for (Info info : infos) {
+			names[i++] = getMmjStyleName(info);
 		}
 
 		for (String name : names) {
-			for (Info info : midiDeviceInfos) {
-				if (name.equals(info.getName()))
-					return true;
-			}
+			if (isMmjAware(infos, name))
+				return true;
+		}
+		return false;
+	}
+
+	public static String getMmjStyleName(Info info) {
+		return info.getDescription().replace(" " + info.getName(), "") + " - "
+				+ info.getName();
+	}
+
+	public static boolean isMmjAware(final Info[] infos, String candidate) {
+		for (Info info : infos) {
+			if (candidate.equals(getMmjStyleName(info)))
+				return true;
 		}
 		return false;
 	}

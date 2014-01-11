@@ -17,8 +17,7 @@ public class ProgramComboSwitcher {
 	public static void main(String[] args) throws MidiUnavailableException,
 			InterruptedException, InvalidMidiDataException {
 		Receiver tetraReceiver = null;
-		Info[] midiDeviceInfos = LinkFactory.getMidiDeviceInfo();
-		for (Info info : midiDeviceInfos) {
+		for (Info info : LinkFactory.midiDeviceInfos) {
 			if (!info.getName().equals("DSI Tetra - DSI Tetra"))
 				// if (!info.getName().equals(
 				// "USB Uno MIDI Interface - USB Uno MIDI Interface"))

@@ -51,7 +51,7 @@ public class EventProcessor {
 	}
 
 	public static boolean isTetraPluggedIn() {
-		for (MidiDevice.Info info : LinkFactory.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : LinkFactory.midiDeviceInfos) {
 			if (DsiTetraMap.isTetra(info))
 				return true;
 		}
@@ -59,7 +59,7 @@ public class EventProcessor {
 	}
 
 	private Receiver getTetraReceiver() {
-		for (MidiDevice.Info info : LinkFactory.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : LinkFactory.midiDeviceInfos) {
 			if (!DsiTetraMap.isTetra(info))
 				continue;
 			MidiDevice device;

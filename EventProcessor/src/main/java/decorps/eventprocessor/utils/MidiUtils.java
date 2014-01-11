@@ -15,7 +15,7 @@ public class MidiUtils {
 	public List<String> listMidiDevices() throws MidiUnavailableException {
 		final List<String> synthInfos = new ArrayList<String>();
 
-		for (MidiDevice.Info info : LinkFactory.getMidiDeviceInfo()) {
+		for (MidiDevice.Info info : LinkFactory.midiDeviceInfos) {
 			String description = "";
 			final MidiDevice device = MidiSystem.getMidiDevice(info);
 			if (device instanceof Synthesizer) {

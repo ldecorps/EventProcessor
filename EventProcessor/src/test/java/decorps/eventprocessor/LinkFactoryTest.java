@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import javax.sound.midi.MidiSystem;
+
 import org.junit.Test;
 
 public class LinkFactoryTest {
@@ -32,7 +34,7 @@ public class LinkFactoryTest {
 
 	@Test
 	public void getMidiDeviceInfo_knowsWhenMmjIsWorking() throws Exception {
-		assertTrue(LinkFactory.isMmjRunning());
+		assertTrue(LinkFactory.isMmjRunning(MidiSystem.getMidiDeviceInfo()));
 	}
 
 }
