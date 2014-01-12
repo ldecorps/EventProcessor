@@ -1,7 +1,5 @@
 package decorps.eventprocessor;
 
-import static decorps.eventprocessor.utils.BaseUtils.LINE_SEPARATOR;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,9 +30,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 
 	@Override
 	public void send(MidiMessage message, long timeStamp) {
-		System.out.println("Receiving " + BaseUtils.decodeMessage(message)
-				+ LINE_SEPARATOR
-				+ BaseUtils.bytesToBinary(message.getMessage()));
+		System.out.println("Receiving " + BaseUtils.decodeMessage(message));
 		System.out.println("reseting timestamp to -1");
 		timeStamp = -1;
 		midiMessages.clear();

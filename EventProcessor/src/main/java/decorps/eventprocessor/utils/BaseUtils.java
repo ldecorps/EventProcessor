@@ -136,7 +136,7 @@ public class BaseUtils {
 	}
 
 	public static String bytesToText(byte[] data) {
-		return new String(data);
+		return new String(data).trim();
 	}
 
 }

@@ -62,13 +62,7 @@ public class DsiTetraMap {
 	}
 
 	boolean isValidTetraProgramDump() {
-		boolean result = true;
-		result &= 445 == messageAsBytes.length;
-		result &= messageAsBytes[0] == DsiTetraMap.System_Exclusive;
-		result &= messageAsBytes[1] == DSI_ID;
-		result &= messageAsBytes[2] == Tetra_ID;
-		result &= messageAsBytes[3] == Program_Data;
-		return result;
+		return isProgramDataDump(messageAsBytes);
 	}
 
 	private void doByte(
@@ -119,32 +113,30 @@ public class DsiTetraMap {
 	}
 
 	public static boolean isProgramDataDump(byte[] sysexMessage) {
+		if (445 != sysexMessage.length)
+			return false;
 		boolean result = true;
 		int index = 0;
 		result &= sysexMessage[index++] == System_Exclusive;
 		result &= sysexMessage[index++] == DSI_ID;
 		result &= sysexMessage[index++] == Tetra_ID;
 		result &= sysexMessage[index++] == Program_Data;
-		if (!result)
-			return result;
 		index++;
 		index++;
 		result &= sysexMessage[sysexMessage.length - 1] == End_Of_Exclusive;
-
 		return result;
 	}
 
 	public static boolean isProgramEditBufferDataDump(byte[] sysexMessage) {
+		if (sysexMessage.length != 444)
+			return false;
 		boolean result = true;
 		int index = 0;
 		result &= sysexMessage[index++] == System_Exclusive;
 		result &= sysexMessage[index++] == DSI_ID;
 		result &= sysexMessage[index++] == Tetra_ID;
 		result &= sysexMessage[index++] == Edit_Buffer_Data;
-		if (!result)
-			return result;
 		result &= sysexMessage[sysexMessage.length - 1] == End_Of_Exclusive;
-
 		return result;
 	}
 }

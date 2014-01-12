@@ -80,10 +80,9 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 		}
 		int remainingBytes = packedLength - numberOfEightBytesPackets
 				* bitsByPackets;
-		result = ArrayUtils.addAll(
-				result,
-				Arrays.copyOfRange(packedMessage, packedMessage.length
-						- remainingBytes, packedMessage.length));
+		if (0 < remainingBytes)
+			throw new EventProcessorException(
+					"packedMessage not made of 8 bytes packets");
 
 		return result;
 	}

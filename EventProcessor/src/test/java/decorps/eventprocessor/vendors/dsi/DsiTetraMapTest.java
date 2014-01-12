@@ -3,7 +3,7 @@ package decorps.eventprocessor.vendors.dsi;
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
 import static decorps.eventprocessor.utils.BaseUtils.byteToHexa;
-import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
+import static decorps.eventprocessor.utils.BaseUtils.printOutHexaMessage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -78,18 +78,24 @@ public class DsiTetraMapTest {
 
 	@Test
 	public void canRecogniseTetraProgramDump() throws Exception {
+		printOutHexaMessage(sampleMsg);
 		assertTrue(cut.isValidTetraProgramDump());
 	}
 
 	@Test
 	public void hasPackedDataFormat() throws Exception {
-		byte[] sysexMessage = sampleMsg.getData();
+		byte[] sysexMessage = sampleMsg.getData();// curious, why not use
+													// getMessage
+		assertTrue(DsiTetraMap.isProgramDataDump(sysexMessage));
 		DsiTetraMap.isProgramDataDump(sysexMessage);
-		System.out.println("size of sysexMessage: " + sysexMessage.length);
 		ProgramDataDump programDataDump = ProgramDataDump
 				.buildProgramDump(sysexMessage);
-		System.out.println(programDataDump);
-		printOutBytesAsHexa(programDataDump.programParameterData.data);
+		// System.out.println(programDataDump);
+		// printOutBytesAsHexa(programDataDump.programParameterData.data);
+		assertEquals(programDataDump.bankNumber, 3);
+		assertEquals(programDataDump.programNumber, 24);
+		assertEquals(programDataDump.programParameterData.Name, "PulseOrgan");
+
 	}
 
 	public void endsWithEndOfExclusive(byte[] sysexMessage) {
