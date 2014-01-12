@@ -28,6 +28,7 @@ public class DsiTetraMap {
 	public static final byte DSI_ID = binaryToByte("0000 0001");
 	public static final byte Tetra_ID = binaryToByte("0010 0110");
 	public static final byte Program_Data = binaryToByte("0000 0010");
+	public static final byte Edit_Buffer_Data = binaryToByte("0000 0011");
 	public static final byte Request_Program_Transmit = binaryToByte("0000 0101");
 	public static final byte RequestProgramEditBufferTransmit = binaryToByte("0000 0110");
 
@@ -117,15 +118,31 @@ public class DsiTetraMap {
 		return System_Exclusive == b;
 	}
 
-	public boolean isProgramDataDump(byte[] sysexMessage) {
+	public static boolean isProgramDataDump(byte[] sysexMessage) {
 		boolean result = true;
 		int index = 0;
 		result &= sysexMessage[index++] == System_Exclusive;
 		result &= sysexMessage[index++] == DSI_ID;
 		result &= sysexMessage[index++] == Tetra_ID;
 		result &= sysexMessage[index++] == Program_Data;
+		if (!result)
+			return result;
 		index++;
 		index++;
+		result &= sysexMessage[sysexMessage.length - 1] == End_Of_Exclusive;
+
+		return result;
+	}
+
+	public static boolean isProgramEditBufferDataDump(byte[] sysexMessage) {
+		boolean result = true;
+		int index = 0;
+		result &= sysexMessage[index++] == System_Exclusive;
+		result &= sysexMessage[index++] == DSI_ID;
+		result &= sysexMessage[index++] == Tetra_ID;
+		result &= sysexMessage[index++] == Edit_Buffer_Data;
+		if (!result)
+			return result;
 		result &= sysexMessage[sysexMessage.length - 1] == End_Of_Exclusive;
 
 		return result;

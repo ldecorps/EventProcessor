@@ -3,7 +3,6 @@ package decorps.eventprocessor.vendors.dsi;
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
 import static decorps.eventprocessor.utils.BaseUtils.byteToHexa;
-import static decorps.eventprocessor.utils.BaseUtils.printOutBinaryMessage;
 import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -14,8 +13,6 @@ import javax.sound.midi.SysexMessage;
 
 import junit.framework.Assert;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessorTest;
@@ -85,33 +82,14 @@ public class DsiTetraMapTest {
 	}
 
 	@Test
-	@Ignore
 	public void hasPackedDataFormat() throws Exception {
 		byte[] sysexMessage = sampleMsg.getData();
-		cut.isProgramDataDump(sysexMessage);
+		DsiTetraMap.isProgramDataDump(sysexMessage);
 		System.out.println("size of sysexMessage: " + sysexMessage.length);
-		ProgramDump programDump = ProgramDump.buildProgramDump(sysexMessage);
-		System.out.println(programDump);
-		printOutBytesAsHexa(programDump.programParameterData);
-		System.out.println("size of programParameter: "
-				+ programDump.programParameterData.length);
-		byte[] sysexMessageMinusEndOfExclusive = ArrayUtils.subarray(
-				sysexMessage, 0, sysexMessage.length - 1);
-		assertTrue(sysexMessageMinusEndOfExclusive.length == sysexMessage.length - 1);
-		assertThat(sysexMessageMinusEndOfExclusive[2],
-				is(DsiTetraMap.Program_Data));
-		byte[] sysexMessageMinusEndOfExclusiveMinusFiveFirstBytes = ArrayUtils
-				.subarray(sysexMessageMinusEndOfExclusive, 5,
-						sysexMessageMinusEndOfExclusive.length);
-		byte[] next8BytePackets = ArrayUtils.subarray(
-				sysexMessageMinusEndOfExclusiveMinusFiveFirstBytes, 0, 64);
-
-		printOutBytesAsHexa(next8BytePackets);
-		printOutBinaryMessage(next8BytePackets);
-		for (int i = 0; i < 8; i++)
-			assertEquals("row " + (i + 1) + " is "
-					+ byteToBinary(MSB(next8BytePackets[i * 8])), 0,
-					MSB(next8BytePackets[i * 8]));
+		ProgramDataDump programDataDump = ProgramDataDump
+				.buildProgramDump(sysexMessage);
+		System.out.println(programDataDump);
+		printOutBytesAsHexa(programDataDump.programParameterData.data);
 	}
 
 	public void endsWithEndOfExclusive(byte[] sysexMessage) {
@@ -120,11 +98,6 @@ public class DsiTetraMapTest {
 
 	public void startsWithSystemExclusive(byte[] sysexMessage) {
 		assertTrue(cut.isSystemExclusive(sysexMessage[0]));
-	}
-
-	private byte MSB(byte currentByte) {
-		String byteAsBinary = byteToBinary(currentByte);
-		return Byte.parseByte(byteAsBinary.substring(0, 4), 2);
 	}
 
 	@Test

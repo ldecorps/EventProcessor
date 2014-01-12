@@ -135,4 +135,8 @@ public class BaseUtils {
 		return result;
 	}
 
+	public static String bytesToText(byte[] data) {
+		return new String(data);
+	}
+
 }

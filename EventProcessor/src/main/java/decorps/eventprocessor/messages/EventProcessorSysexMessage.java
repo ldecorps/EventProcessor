@@ -64,11 +64,12 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 
 	public static byte[] unpack(byte[] packedMessage) {
 		byte[] result = new byte[0];
-		int numberOfEightBytesPackets = packedMessage.length / bitsByPackets;
+		int packedLength = packedMessage.length;
+		int numberOfEightBytesPackets = packedLength / bitsByPackets;
 		for (int currentPacketNumber = 0; currentPacketNumber < numberOfEightBytesPackets; currentPacketNumber++) {
-			byte[] currentPacket = Arrays.copyOfRange(packedMessage, 0
-					+ bitsByPackets * currentPacketNumber, bitsByPackets
-					+ bitsByPackets * currentPacketNumber);
+			int from = bitsByPackets * currentPacketNumber;
+			byte[] currentPacket = Arrays.copyOfRange(packedMessage, 0 + from,
+					bitsByPackets + from);
 			String[] binaries = new String[bitsByPackets];
 			for (int i = 0; i < bitsByPackets; i++) {
 				binaries[i] = byteToBinary(currentPacket[i]);
@@ -77,6 +78,13 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 			byte[] currentPacketAsBytes = representationsToBytes(unpackedPacket);
 			result = ArrayUtils.addAll(result, currentPacketAsBytes);
 		}
+		int remainingBytes = packedLength - numberOfEightBytesPackets
+				* bitsByPackets;
+		result = ArrayUtils.addAll(
+				result,
+				Arrays.copyOfRange(packedMessage, packedMessage.length
+						- remainingBytes, packedMessage.length));
+
 		return result;
 	}
 }

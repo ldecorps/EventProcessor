@@ -6,6 +6,7 @@ import javax.sound.midi.Receiver;
 public class DummyReceiver implements Receiver {
 
 	private MidiMessage sentMidiMessage;
+	public static Object wait = new Object();
 
 	public MidiMessage getSentMidiMessage() {
 		return sentMidiMessage;
@@ -14,6 +15,9 @@ public class DummyReceiver implements Receiver {
 	@Override
 	public void send(MidiMessage message, long timeStamp) {
 		this.sentMidiMessage = message;
+		synchronized (wait) {
+			wait.notifyAll();
+		}
 	}
 
 	@Override
