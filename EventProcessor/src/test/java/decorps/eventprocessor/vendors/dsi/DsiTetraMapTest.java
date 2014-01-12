@@ -88,7 +88,13 @@ public class DsiTetraMapTest {
 	@Ignore
 	public void hasPackedDataFormat() throws Exception {
 		byte[] sysexMessage = sampleMsg.getData();
-		assertTrue(cut.isEndOfExclusive(sysexMessage[sysexMessage.length - 1]));
+		cut.isProgramDataDump(sysexMessage);
+		System.out.println("size of sysexMessage: " + sysexMessage.length);
+		ProgramDump programDump = ProgramDump.buildProgramDump(sysexMessage);
+		System.out.println(programDump);
+		printOutBytesAsHexa(programDump.programParameterData);
+		System.out.println("size of programParameter: "
+				+ programDump.programParameterData.length);
 		byte[] sysexMessageMinusEndOfExclusive = ArrayUtils.subarray(
 				sysexMessage, 0, sysexMessage.length - 1);
 		assertTrue(sysexMessageMinusEndOfExclusive.length == sysexMessage.length - 1);
@@ -106,6 +112,14 @@ public class DsiTetraMapTest {
 			assertEquals("row " + (i + 1) + " is "
 					+ byteToBinary(MSB(next8BytePackets[i * 8])), 0,
 					MSB(next8BytePackets[i * 8]));
+	}
+
+	public void endsWithEndOfExclusive(byte[] sysexMessage) {
+		assertTrue(cut.isEndOfExclusive(sysexMessage[sysexMessage.length - 1]));
+	}
+
+	public void startsWithSystemExclusive(byte[] sysexMessage) {
+		assertTrue(cut.isSystemExclusive(sysexMessage[0]));
 	}
 
 	private byte MSB(byte currentByte) {

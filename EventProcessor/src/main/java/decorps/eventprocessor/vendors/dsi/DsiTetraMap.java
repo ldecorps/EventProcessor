@@ -3,7 +3,6 @@ package decorps.eventprocessor.vendors.dsi;
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
 import static decorps.eventprocessor.utils.BaseUtils.byteToHexa;
-import static decorps.eventprocessor.utils.BaseUtils.printOutBinaryMessage;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice.Info;
@@ -50,7 +49,6 @@ public class DsiTetraMap {
 	private byte[] messageAsBytes;
 
 	public EventProcessorShortMessageComposite convert(SysexMessage message) {
-		printOutBinaryMessage(message.getData());
 		EventProcessorShortMessageComposite eventProcessorShortMessageComposite = EventProcessorShortMessageComposite
 				.build();
 		messageAsBytes = message.getData();
@@ -113,5 +111,23 @@ public class DsiTetraMap {
 
 	public static byte buildProgramNumber(byte programNumber) {
 		return programNumber;
+	}
+
+	public boolean isSystemExclusive(byte b) {
+		return System_Exclusive == b;
+	}
+
+	public boolean isProgramDataDump(byte[] sysexMessage) {
+		boolean result = true;
+		int index = 0;
+		result &= sysexMessage[index++] == System_Exclusive;
+		result &= sysexMessage[index++] == DSI_ID;
+		result &= sysexMessage[index++] == Tetra_ID;
+		result &= sysexMessage[index++] == Program_Data;
+		index++;
+		index++;
+		result &= sysexMessage[sysexMessage.length - 1] == End_Of_Exclusive;
+
+		return result;
 	}
 }

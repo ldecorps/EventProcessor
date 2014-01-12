@@ -26,16 +26,6 @@ public class BaseUtils {
 		return messageAsString;
 	}
 
-	public static byte[] binaryToBytes(String... representations) {
-		byte[] result = new byte[representations.length];
-		int counter = 0;
-		for (String representation : representations) {
-			result[counter++] = (byte) Short.parseShort(
-					representation.replace(" ", ""), 2);
-		}
-		return result;
-	}
-
 	public static byte binaryToByte(String representation) {
 		return (byte) Short.parseShort(representation.replace(" ", ""), 2);
 	}
@@ -135,4 +125,14 @@ public class BaseUtils {
 					.decodeMessage(((EventProcessorSysexMessage) message).sysexMessage);
 		return "Cannot decode message";
 	}
+
+	public static byte[] representationsToBytes(String[] representations) {
+		byte[] result = new byte[representations.length];
+		int i = 0;
+		for (String representation : representations) {
+			result[i++] = binaryToByte(representation);
+		}
+		return result;
+	}
+
 }
