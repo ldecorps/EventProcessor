@@ -29,11 +29,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	public LividCodeEventProcessorCCShortMessage map(
 			AbstractProgramParameter abstractProgramParameter) {
 		for (Map map : mapping) {
-			if (map.abstractProgramParameterClass
-					.isAssignableFrom(abstractProgramParameter.getClass()))
-				return new LividCodeEventProcessorCCShortMessage(map.bank,
-						map.controllerNumber,
-						abstractProgramParameter.getValue());
+			return new LividCodeEventProcessorCCShortMessage(map.bank,
+					map.controllerNumber, abstractProgramParameter.getValue());
 		}
 
 		throw new EventProcessorException(abstractProgramParameter.getClass()

@@ -121,8 +121,6 @@ public class DsiTetraMap {
 		result &= sysexMessage[index++] == DSI_ID;
 		result &= sysexMessage[index++] == Tetra_ID;
 		result &= sysexMessage[index++] == Program_Data;
-		index++;
-		index++;
 		result &= sysexMessage[sysexMessage.length - 1] == End_Of_Exclusive;
 		return result;
 	}
