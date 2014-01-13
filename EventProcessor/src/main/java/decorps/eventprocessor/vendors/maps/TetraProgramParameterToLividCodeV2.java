@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.maps;
 
 import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
@@ -37,6 +38,17 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 		throw new EventProcessorException(abstractProgramParameter.getClass()
 				.getSimpleName() + " not supported yet");
+	}
+
+	@Override
+	public LividCodeEventProcessorCCShortMessageComposite map(
+			ProgramParameterData programParameterData) {
+		LividCodeEventProcessorCCShortMessageComposite result = new LividCodeEventProcessorCCShortMessageComposite();
+		for (AbstractProgramParameter abstractProgramParameter : programParameterData
+				.getAllAbstractProgramParameters()) {
+			result.add(map(abstractProgramParameter));
+		}
+		return result;
 	}
 
 }

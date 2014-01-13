@@ -2,7 +2,9 @@ package decorps.eventprocessor.vendors.dsi;
 
 import static decorps.eventprocessor.utils.BaseUtils.bytesToText;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
@@ -51,5 +53,13 @@ public class ProgramParameterData {
 	public Layer build(byte data,
 			Class<? extends AbstractProgramParameter>... parametersClasses) {
 		return Layer.build(parametersClasses, data);
+	}
+
+	public List<AbstractProgramParameter> getAllAbstractProgramParameters() {
+		List<AbstractProgramParameter> result = new ArrayList<AbstractProgramParameter>(
+				400);
+		result.add(A.oscillator1Frequency);
+		result.add(B.oscillator1Frequency);
+		return result;
 	}
 }
