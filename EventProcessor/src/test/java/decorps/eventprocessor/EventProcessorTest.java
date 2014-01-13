@@ -29,6 +29,7 @@ import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class EventProcessorTest {
+	public static final SysexMessage sampleProgramDataDump = getSampleProgramDataDumpSysexMessage();
 
 	EventProcessor cut = EventProcessor.build();
 
@@ -83,7 +84,7 @@ public class EventProcessorTest {
 		cut.getDefaultRemoteReceiver().send(myMsg, timeStamp);
 	}
 
-	public static SysexMessage getSampleProgramDataDumpSysexMessage() {
+	private static SysexMessage getSampleProgramDataDumpSysexMessage() {
 		SysexMessage myMsg = new SysexMessage();
 		try {
 			byte[] bytes;

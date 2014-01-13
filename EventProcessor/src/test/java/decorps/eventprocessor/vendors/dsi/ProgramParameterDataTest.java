@@ -9,14 +9,15 @@ import decorps.eventprocessor.EventProcessorTest;
 
 public class ProgramParameterDataTest {
 
-	final byte[] unpacked = ProgramDataDump.buildProgramDump(EventProcessorTest
-			.getSampleProgramDataDumpSysexMessage().getData()).programParameterData.data;
-
-	final ProgramParameterData cut = ProgramParameterData.build(unpacked);
+	public final static byte[] unpacked = ProgramDataDump
+			.buildProgramDump(EventProcessorTest.sampleProgramDataDump
+					.getData()).programParameterData.data;
+	public final static ProgramParameterData sampleProgramParameterData = ProgramParameterData
+			.build(unpacked);
 
 	@Test
 	public void storesParamForBothLayersByDefault() throws Exception {
-		assertThat(cut.A.oscillator1Frequency,
-				hasToString(cut.B.oscillator1Frequency.toString()));
+		assertThat(sampleProgramParameterData.A.oscillator1Frequency,
+				hasToString(sampleProgramParameterData.B.oscillator1Frequency.toString()));
 	}
 }

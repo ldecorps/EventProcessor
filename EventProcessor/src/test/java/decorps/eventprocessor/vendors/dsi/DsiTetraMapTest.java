@@ -24,8 +24,7 @@ public class DsiTetraMapTest {
 
 	private static final String CHANNEL_ONE = "0000";
 	private static final String PROGAM_ONE = "000 0001";
-	final SysexMessage sampleMsg = EventProcessorTest
-			.getSampleProgramDataDumpSysexMessage();
+	public static final SysexMessage sampleMsg = EventProcessorTest.sampleProgramDataDump;
 	final DsiTetraMap cut = new DsiTetraMap();
 	EventProcessorShortMessageComposite result = cut.convert(sampleMsg);
 
