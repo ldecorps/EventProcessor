@@ -1,4 +1,4 @@
-package decorps.eventprocessor.vendors.dsi.ProgramParameters;
+package decorps.eventprocessor.vendors.dsi.programparameters;
 
 public class Oscillator1Frequency extends AbstractProgramParameter {
 

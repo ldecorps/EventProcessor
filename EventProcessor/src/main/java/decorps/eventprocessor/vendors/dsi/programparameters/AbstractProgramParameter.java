@@ -1,4 +1,4 @@
-package decorps.eventprocessor.vendors.dsi.ProgramParameters;
+package decorps.eventprocessor.vendors.dsi.programparameters;
 
 import decorps.eventprocessor.utils.BaseUtils;
 
@@ -11,6 +11,7 @@ public abstract class AbstractProgramParameter {
 
 	@Override
 	public String toString() {
-		return "[byte=" + BaseUtils.byteToHexa(data) + "]";
+		return "[parameter=" + getClass().getSimpleName() + ", byte="
+				+ BaseUtils.byteToHexa(data) + "]";
 	}
 }

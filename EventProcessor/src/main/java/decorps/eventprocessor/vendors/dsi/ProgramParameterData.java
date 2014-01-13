@@ -4,29 +4,52 @@ import static decorps.eventprocessor.utils.BaseUtils.bytesToText;
 
 import java.util.Arrays;
 
-import decorps.eventprocessor.vendors.dsi.ProgramParameters.Oscillator1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
 
 public class ProgramParameterData {
-	@Override
-	public String toString() {
-		return "ProgramParameterData [Name=" + Name + ", Oscillator1Frequency="
-				+ Oscillator1Frequency + "]";
-	}
 
 	public final String Name;
 	public final byte[] data;
-	public final Oscillator1Frequency Oscillator1Frequency;
+	public final Layer A;
+	public final Layer B;
+	int i = 0;
+
+	@Override
+	public String toString() {
+		return "ProgramParameterData [Name=" + Name + ", A=" + A + ", B=" + B
+				+ "]";
+	}
 
 	public static ProgramParameterData build(byte[] unpacked) {
 		return new ProgramParameterData(unpacked);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ProgramParameterData(byte[] data) {
 		super();
 		this.data = data;
 		this.Name = bytesToText(Arrays.copyOfRange(data, 184, 200));
-		int i = 0;
-		Oscillator1Frequency = new Oscillator1Frequency(data[i++]);
+		A = buildA(Oscillator1Frequency.class);
+		B = buildB(Oscillator1Frequency.class);
+
 	}
 
+	@SuppressWarnings("unchecked")
+	private Layer buildB(
+			Class<? extends AbstractProgramParameter>... parametersClasses) {
+		return build(data[i + 200], parametersClasses);
+	}
+
+	@SuppressWarnings("unchecked")
+	private Layer buildA(
+			Class<? extends AbstractProgramParameter>... parametersClasses) {
+		return build(data[i], parametersClasses);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Layer build(byte data,
+			Class<? extends AbstractProgramParameter>... parametersClasses) {
+		return Layer.build(parametersClasses, data);
+	}
 }
