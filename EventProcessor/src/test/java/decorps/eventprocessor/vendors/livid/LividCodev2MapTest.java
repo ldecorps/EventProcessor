@@ -5,6 +5,8 @@ import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.Test;
 
+import decorps.eventprocessor.EventProcessorException;
+
 public class LividCodev2MapTest {
 	@Test
 	public void createSetAllLedIndicators() throws Exception {
@@ -14,5 +16,11 @@ public class LividCodev2MapTest {
 		assertArrayEquals(new byte[] { (byte) 0xF0, 0x0, 0x01, 0x61, 0x04,
 				0x04, 0, 0, 0, 0, 0, 0, 0, 0, (byte) 0xF7 },
 				SetAllLedIndicators());
+	}
+
+	@Test
+	public void canBuildSetLedRingIndicatorsSysex() throws Exception {
+		// http://wiki.lividinstruments.com/wiki/Code#1F_:_Set_LED_Ring_indicators
+		throw new EventProcessorException("Not Implemented Yet");
 	}
 }

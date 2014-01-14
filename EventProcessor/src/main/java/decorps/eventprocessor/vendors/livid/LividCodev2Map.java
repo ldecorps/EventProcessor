@@ -5,6 +5,8 @@ import static decorps.eventprocessor.utils.MidiUtils.buildSysexMessage;
 
 import javax.sound.midi.MidiDevice.Info;
 
+import decorps.eventprocessor.SysexMessageTooLong;
+
 public class LividCodev2Map {
 	private static final String VENDOR = "Livid Instruments, Inc.";
 	private static final String NAME = "Controls";

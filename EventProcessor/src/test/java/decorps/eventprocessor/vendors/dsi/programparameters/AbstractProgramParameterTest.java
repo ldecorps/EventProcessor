@@ -16,8 +16,8 @@ public class AbstractProgramParameterTest {
 			int fromTetra, int forLividCode) {
 		Oscillator1Frequency oneZeroTo120Parameter = new Oscillator1Frequency(
 				(byte) fromTetra);
-		assertThat((int) oneZeroTo120Parameter.getValue(), is(forLividCode));
 		assertThat(class1.isAssignableFrom(oneZeroTo120Parameter.getClass()),
 				is(true));
+		assertThat((int) oneZeroTo120Parameter.getValue(), is(forLividCode));
 	}
 }

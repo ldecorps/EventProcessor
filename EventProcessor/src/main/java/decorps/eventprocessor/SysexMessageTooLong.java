@@ -1,4 +1,4 @@
-package decorps.eventprocessor.vendors.livid;
+package decorps.eventprocessor;
 
 @SuppressWarnings("serial")
 public class SysexMessageTooLong extends RuntimeException {
