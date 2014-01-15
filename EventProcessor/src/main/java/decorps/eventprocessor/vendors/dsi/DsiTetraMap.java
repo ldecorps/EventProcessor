@@ -9,7 +9,7 @@ import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
@@ -137,4 +137,5 @@ public class DsiTetraMap {
 		result &= sysexMessage[sysexMessage.length - 1] == End_Of_Exclusive;
 		return result;
 	}
+
 }

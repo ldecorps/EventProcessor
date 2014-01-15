@@ -1,4 +1,4 @@
-package decorps.eventprocessor;
+package decorps.eventprocessor.exceptions;
 
 import javax.sound.midi.InvalidMidiDataException;
 

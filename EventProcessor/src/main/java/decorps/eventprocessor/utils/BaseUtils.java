@@ -5,6 +5,7 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
+import decorps.eventprocessor.exceptions.WrongSysexPayloadSize;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 
@@ -139,4 +140,29 @@ public class BaseUtils {
 		return new String(data).trim();
 	}
 
+	public static byte[] putInArrayAfter(byte[] array, int addAfter,
+			int... bytes) {
+		for (int i = 0; i < bytes.length; i++)
+			array[i + addAfter + 1] = (byte) bytes[i];
+		return array;
+	}
+
+	public static void checkSizeIs(int expectedLength, int[] bytes) {
+		if (bytes.length != expectedLength) {
+			WrongSysexPayloadSize wrongSysexPayloadSize = new WrongSysexPayloadSize(
+					"expected " + expectedLength + " was " + bytes.length);
+			wrongSysexPayloadSize.printStackTrace();
+			throw wrongSysexPayloadSize;
+		}
+	}
+
+	public static void checkSizeIsNotMoreThan(int maximumLength, int[] bytes) {
+		if (bytes.length > maximumLength) {
+			WrongSysexPayloadSize wrongSysexPayloadSize = new WrongSysexPayloadSize(
+					"expected not more than " + maximumLength + " was "
+							+ bytes.length);
+			wrongSysexPayloadSize.printStackTrace();
+			throw wrongSysexPayloadSize;
+		}
+	}
 }

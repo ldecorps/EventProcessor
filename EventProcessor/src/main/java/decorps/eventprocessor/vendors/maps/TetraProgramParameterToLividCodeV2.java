@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.maps;
 
-import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;

@@ -6,8 +6,8 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.EventProcessorException;
 import decorps.eventprocessor.RulesAwareReceiverWrapper;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 
 public class TestingDeviceInquiry {

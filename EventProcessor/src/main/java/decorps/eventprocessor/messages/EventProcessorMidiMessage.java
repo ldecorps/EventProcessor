@@ -5,7 +5,7 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;

@@ -2,7 +2,7 @@ package decorps.eventprocessor.vendors.dsi;
 
 import java.lang.reflect.InvocationTargetException;
 
-import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
 

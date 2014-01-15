@@ -16,8 +16,8 @@ import javax.sound.midi.SysexMessage;
 import javax.sound.midi.Transmitter;
 
 import decorps.eventprocessor.DummyReceiver;
-import decorps.eventprocessor.EventProcessorException;
 import decorps.eventprocessor.LinkFactory;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
 

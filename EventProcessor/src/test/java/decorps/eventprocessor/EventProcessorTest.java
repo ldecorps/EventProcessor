@@ -21,6 +21,7 @@ import javax.sound.midi.SysexMessage;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;

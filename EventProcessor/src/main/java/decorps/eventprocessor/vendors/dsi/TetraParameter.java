@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi;
 
-import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.utils.BaseUtils;
 

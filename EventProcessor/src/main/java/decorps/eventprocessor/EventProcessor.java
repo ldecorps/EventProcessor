@@ -9,6 +9,7 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.rules.Rule;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
@@ -19,6 +20,7 @@ public class EventProcessor {
 	public Link fromLocalToTetra;
 	public Link fromTetraToLocal;
 	public Link fromLocalToLocal;
+	public Link fromTetraToLivid;
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 
@@ -30,6 +32,7 @@ public class EventProcessor {
 		fromLocalToTetra = linkFactory.buildFromLocalToTetraIfPluggedIn();
 		fromTetraToLocal = linkFactory.buildFromTetraIfPluggedInToLocal();
 		fromLocalToLocal = linkFactory.buildFromLocalToLocal();
+		fromTetraToLivid = linkFactory.buildFromTetraToLivid();
 	}
 
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {

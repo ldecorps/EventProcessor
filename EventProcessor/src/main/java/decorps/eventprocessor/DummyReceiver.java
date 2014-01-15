@@ -3,6 +3,8 @@ package decorps.eventprocessor;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
+
 public class DummyReceiver implements Receiver {
 
 	private MidiMessage sentMidiMessage;

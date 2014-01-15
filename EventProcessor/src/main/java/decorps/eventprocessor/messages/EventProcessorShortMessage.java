@@ -6,7 +6,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 
-import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 
 public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static ShortMessage NullShortMessage = new ShortMessage();

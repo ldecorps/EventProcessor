@@ -11,10 +11,12 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.akai.AkaiMap;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.korg.KorgMap;
+import decorps.eventprocessor.vendors.livid.LividCodev2Map;
 
 public class LinkFactory {
 
@@ -76,6 +78,28 @@ public class LinkFactory {
 			}
 		}
 		throw new EventProcessorException("Could not get a receiver from Tetra");
+	}
+
+	private Receiver getLividCode2Receiver() {
+		for (MidiDevice.Info info : midiDeviceInfos) {
+			if (!LividCodev2Map.isCodeV2(info))
+				continue;
+			MidiDevice device;
+			try {
+				device = MidiSystem.getMidiDevice(info);
+				if (device.getMaxReceivers() == 0)
+					continue;
+				device.open();
+				System.out.println("connected to " + info.getName()
+						+ " receiver");
+				return device.getReceiver();
+			} catch (MidiUnavailableException e) {
+				e.printStackTrace();
+				throw new EventProcessorException(e);
+			}
+		}
+		throw new EventProcessorException(
+				"Could not get a receiver from Livid Code2");
 	}
 
 	public static boolean isTetraPluggedIn() {
@@ -175,6 +199,25 @@ public class LinkFactory {
 	public Link buildFromTetraIfPluggedInToLocal() {
 		return build(tryToGetTetraOrDefaultDummyTransmitter(),
 				getDefaultDumpLocalReceiver());
+	}
+
+	public Link buildFromTetraToLivid() {
+		return build(tryToGetTetraOrDefaultDummyTransmitter(),
+				tryToGetLividCode2Receiver());
+	}
+
+	private Receiver tryToGetLividCode2Receiver() {
+		if (isLividCodev2PluggedIn())
+			return getLividCode2Receiver();
+		return new DumpReceiver(System.out);
+	}
+
+	private boolean isLividCodev2PluggedIn() {
+		for (MidiDevice.Info info : midiDeviceInfos) {
+			if (LividCodev2Map.isCodeV2(info))
+				return true;
+		}
+		return false;
 	}
 
 	public Link buildFromLocalToLocal() {

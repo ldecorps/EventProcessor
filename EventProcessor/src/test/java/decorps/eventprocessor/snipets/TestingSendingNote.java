@@ -4,8 +4,8 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.EventProcessorException;
 import decorps.eventprocessor.RulesAwareReceiverWrapper;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 
 public class TestingSendingNote {
 

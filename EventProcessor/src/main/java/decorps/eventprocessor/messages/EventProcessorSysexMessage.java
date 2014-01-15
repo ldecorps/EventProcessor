@@ -12,7 +12,7 @@ import javax.sound.midi.SysexMessage;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import decorps.eventprocessor.EventProcessorException;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 
 public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 
