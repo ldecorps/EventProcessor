@@ -209,10 +209,11 @@ public class LinkFactory {
 	private Receiver tryToGetLividCode2Receiver() {
 		if (isLividCodev2PluggedIn())
 			return getLividCode2Receiver();
+		System.out.println("Connecting to Dump Receiver");
 		return new DumpReceiver(System.out);
 	}
 
-	private boolean isLividCodev2PluggedIn() {
+	public static boolean isLividCodev2PluggedIn() {
 		for (MidiDevice.Info info : midiDeviceInfos) {
 			if (LividCodev2Map.isCodeV2(info))
 				return true;

@@ -36,13 +36,13 @@ public class EventProcessorTest {
 
 	@Test
 	public void newEventProcessor_shouldHaveAReceiver() {
-		assertThat(EventProcessor.build().fromTetraToTetra.receiver,
+		assertThat(EventProcessor.build().fromTetraToLivid.receiver,
 				notNullValue());
 	}
 
 	@Test
 	public void newEventProcessor_shouldHaveATransmitter() throws Exception {
-		assertThat(EventProcessor.build().fromTetraToTetra.transmitter,
+		assertThat(EventProcessor.build().fromTetraToLivid.transmitter,
 				notNullValue());
 	}
 
@@ -62,7 +62,7 @@ public class EventProcessorTest {
 	}
 
 	private EventProcessorShortMessage getSentMessage() {
-		return cut.fromTetraToTetra.receiver.getFirstSentMidiMessage();
+		return cut.fromTetraToLivid.receiver.getFirstSentMidiMessage();
 	}
 
 	@Test
@@ -104,7 +104,7 @@ public class EventProcessorTest {
 	}
 
 	private List<EventProcessorMidiMessage> getSentMessages() {
-		return cut.fromTetraToTetra.receiver.getSentMidiMessages();
+		return cut.fromTetraToLivid.receiver.getSentMidiMessages();
 	}
 
 	@Test
@@ -114,14 +114,14 @@ public class EventProcessorTest {
 	}
 
 	@Test
-	public void willDefaultReceiverToDump_ifTetrasReceiverIsNotAvailable()
+	public void willDefaultReceiverToDump_ifLividReceiverIsNotAvailable()
 			throws Exception {
 		EventProcessor cut = EventProcessor.build();
-		if (!EventProcessor.isTetraPluggedIn())
-			assertThat(cut.fromKeyboardToTetra.receiver.getRawReceiver(),
+		if (!LinkFactory.isLividCodev2PluggedIn())
+			assertThat(cut.fromTetraToLivid.receiver.getRawReceiver(),
 					instanceOf(DumpReceiver.class));
 		else {
-			assertThat(cut.fromKeyboardToTetra.receiver.getRawReceiver(),
+			assertThat(cut.fromTetraToLivid.receiver.getRawReceiver(),
 					not(instanceOf(DumpReceiver.class)));
 		}
 	}
@@ -129,6 +129,6 @@ public class EventProcessorTest {
 	@Test
 	public void canRegisterARuleToAProgramChange() throws Exception {
 		cut.registerAction(new ProgramEditBufferDumpRequest(),
-				TetraParameter.ProgramChange, cut.fromTetraToTetra);
+				TetraParameter.ProgramChange, cut.fromTetraToLivid);
 	}
 }

@@ -7,7 +7,7 @@ import javax.sound.midi.MidiDevice.Info;
 
 public class LividCodev2Map {
 	private static final String VENDOR = "Livid Instruments, Inc.";
-	private static final String NAME = "Controls";
+	private static final String NAME = "Code - Controls";
 	public static final byte[] LividCode2Signature = new byte[] { 0x0, 0x01,
 			0x61, 0x04 };
 	private static int signatureLength = LividCode2Signature.length;

@@ -26,7 +26,7 @@ public class TestingDeviceInquiry {
 			throw new EventProcessorException(e1);
 		}
 
-		eventProcessor.fromLocalToTetra.receiver.send(sysex, -1);
+		eventProcessor.fromTetraToLivid.receiver.send(sysex, -1);
 
 		synchronized (RulesAwareReceiverWrapper.wait) {
 			try {
@@ -36,7 +36,7 @@ public class TestingDeviceInquiry {
 				throw new EventProcessorException(e);
 			}
 		}
-		System.out.println(bytesToHexa(eventProcessor.fromTetraToLocal.receiver
+		System.out.println(bytesToHexa(eventProcessor.fromTetraToLivid.receiver
 				.getSentMidiMessages().get(0).getMessage()));
 
 	}

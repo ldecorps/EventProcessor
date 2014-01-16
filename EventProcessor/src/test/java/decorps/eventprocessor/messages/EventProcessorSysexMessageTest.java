@@ -21,13 +21,13 @@ public class EventProcessorSysexMessageTest {
 				.setMessage(
 						DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry,
 						DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry.length);
-		eventProcessor.fromLocalToLocal.receiver.send(sysexMessage, -1);
+		eventProcessor.fromTetraToLivid.receiver.send(sysexMessage, -1);
 		synchronized (RulesAwareReceiverWrapper.wait) {
-			if (eventProcessor.fromLocalToLocal.receiver.getSentMidiMessages()
+			if (eventProcessor.fromTetraToLivid.receiver.getSentMidiMessages()
 					.isEmpty())
 				RulesAwareReceiverWrapper.wait.wait();
 		}
-		EventProcessorMidiMessage sentSysex = eventProcessor.fromLocalToLocal.receiver
+		EventProcessorMidiMessage sentSysex = eventProcessor.fromTetraToLivid.receiver
 				.getSentMidiMessages().get(0).getAsSysexMessage();
 		assertThat(
 				"sending sysex "

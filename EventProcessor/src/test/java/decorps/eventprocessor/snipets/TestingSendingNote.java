@@ -20,7 +20,7 @@ public class TestingSendingNote {
 			throw new EventProcessorException(e1);
 		}
 
-		eventProcessor.fromLocalToTetra.receiver.send(shortMessage, -1);
+		eventProcessor.fromTetraToLivid.receiver.send(shortMessage, -1);
 
 		synchronized (RulesAwareReceiverWrapper.wait) {
 			try {

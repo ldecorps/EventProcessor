@@ -165,4 +165,15 @@ public class BaseUtils {
 			throw wrongSysexPayloadSize;
 		}
 	}
+
+	public static String intToHexa(int i) {
+		return Integer.toHexString(i);
+	}
+
+	public static int[] bytesToInts(byte[] hexaToBytes) {
+		int[] result = new int[hexaToBytes.length];
+		for (int i = 0; i < result.length; i++)
+			result[i] = hexaToBytes[i];
+		return result;
+	}
 }

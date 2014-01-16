@@ -10,7 +10,7 @@ public class TestingTranspose {
 	public static void main(String[] args) throws InterruptedException {
 		EventProcessor eventProcessor = new EventProcessor();
 		eventProcessor.registerAction(new Transpose(-12),
-				TetraParameter.ANY_MESSAGE, eventProcessor.fromKeyboardToTetra);
+				TetraParameter.ANY_MESSAGE, eventProcessor.fromTetraToLivid);
 		synchronized (EventProcessorMidiMessage.wait) {
 			EventProcessorMidiMessage.wait.wait();
 		}

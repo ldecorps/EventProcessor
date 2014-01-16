@@ -14,7 +14,7 @@ public class TestingChangeToProgramMode {
 		sysex = new SysexMessage();
 		sysex.setMessage(DsiTetraMap.Mode_Change__ProgramChange,
 				DsiTetraMap.Mode_Change__ProgramChange.length);
-		eventProcessor.fromLocalToTetra.receiver.send(sysex, -1);
+		eventProcessor.fromTetraToLivid.receiver.send(sysex, -1);
 	}
 
 }

@@ -12,7 +12,7 @@ public class TestingProgramChange {
 		EventProcessor eventProcessor = new EventProcessor();
 		// ProgramEditBufferDumpRequest
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
-				TetraParameter.ProgramChange, eventProcessor.fromLocalToTetra);
+				TetraParameter.ProgramChange, eventProcessor.fromTetraToLivid);
 
 		synchronized (EventProcessorMidiMessage.wait) {
 			try {

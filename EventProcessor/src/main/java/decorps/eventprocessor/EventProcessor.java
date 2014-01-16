@@ -1,6 +1,8 @@
 package decorps.eventprocessor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.sound.midi.MidiDevice;
@@ -15,24 +17,16 @@ import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class EventProcessor {
-	public final Link fromKeyboardToTetra;
-	final public Link fromTetraToTetra;
-	public Link fromLocalToTetra;
-	public Link fromTetraToLocal;
-	public Link fromLocalToLocal;
 	public Link fromTetraToLivid;
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
+	public static final List<Link> links = new ArrayList<Link>();
 
 	public EventProcessor() {
 		actions = new HashSet<Action>();
 		linkFactory = new LinkFactory(actions);
-		fromKeyboardToTetra = linkFactory.buildFromKeyboardToTetra();
-		fromTetraToTetra = linkFactory.buildFromTetraToTetraIfPluggedIn();
-		fromLocalToTetra = linkFactory.buildFromLocalToTetraIfPluggedIn();
-		fromTetraToLocal = linkFactory.buildFromTetraIfPluggedInToLocal();
-		fromLocalToLocal = linkFactory.buildFromLocalToLocal();
 		fromTetraToLivid = linkFactory.buildFromTetraToLivid();
+		links.add(fromTetraToLivid);
 	}
 
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {
@@ -46,7 +40,7 @@ public class EventProcessor {
 	}
 
 	Receiver getDefaultRemoteReceiver() {
-		return fromTetraToTetra.transmitter.getReceiver();
+		return fromTetraToLivid.transmitter.getReceiver();
 	}
 
 	public static EventProcessor build() {
@@ -80,7 +74,7 @@ public class EventProcessor {
 	}
 
 	public void registerDefaultRule(Rule rule) {
-		registerAction(rule, TetraParameter.ANY_MESSAGE, fromTetraToTetra);
+		registerAction(rule, TetraParameter.ANY_MESSAGE, fromTetraToLivid);
 	}
 
 	public void registerAction(Rule rule, TetraParameter tetraParameter,
@@ -94,7 +88,7 @@ public class EventProcessor {
 	}
 
 	public void registerAction(Rule rule, TetraParameter tetraParameter) {
-		registerAction(rule, tetraParameter, fromTetraToTetra);
+		registerAction(rule, tetraParameter, fromTetraToLivid);
 	}
 
 	public Set<Action> getActions() {

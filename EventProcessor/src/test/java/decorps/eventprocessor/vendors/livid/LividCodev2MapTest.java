@@ -4,12 +4,14 @@ import static decorps.eventprocessor.vendors.livid.LividCodev2Map.buildSet_all_L
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.SysexMessage;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.utils.BaseUtils;
 
 public class LividCodev2MapTest {
 	@Test
@@ -43,21 +45,34 @@ public class LividCodev2MapTest {
 
 	@Test
 	public void canLitAllLeds() throws Exception {
-		byte[] Set_all_LED_indicators = LividCodev2Map
-				.buildSet_all_LED_indicators(0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-						0x1f, 0x1f);
 		byte[] Request_all_LED_indicators = LividCodev2Map
 				.buildRequest_all_LED_indicators();
 		EventProcessor envProc = new EventProcessor();
 
-		SysexMessage setAllLedIndicator = new SysexMessage(
-				Set_all_LED_indicators, Set_all_LED_indicators.length);
-		envProc.fromTetraToLivid.receiver.send(setAllLedIndicator, -1);
+		for (int i = 0; i <= 0x7f; i++) {
+			byte[] Set_all_LED_indicators = LividCodev2Map
+					.buildSet_all_LED_indicators(i, i, i, i, i, i, i, 0);
+			SysexMessage setAllLedIndicator = new SysexMessage(
+					Set_all_LED_indicators, Set_all_LED_indicators.length);
+			envProc.fromTetraToLivid.receiver.send(setAllLedIndicator, -1);
+		}
+
 		SysexMessage requestAllLEDIndicators = new SysexMessage(
-				Set_all_LED_indicators, Request_all_LED_indicators.length);
+				Request_all_LED_indicators, Request_all_LED_indicators.length);
 		envProc.fromTetraToLivid.receiver.send(requestAllLEDIndicators, -1);
 
 		// check bytes 6, 7, 8, 9, 10, 11, 12 are set 1f too...
 		fail("Read answer");
+	}
+
+	public void sendSetAllLed(EventProcessor envProc, int i)
+			throws InvalidMidiDataException {
+		int[] payload = BaseUtils.bytesToInts(BaseUtils.hexaToBytes(BaseUtils
+				.intToHexa(i)));
+		byte[] Set_all_LED_indicators = LividCodev2Map
+				.buildSet_all_LED_indicators(payload);
+		SysexMessage setAllLedIndicator = new SysexMessage(
+				Set_all_LED_indicators, Set_all_LED_indicators.length);
+		envProc.fromTetraToLivid.receiver.send(setAllLedIndicator, -1);
 	}
 }
