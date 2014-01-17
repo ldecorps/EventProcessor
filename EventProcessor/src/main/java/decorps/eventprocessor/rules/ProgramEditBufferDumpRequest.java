@@ -7,7 +7,7 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 
-public class ProgramEditBufferDumpRequest implements Rule, ToTetra {
+public class ProgramEditBufferDumpRequest implements Rule {
 
 	@Override
 	public EventProcessorMidiMessage transform(

@@ -9,13 +9,19 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.SysexMessage;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import decorps.eventprocessor.EventProcessorTest;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
@@ -24,9 +30,10 @@ public class DsiTetraMapTest {
 
 	private static final String CHANNEL_ONE = "0000";
 	private static final String PROGAM_ONE = "000 0001";
-	public static final SysexMessage sampleMsg = EventProcessorTest.sampleProgramDataDump;
+	public static final SysexMessage sampleProgramDataDump = getSampleProgramDataDumpSysexMessage();
 	final DsiTetraMap cut = new DsiTetraMap();
-	EventProcessorShortMessageComposite result = cut.convert(sampleMsg);
+	EventProcessorShortMessageComposite result = cut
+			.convert(sampleProgramDataDump);
 
 	@Test
 	public void convertStringToByte() throws Exception {
@@ -77,14 +84,13 @@ public class DsiTetraMapTest {
 
 	@Test
 	public void canRecogniseTetraProgramDump() throws Exception {
-		printOutHexaMessage(sampleMsg);
+		printOutHexaMessage(sampleProgramDataDump);
 		assertTrue(cut.isValidTetraProgramDump());
 	}
 
 	@Test
 	public void hasPackedDataFormat() throws Exception {
-		byte[] sysexMessage = sampleMsg.getData();// curious, why not use
-													// getMessage
+		byte[] sysexMessage = sampleProgramDataDump.getMessage();
 		assertTrue(DsiTetraMap.isProgramDataDump(sysexMessage));
 		DsiTetraMap.isProgramDataDump(sysexMessage);
 		ProgramDataDump programDataDump = ProgramDataDump
@@ -127,5 +133,23 @@ public class DsiTetraMapTest {
 		assertThat(new byte[] { (byte) 0xF0, (byte) 0x01, (byte) 0x26,
 				(byte) 0x31, (byte) 0xF7 },
 				is(DsiTetraMap.Mode_Change__ComboChange));
+	}
+
+	private static SysexMessage getSampleProgramDataDumpSysexMessage() {
+		SysexMessage myMsg = new SysexMessage();
+		try {
+			byte[] bytes;
+			bytes = IOUtils.toByteArray(new FileInputStream(new File(
+					"src/test/resources/oneProgram")));
+			int length = bytes.length;
+			myMsg.setMessage(bytes, length);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (InvalidMidiDataException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		}
+		return myMsg;
 	}
 }

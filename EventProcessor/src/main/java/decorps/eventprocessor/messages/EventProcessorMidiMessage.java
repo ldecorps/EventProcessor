@@ -65,7 +65,8 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		else if (message instanceof SysexMessage)
 			return EventProcessorSysexMessage
 					.buildSysexMessage((SysexMessage) message);
+		else if (message instanceof EventProcessorSysexMessage)
+			return EventProcessorSysexMessage.build(message.getMessage());
 		throw new EventProcessorException("Cannot build message");
-
 	}
 }

@@ -31,7 +31,7 @@ public class LividCodev2Map {
 		return buildWithSpecificByteAndPayloadSize(payload, 0x04, 8);
 	}
 
-	public static final byte[] buildSet_LED_Ring_indicators(int[] payload) {
+	public static final byte[] buildSet_LED_Ring_indicators(int... payload) {
 		return buildWithSpecificByteAndPayloadSize(payload, 0x1f, 64);
 	}
 

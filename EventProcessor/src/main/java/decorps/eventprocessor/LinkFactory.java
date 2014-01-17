@@ -15,8 +15,10 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.akai.AkaiMap;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.TestingTetraTransmitter;
 import decorps.eventprocessor.vendors.korg.KorgMap;
 import decorps.eventprocessor.vendors.livid.LividCodev2Map;
+import decorps.eventprocessor.vendors.livid.TestingLividCode2Receiver;
 
 public class LinkFactory {
 
@@ -32,14 +34,14 @@ public class LinkFactory {
 	}
 
 	public Link buildFromTetraToTetraIfPluggedIn() {
-		return build(tryToGetTetraOrDefaultDummyTransmitter(),
+		return build(tryToGetTetraOrTestingTetraTransmitter(),
 				tryToGetTetraOrDefaultToDumpReceiver());
 	}
 
-	private Transmitter tryToGetTetraOrDefaultDummyTransmitter() {
+	private Transmitter tryToGetTetraOrTestingTetraTransmitter() {
 		if (isTetraPluggedIn())
 			return getTetraTransmitter();
-		return getDefaultDummyLocalTansmitter();
+		return new TestingTetraTransmitter();
 	}
 
 	Link build(Transmitter transmitter, Receiver receiver) {
@@ -197,20 +199,20 @@ public class LinkFactory {
 	}
 
 	public Link buildFromTetraIfPluggedInToLocal() {
-		return build(tryToGetTetraOrDefaultDummyTransmitter(),
+		return build(tryToGetTetraOrTestingTetraTransmitter(),
 				getDefaultDumpLocalReceiver());
 	}
 
 	public Link buildFromTetraToLivid() {
-		return build(tryToGetTetraOrDefaultDummyTransmitter(),
-				tryToGetLividCode2Receiver());
+		return build(tryToGetTetraOrTestingTetraTransmitter(),
+				tryToGetLividCode2OrTestingLivideCode2Receiver());
 	}
 
-	private Receiver tryToGetLividCode2Receiver() {
+	private Receiver tryToGetLividCode2OrTestingLivideCode2Receiver() {
 		if (isLividCodev2PluggedIn())
 			return getLividCode2Receiver();
-		System.out.println("Connecting to Dump Receiver");
-		return new DumpReceiver(System.out);
+		System.out.println("Connecting to Testing Livid Receiver");
+		return new TestingLividCode2Receiver();
 	}
 
 	public static boolean isLividCodev2PluggedIn() {

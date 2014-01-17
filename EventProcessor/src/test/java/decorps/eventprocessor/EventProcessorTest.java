@@ -8,8 +8,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -18,19 +16,17 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class EventProcessorTest {
-	public static final SysexMessage sampleProgramDataDump = getSampleProgramDataDumpSysexMessage();
 
 	EventProcessor cut = EventProcessor.build();
 
@@ -80,27 +76,9 @@ public class EventProcessorTest {
 
 	private void sendSysEx() throws InvalidMidiDataException,
 			FileNotFoundException, IOException {
-		SysexMessage myMsg = getSampleProgramDataDumpSysexMessage();
+		SysexMessage myMsg = DsiTetraMapTest.sampleProgramDataDump;
 		long timeStamp = -1;
 		cut.getDefaultRemoteReceiver().send(myMsg, timeStamp);
-	}
-
-	private static SysexMessage getSampleProgramDataDumpSysexMessage() {
-		SysexMessage myMsg = new SysexMessage();
-		try {
-			byte[] bytes;
-			bytes = IOUtils.toByteArray(new FileInputStream(new File(
-					"src/test/resources/oneProgram")));
-			int length = bytes.length;
-			myMsg.setMessage(SysexMessage.SYSTEM_EXCLUSIVE, bytes, length);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new EventProcessorException(e);
-		} catch (InvalidMidiDataException e) {
-			e.printStackTrace();
-			throw new EventProcessorException(e);
-		}
-		return myMsg;
 	}
 
 	private List<EventProcessorMidiMessage> getSentMessages() {

@@ -5,9 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
 
 public class Layer {
 	public final Oscillator1Frequency oscillator1Frequency;
+	public final Oscillator1Shape oscillator1Shape;
 
 	public Layer(Class<? extends AbstractProgramParameter>[] parametersClasses,
 			byte b) throws InstantiationException, IllegalAccessException,
@@ -15,11 +17,14 @@ public class Layer {
 			NoSuchMethodException, SecurityException {
 		oscillator1Frequency = (Oscillator1Frequency) parametersClasses[0]
 				.getConstructor(byte.class).newInstance(b);
+		oscillator1Shape = (Oscillator1Shape) parametersClasses[2]
+				.getConstructor(byte.class).newInstance(b);
 	}
 
 	@Override
 	public String toString() {
-		return "Layer [oscillator1Frequency=" + oscillator1Frequency + "]";
+		return "Layer [oscillator1Frequency=" + oscillator1Frequency
+				+ ", oscillator1Shape=" + oscillator1Shape + "]";
 	}
 
 	public static Layer build(

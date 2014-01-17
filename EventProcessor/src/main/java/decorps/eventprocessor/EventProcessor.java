@@ -20,7 +20,7 @@ public class EventProcessor {
 	public Link fromTetraToLivid;
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
-	public static final List<Link> links = new ArrayList<Link>();
+	public final List<Link> links = new ArrayList<Link>();
 
 	public EventProcessor() {
 		actions = new HashSet<Action>();

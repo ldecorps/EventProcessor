@@ -8,14 +8,15 @@ public class ProgramEditBufferDataDump extends EventProcessorSysexMessage {
 
 	public final byte[] sysexMessage;
 	public final ProgramParameterData programParameterData;
+	public final byte[] unpacked;
 
 	public ProgramEditBufferDataDump(byte[] sysexMessage) {
 		super(sysexMessage);
 		this.sysexMessage = sysexMessage;
-		byte[] editBufferDataDump = Arrays.copyOfRange(sysexMessage, 4,
+		byte[] editBufferDataDump = Arrays.copyOfRange(sysexMessage, 5,
 				sysexMessage.length);
-		programParameterData = ProgramParameterData
-				.build(unpack(editBufferDataDump));
+		unpacked = unpack(editBufferDataDump);
+		programParameterData = ProgramParameterData.build(unpacked);
 	}
 
 	public static ProgramEditBufferDataDump buildProgramEditBufferDataDump(

@@ -52,7 +52,7 @@ public class DsiTetraMap {
 	public EventProcessorShortMessageComposite convert(SysexMessage message) {
 		EventProcessorShortMessageComposite eventProcessorShortMessageComposite = EventProcessorShortMessageComposite
 				.build();
-		messageAsBytes = message.getData();
+		messageAsBytes = message.getMessage();
 		if (!isValidTetraProgramDump())
 			return eventProcessorShortMessageComposite;
 		for (int i = 5; i < messageAsBytes.length; i++) {
