@@ -1,12 +1,13 @@
 package decorps.eventprocessor.messages;
 
+import static decorps.eventprocessor.utils.BaseUtils.decodeMessage;
+
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
-import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
@@ -33,10 +34,18 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 	}
 
 	public void send(Receiver receiver, long timestamp) {
-		System.out.println("Sending... "
-				+ BaseUtils.decodeMessage(getMidiMessage())
-				+ " with timestamp " + timestamp);
-		receiver.send(getMidiMessage(), timestamp);
+		if (this instanceof EventProcessorMidiMessageComposite) {
+			System.out.println("Sending composite with timestamp " + timestamp);
+			for (EventProcessorMidiMessage eventProcessorMidiMessage : ((EventProcessorMidiMessageComposite) this).eventProcessorMidiMessages) {
+				System.out.println(decodeMessage(eventProcessorMidiMessage));
+				receiver.send(eventProcessorMidiMessage, timestamp);
+
+			}
+		} else {
+			System.out.println("Sending... " + decodeMessage(getMidiMessage())
+					+ " with timestamp " + timestamp);
+			receiver.send(getMidiMessage(), timestamp);
+		}
 		synchronized (wait) {
 			wait.notify();
 		}

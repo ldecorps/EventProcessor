@@ -22,8 +22,10 @@ import javax.sound.midi.SysexMessage;
 import org.junit.Test;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
+import decorps.eventprocessor.rules.SetLedAndLedRingIndicatorsRule;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
@@ -127,8 +129,17 @@ public class EventProcessorTest {
 	}
 
 	@Test
-	public void registerRule_SendAllLedInfosToLividCode_To_ProgramEditBufferDataDump_or_ProgramDataDump()
+	public void registerRule_SendAllLedInfosToLividCode_To_ProgramDataDump()
 			throws Exception {
-		// throw new EventProcessorException("Not Implemented Yet");
+		cut.registerAction(new SetLedAndLedRingIndicatorsRule(),
+				TetraParameter.ProgramDataDump, cut.fromTetraToLivid);
+		MidiMessage sampleProgramDataDump = DsiTetraMapTest.sampleProgramDataDump;
+
+		cut.fromTetraToLivid.receiver.send(sampleProgramDataDump, -1);
+
+		assertThat(cut.fromTetraToLivid.receiver.getSentMidiMessages(),
+				not(empty()));
+		assertThat(cut.fromTetraToLivid.receiver.getSentMidiMessages().get(0),
+				instanceOf(EventProcessorMidiMessageComposite.class));
 	}
 }

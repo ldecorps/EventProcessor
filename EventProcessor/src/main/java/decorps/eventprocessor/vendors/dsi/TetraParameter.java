@@ -31,6 +31,23 @@ public enum TetraParameter {
 		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
 			return true;
 		}
+	},
+	ProgramEditBufferDataDump {
+		@Override
+		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
+			final boolean result = DsiTetraMap
+					.isProgramEditBufferDataDump(eventProcessorMidiMessage
+							.getMessage());
+			return result;
+		}
+	},
+	ProgramDataDump {
+		@Override
+		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
+			final boolean result = DsiTetraMap
+					.isProgramDataDump(eventProcessorMidiMessage.getMessage());
+			return result;
+		}
 	};
 
 	abstract public boolean is(
