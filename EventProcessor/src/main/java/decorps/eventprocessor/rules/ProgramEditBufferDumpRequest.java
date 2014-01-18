@@ -9,12 +9,14 @@ import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 
 public class ProgramEditBufferDumpRequest implements Rule {
 
+	public static final EventProcessorSysexMessage programEditBufferDumpRequest = EventProcessorSysexMessage.build(
+			DsiTetraMap.System_Exclusive, DSI_ID, Tetra_ID,
+			RequestProgramEditBufferTransmit, DsiTetraMap.End_Of_Exclusive);
+
 	@Override
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProvessorMidiMessage) {
-		EventProcessorMidiMessage result = EventProcessorSysexMessage.build(
-				DsiTetraMap.System_Exclusive, DSI_ID, Tetra_ID,
-				RequestProgramEditBufferTransmit, DsiTetraMap.End_Of_Exclusive);
+		EventProcessorMidiMessage result = programEditBufferDumpRequest;
 		return result;
 	}
 

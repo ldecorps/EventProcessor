@@ -78,6 +78,10 @@ public class DumpReceiver implements Receiver {
 	private final PrintStream m_printStream;
 	private final boolean m_bPrintTimeStampAsTicks;
 
+	public DumpReceiver() {
+		this(System.out);
+	}
+
 	public DumpReceiver(PrintStream printStream) {
 		this(printStream, false);
 	}

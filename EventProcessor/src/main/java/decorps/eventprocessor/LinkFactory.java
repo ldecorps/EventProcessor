@@ -15,10 +15,12 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.akai.AkaiMap;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.TestingTetraReceiver;
 import decorps.eventprocessor.vendors.dsi.TestingTetraTransmitter;
 import decorps.eventprocessor.vendors.korg.KorgMap;
 import decorps.eventprocessor.vendors.livid.LividCodev2Map;
 import decorps.eventprocessor.vendors.livid.TestingLividCode2Receiver;
+import decorps.eventprocessor.vendors.livid.TestingLividTransmitter;
 
 public class LinkFactory {
 
@@ -208,6 +210,46 @@ public class LinkFactory {
 				tryToGetLividCode2OrTestingLivideCode2Receiver());
 	}
 
+	public Link buildFromLividToTetra() {
+		return build(tryToGetLividOrTestingTransmitter(),
+				tryToGetTetraOrTestingTetraReceiver());
+	}
+
+	private Receiver tryToGetTetraOrTestingTetraReceiver() {
+		if (isTetraPluggedIn())
+			return getTetraReceiver();
+		else
+			return new TestingTetraReceiver();
+	}
+
+	private Transmitter tryToGetLividOrTestingTransmitter() {
+		if (isLividCodev2PluggedIn())
+			getLividTransmitter();
+		return new TestingLividTransmitter();
+	}
+
+	private Transmitter getLividTransmitter() {
+		for (MidiDevice.Info info : midiDeviceInfos) {
+			if (!LividCodev2Map.isCodeV2(info))
+				continue;
+			MidiDevice device;
+			try {
+				device = MidiSystem.getMidiDevice(info);
+				if (device.getMaxTransmitters() == 0)
+					continue;
+				device.open();
+				System.out
+						.println("opening " + info.getName() + " transmitter");
+				return device.getTransmitter();
+			} catch (MidiUnavailableException e) {
+				e.printStackTrace();
+				throw new EventProcessorException(e);
+			}
+		}
+		throw new EventProcessorException(
+				"Could not get a transmitter from Livid");
+	}
+
 	private Receiver tryToGetLividCode2OrTestingLivideCode2Receiver() {
 		if (isLividCodev2PluggedIn())
 			return getLividCode2Receiver();
@@ -253,5 +295,10 @@ public class LinkFactory {
 				return true;
 		}
 		return false;
+	}
+
+	public Link buildFromTetraToTetra() {
+		return build(tryToGetTetraOrTestingTetraTransmitter(),
+				tryToGetTetraOrTestingTetraReceiver());
 	}
 }

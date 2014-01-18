@@ -66,7 +66,9 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 			return EventProcessorSysexMessage
 					.buildSysexMessage((SysexMessage) message);
 		else if (message instanceof EventProcessorSysexMessage)
-			return EventProcessorSysexMessage.build(message.getMessage());
+			return (EventProcessorSysexMessage) message;
+		else if (message instanceof EventProcessorShortMessage)
+			return (EventProcessorShortMessage) message;
 		throw new EventProcessorException("Cannot build message");
 	}
 
@@ -74,6 +76,6 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		if (message[0] == DsiTetraMap.System_Exclusive)
 			return EventProcessorSysexMessage.build(message);
 		else
-			return EventProcessorShortMessage.build(message);
+			return EventProcessorShortMessage.buildShortMessage(message);
 	}
 }

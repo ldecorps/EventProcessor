@@ -13,6 +13,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
+import decorps.eventprocessor.utils.BaseUtils;
 
 public class DsiTetraMap {
 
@@ -96,7 +97,8 @@ public class DsiTetraMap {
 				|| info.getName().equals(MMJ_NAME);
 	}
 
-	public boolean isProgramChange(String status, String second, String third) {
+	public static boolean isProgramChange(String status, String second,
+			String third) {
 		return null == third && status.startsWith("1100");
 	}
 
@@ -138,4 +140,9 @@ public class DsiTetraMap {
 		return result;
 	}
 
+	public static boolean isProgramChange(EventProcessorMidiMessage shortMessage) {
+		return isProgramChange(
+				BaseUtils.byteToBinary((byte) shortMessage.getStatus()), null,
+				null);
+	}
 }

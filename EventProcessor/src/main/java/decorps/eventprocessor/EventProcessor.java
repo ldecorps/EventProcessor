@@ -17,7 +17,9 @@ import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class EventProcessor {
-	public Link fromTetraToLivid;
+	public final Link fromTetraToLivid;
+	public final Link fromLividToTetra;
+	public final Link fromTetraToTetra;
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 	public final List<Link> links = new ArrayList<Link>();
@@ -26,7 +28,10 @@ public class EventProcessor {
 		actions = new HashSet<Action>();
 		linkFactory = new LinkFactory(actions);
 		fromTetraToLivid = linkFactory.buildFromTetraToLivid();
+		fromLividToTetra = linkFactory.buildFromLividToTetra();
+		fromTetraToTetra = linkFactory.buildFromTetraToTetra();
 		links.add(fromTetraToLivid);
+		links.add(fromLividToTetra);
 	}
 
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {
@@ -93,6 +98,11 @@ public class EventProcessor {
 
 	public Set<Action> getActions() {
 		return actions;
+	}
+
+	public void registerAction(Rule rule, TetraParameter tetraParameter,
+			Link in, Link out) {
+		registerAction(rule, tetraParameter, in.transmitter, out.receiver);
 	}
 
 }

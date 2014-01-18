@@ -14,7 +14,7 @@ public class Action {
 	public final Transmitter in;
 	public final Receiver out;
 
-	public Action(Rule rule, TetraParameter tetraParameter, Transmitter in,
+	Action(Rule rule, TetraParameter tetraParameter, Transmitter in,
 			Receiver out) {
 		super();
 		this.rule = rule;

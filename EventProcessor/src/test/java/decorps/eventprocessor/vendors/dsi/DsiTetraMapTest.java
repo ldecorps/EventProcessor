@@ -15,6 +15,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiMessage;
+import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import junit.framework.Assert;
@@ -165,5 +167,12 @@ public class DsiTetraMapTest {
 			throw new EventProcessorException(e);
 		}
 		return myMsg;
+	}
+
+	public static MidiMessage sendProgramChange() {
+		EventProcessorMidiMessage buildShortMessage = EventProcessorShortMessage
+				.buildShortMessage(ShortMessage.PROGRAM_CHANGE, 0x00000001, 0);
+		assertTrue(DsiTetraMap.isProgramChange(buildShortMessage));
+		return buildShortMessage;
 	}
 }

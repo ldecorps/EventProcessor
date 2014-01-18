@@ -11,8 +11,8 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static ShortMessage NullShortMessage = new ShortMessage();
 
-	public static EventProcessorMidiMessage build(int status, int second,
-			int third) {
+	public static EventProcessorMidiMessage buildShortMessage(int status,
+			int second, int third) {
 		ShortMessage shortMessage;
 		try {
 			shortMessage = new ShortMessage();
@@ -32,11 +32,12 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static EventProcessorMidiMessage build(String status, String second,
 			String third) {
 		if (null != status && null != second && null != third) {
-			return EventProcessorShortMessage.build(binaryToByte(status),
-					binaryToByte(second), binaryToByte(third));
+			return EventProcessorShortMessage.buildShortMessage(
+					binaryToByte(status), binaryToByte(second),
+					binaryToByte(third));
 		} else if (null != status && null != second) {
-			return EventProcessorShortMessage.build(binaryToByte(status),
-					binaryToByte(second), 0);
+			return EventProcessorShortMessage.buildShortMessage(
+					binaryToByte(status), binaryToByte(second), 0);
 		}
 		throw new EventProcessorException(
 				"cannot build shortmessage with null values yet");
@@ -121,5 +122,11 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	@Override
 	protected MidiMessage getMidiMessage() {
 		return shortMessage;
+	}
+
+	public static EventProcessorMidiMessage buildShortMessage(byte[] message) {
+		if (3 != message.length)
+			throw new EventProcessorException("ShortMessage should be 3 bytes");
+		return buildShortMessage(message[0], message[1], message[2]);
 	}
 }

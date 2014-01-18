@@ -1,11 +1,13 @@
 package decorps.eventprocessor;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 
 import java.io.FileNotFoundException;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
@@ -105,8 +108,27 @@ public class EventProcessorTest {
 	}
 
 	@Test
-	public void canRegisterARuleToAProgramChange() throws Exception {
+	public void registersRule_ProgramEditBufferDataDumpRequest_to_ProgramChange()
+			throws Exception {
 		cut.registerAction(new ProgramEditBufferDumpRequest(),
-				TetraParameter.ProgramChange, cut.fromTetraToLivid);
+				TetraParameter.ProgramChange, cut.fromTetraToTetra);
+		MidiMessage sampleProgramChange = DsiTetraMapTest.sendProgramChange();
+		assertThat(cut.fromTetraToTetra.receiver.getSentMidiMessages(), empty());
+
+		cut.fromTetraToTetra.receiver.send(sampleProgramChange, -1);
+
+		assertThat(cut.fromTetraToTetra.receiver.getSentMidiMessages(),
+				not(empty()));
+		assertArrayEquals(
+				ProgramEditBufferDumpRequest.programEditBufferDumpRequest
+						.getMessage(),
+				cut.fromTetraToTetra.receiver.getSentMidiMessages().get(0)
+						.getMessage());
+	}
+
+	@Test
+	public void registerRule_SendAllLedInfosToLividCode_To_ProgramEditBufferDataDump_or_ProgramDataDump()
+			throws Exception {
+		// throw new EventProcessorException("Not Implemented Yet");
 	}
 }
