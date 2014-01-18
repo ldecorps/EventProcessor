@@ -66,24 +66,28 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 		byte[] result = new byte[0];
 		int packedLength = packedMessage.length;
 		int numberOfEightBytesPackets = packedLength / bitsByPackets;
-		for (int currentPacketNumber = 0; currentPacketNumber < numberOfEightBytesPackets; currentPacketNumber++) {
-			int from = bitsByPackets * currentPacketNumber;
-			byte[] currentPacket = Arrays.copyOfRange(packedMessage, 0 + from,
-					bitsByPackets + from);
-			String[] binaries = new String[bitsByPackets];
-			for (int i = 0; i < bitsByPackets; i++) {
-				binaries[i] = byteToBinary(currentPacket[i]);
-			}
-			String[] unpackedPacket = unpack(binaries);
-			byte[] currentPacketAsBytes = representationsToBytes(unpackedPacket);
-			result = ArrayUtils.addAll(result, currentPacketAsBytes);
-		}
+		for (int currentPacketNumber = 0; currentPacketNumber < numberOfEightBytesPackets; currentPacketNumber++)
+			result = unpackOnePacket(packedMessage, result, currentPacketNumber);
 		int remainingBytes = packedLength - numberOfEightBytesPackets
 				* bitsByPackets;
 		if (0 < remainingBytes)
 			throw new EventProcessorException(
 					"packedMessage not made of 8 bytes packets");
 
+		return result;
+	}
+
+	public static byte[] unpackOnePacket(byte[] packedMessage, byte[] result,
+			int currentPacketNumber) {
+		int from = bitsByPackets * currentPacketNumber;
+		byte[] currentPacket = Arrays.copyOfRange(packedMessage, 0 + from,
+				bitsByPackets + from);
+		String[] binaries = new String[bitsByPackets];
+		for (int i = 0; i < bitsByPackets; i++)
+			binaries[i] = byteToBinary(currentPacket[i]);
+		String[] unpackedPacket = unpack(binaries);
+		byte[] currentPacketAsBytes = representationsToBytes(unpackedPacket);
+		result = ArrayUtils.addAll(result, currentPacketAsBytes);
 		return result;
 	}
 }
