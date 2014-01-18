@@ -4,25 +4,48 @@ import java.lang.reflect.InvocationTargetException;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1FineTune;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
 
 public class Layer {
-	public final Oscillator1Frequency oscillator1Frequency;
-	public final Oscillator1FineTune oscillator1FineTune;
-	public final Oscillator1Shape oscillator1Shape;
+	public final AbstractProgramParameter oscillator1Frequency;
+	public final AbstractProgramParameter oscillator1FineTune;
+	public final AbstractProgramParameter oscillator1Shape;
+	public final AbstractProgramParameter oscillator1Glide;
+	private final Class<? extends AbstractProgramParameter>[] parametersClasses;
+	private final byte[] data;
+	private final int offset;
+	int parameterIndex = 0;
 
 	Layer(Class<? extends AbstractProgramParameter>[] parametersClasses,
 			byte[] data, int offset) throws InstantiationException,
 			IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException {
-		oscillator1Frequency = (Oscillator1Frequency) parametersClasses[0]
-				.getConstructor(byte.class).newInstance(data[offset]);
-		oscillator1FineTune = (Oscillator1FineTune) parametersClasses[1]
-				.getConstructor(byte.class).newInstance(data[offset + 1]);
-		oscillator1Shape = (Oscillator1Shape) parametersClasses[2]
-				.getConstructor(byte.class).newInstance(data[offset + 2]);
+		this.parametersClasses = parametersClasses;
+		this.data = data;
+		this.offset = offset;
+		oscillator1Frequency = buildNextParameter();
+		oscillator1FineTune = buildNextParameter();
+		oscillator1Shape = buildNextParameter();
+		oscillator1Glide = buildNextParameter();
+	}
+
+	private AbstractProgramParameter buildNextParameter()
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException {
+		return instanciateParameter(parametersClasses, data, offset,
+				parameterIndex++);
+	}
+
+	public AbstractProgramParameter instanciateParameter(
+			Class<? extends AbstractProgramParameter>[] parametersClasses,
+			byte[] data, int offset, int parameterIndex)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, NoSuchMethodException {
+		try {
+			return parametersClasses[parameterIndex].getConstructor(byte.class)
+					.newInstance(data[offset + parameterIndex]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new EventProcessorException("missing parameter class", e);
+		}
 	}
 
 	@Override

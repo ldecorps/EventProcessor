@@ -1,6 +1,5 @@
 package decorps.eventprocessor.exceptions;
 
-import javax.sound.midi.InvalidMidiDataException;
 
 @SuppressWarnings("serial")
 public class EventProcessorException extends RuntimeException {
@@ -9,7 +8,7 @@ public class EventProcessorException extends RuntimeException {
 		super(e);
 	}
 
-	public EventProcessorException(String message, InvalidMidiDataException e) {
+	public EventProcessorException(String message, Throwable e) {
 		super(message, e);
 	}
 
