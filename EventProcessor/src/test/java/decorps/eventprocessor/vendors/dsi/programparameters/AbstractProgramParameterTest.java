@@ -18,6 +18,6 @@ public class AbstractProgramParameterTest {
 				(byte) fromTetra);
 		assertThat(class1.isAssignableFrom(oneZeroTo120Parameter.getClass()),
 				is(true));
-		assertThat((int) oneZeroTo120Parameter.getValue(), is(forLividCode));
+		assertThat((int) oneZeroTo120Parameter.getRebasedValue(), is(forLividCode));
 	}
 }

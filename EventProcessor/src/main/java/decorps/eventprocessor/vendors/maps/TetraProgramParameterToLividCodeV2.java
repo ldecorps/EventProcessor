@@ -3,10 +3,10 @@ package decorps.eventprocessor.vendors.maps;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
-import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
+import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 import decorps.eventprocessor.vendors.livid.LividCodev2Map;
 
@@ -34,7 +34,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 			AbstractProgramParameter abstractProgramParameter) {
 		for (Map map : mapping) {
 			return new LividCodeEventProcessorCCShortMessage(map.bank,
-					map.controllerNumber, abstractProgramParameter.getValue());
+					map.controllerNumber,
+					abstractProgramParameter.getRebasedValue());
 		}
 
 		throw new EventProcessorException(abstractProgramParameter.getClass()
@@ -60,12 +61,58 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	public EventProcessorMidiMessage mapToSetAllLedIndicators(
 			ProgramParameterData programParameterData) {
-		// http://docs.oracle.com/javase/tutorial/java/nutsandbolts/op3.html
-		byte b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0, b7 = 0, b8 = 0;
-		b1 = (byte) ((programParameterData.currentLayer().oscillator1Shape
-				.getValue() != 0) ? 1 : 0);
 
-		return EventProcessorSysexMessage.build(LividCodev2Map
-				.buildSet_all_LED_indicators(b1, b2, b3, b4, b5, b6, b7, b8));
+		mapOscillator1Shape(programParameterData);
+
+		byte[] Set_all_LED_indicators = LividCodev2Map
+				.buildSet_all_LED_indicators(BankLayout.CurrentBank
+						.getButtonsAsArrayOfInts());
+		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
+	}
+
+	private void mapOscillator1Frequency(
+			ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(1, programParameterData
+				.currentLayer().oscillator1Frequency.getRebasedValue());
+	}
+
+	private void mapOscillator1FineTune(
+			ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(2, programParameterData
+				.currentLayer().oscillator1FineTune.getRebasedValue());
+	}
+
+	void mapOscillator1Shape(ProgramParameterData programParameterData) {
+		final byte value = programParameterData.currentLayer().oscillator1Shape.data;
+		final boolean isOscillator1Off = value == 0;
+		BankLayout.CurrentBank.turnOff(1);
+		if (isOscillator1Off)
+			return;
+		final boolean setToSawooth = 1 == value;
+		final boolean setToTriangle = 2 == value;
+		final boolean setSquare = 3 == value;
+		if (setToSawooth) {
+			BankLayout.CurrentBank.turnOn(2);
+			return;
+		} else if (setToTriangle) {
+			BankLayout.CurrentBank.turnOn(3);
+			return;
+		} else if (setSquare) {
+			BankLayout.CurrentBank.turnOn(4);
+			return;
+		}
+
+	}
+
+	public EventProcessorMidiMessage mapToSetLedRingsIndicators(
+			ProgramParameterData programParameterData) {
+
+		mapOscillator1Frequency(programParameterData);
+		mapOscillator1FineTune(programParameterData);
+
+		byte[] Set_all_LED_indicators = LividCodev2Map
+				.buildSet_LED_Ring_indicators(BankLayout.CurrentBank
+						.getEncodersAsArrayOfInts());
+		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
 	}
 }

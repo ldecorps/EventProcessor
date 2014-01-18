@@ -3,7 +3,7 @@ package decorps.eventprocessor.vendors.dsi.programparameters;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public abstract class AbstractProgramParameter implements HasCcValue {
-	byte data;
+	public final byte data;
 
 	protected AbstractProgramParameter(byte b) {
 		this.data = b;
@@ -16,9 +16,11 @@ public abstract class AbstractProgramParameter implements HasCcValue {
 	}
 
 	@Override
-	public byte getValue() {
+	public byte getRebasedValue() {
 		if (ZeroTo120Range.class.isAssignableFrom(getClass()))
 			return (byte) (data * (127d / 120d));
+		else if (ZeroTo100Range.class.isAssignableFrom(getClass()))
+			return (byte) (data * (127d / 100d));
 		return data;
 	}
 }

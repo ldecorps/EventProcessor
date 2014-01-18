@@ -170,10 +170,10 @@ public class BaseUtils {
 		return Integer.toHexString(i);
 	}
 
-	public static int[] bytesToInts(byte[] hexaToBytes) {
-		int[] result = new int[hexaToBytes.length];
+	public static int[] bytesToInts(byte[] bytes) {
+		int[] result = new int[bytes.length];
 		for (int i = 0; i < result.length; i++)
-			result[i] = hexaToBytes[i];
+			result[i] = bytes[i];
 		return result;
 	}
 }

@@ -15,15 +15,16 @@ public class ProgramDataDump extends EventProcessorSysexMessage {
 	public final byte bankNumber;
 	public final byte programNumber;
 	public final ProgramParameterData programParameterData;
+	public final byte[] unpackedMessages;
 
-	public ProgramDataDump(byte[] sysexMessage) {
+	ProgramDataDump(byte[] sysexMessage) {
 		super(sysexMessage);
 		this.sysexMessage = sysexMessage;
 		bankNumber = sysexMessage[4];
 		programNumber = sysexMessage[5];
-		byte[] unpackedMessage = unpack(Arrays
-				.copyOfRange(sysexMessage, 6, sysexMessage.length + 1));
-		programParameterData = ProgramParameterData.build(unpackedMessage);
+		unpackedMessages = unpack(Arrays.copyOfRange(sysexMessage, 6,
+				sysexMessage.length + 1));
+		programParameterData = ProgramParameterData.build(unpackedMessages);
 	}
 
 	public static ProgramDataDump buildProgramDump(byte[] sysexMessage) {

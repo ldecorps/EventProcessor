@@ -22,6 +22,15 @@ public class EventProcessorMidiMessageComposite extends
 				eventProcessorMidiMessages);
 	}
 
+	public static EventProcessorMidiMessage buildComposite(byte[]... messages) {
+		EventProcessorMidiMessage[] eventProcessorMidiMessages = new EventProcessorMidiMessage[messages.length];
+		for (int i = 0; i < messages.length; i++) {
+			eventProcessorMidiMessages[i] = EventProcessorMidiMessage
+					.build(messages[i]);
+		}
+		return buildComposite(eventProcessorMidiMessages);
+	}
+
 	@Override
 	protected MidiMessage getMidiMessage() {
 		throw new EventProcessorException("Not Implemented Yet");

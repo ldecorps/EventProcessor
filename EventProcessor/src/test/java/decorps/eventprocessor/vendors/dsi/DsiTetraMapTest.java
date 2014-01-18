@@ -3,6 +3,7 @@ package decorps.eventprocessor.vendors.dsi;
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
 import static decorps.eventprocessor.utils.BaseUtils.byteToHexa;
+import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
 import static decorps.eventprocessor.utils.BaseUtils.printOutHexaMessage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -25,6 +26,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
+import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 
 public class DsiTetraMapTest {
 
@@ -34,6 +36,8 @@ public class DsiTetraMapTest {
 	final DsiTetraMap cut = new DsiTetraMap();
 	EventProcessorShortMessageComposite result = cut
 			.convert(sampleProgramDataDump);
+	private ProgramDataDump programDataDump;
+	private Layer currentLayer;
 
 	@Test
 	public void convertStringToByte() throws Exception {
@@ -93,14 +97,24 @@ public class DsiTetraMapTest {
 		byte[] sysexMessage = sampleProgramDataDump.getMessage();
 		assertTrue(DsiTetraMap.isProgramDataDump(sysexMessage));
 		DsiTetraMap.isProgramDataDump(sysexMessage);
-		ProgramDataDump programDataDump = ProgramDataDump
-				.buildProgramDump(sysexMessage);
-		// System.out.println(programDataDump);
-		// printOutBytesAsHexa(programDataDump.programParameterData.data);
+		programDataDump = ProgramDataDump.buildProgramDump(sysexMessage);
 		assertEquals(programDataDump.bankNumber, 3);
 		assertEquals(programDataDump.programNumber, 24);
 		assertEquals(programDataDump.programParameterData.Name, "PulseOrgan");
+		currentLayer = programDataDump.programParameterData.currentLayer;
+		assertData(0x18, currentLayer.oscillator1Frequency);
+		assertData(0x33, currentLayer.oscillator1FineTune);
+		assertData(0x0e, currentLayer.oscillator1Shape);
 
+	}
+
+	public void assertData(int expected, AbstractProgramParameter actual) {
+		try {
+			assertEquals(expected, actual.data);
+		} catch (AssertionError e) {
+			printOutBytesAsHexa(programDataDump.unpackedMessages);
+			throw e;
+		}
 	}
 
 	public void endsWithEndOfExclusive(byte[] sysexMessage) {

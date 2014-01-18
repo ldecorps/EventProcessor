@@ -34,20 +34,29 @@ public class TetraProgramParameterToLividCodeV2Test {
 	public void canMapWholeProgramParameterData() throws Exception {
 		LividCodeEventProcessorCCShortMessageComposite allCcShortMessages = cut
 				.mapToCcs(sampleProgramParameterData);
-		for (LividCodeEventProcessorCCShortMessage forCodeV2 : allCcShortMessages
-				.getLividCodeEventProcessorCCShortMessageList()) {
-			checkOscillator1Frequency(forCodeV2);
-		}
+		checkOscillator1Frequency(allCcShortMessages
+				.getLividCodeEventProcessorCCShortMessageList().get(0));
 	}
 
 	@Test
 	public void mapProgramParameterData_to_SetAllLedIndicators()
 			throws Exception {
-		TetraProgramParameterToLividCodeV2 map = new TetraProgramParameterToLividCodeV2();
-		EventProcessorMidiMessage result = map
+		EventProcessorMidiMessage result = getCutAsTetraToLividMap()
 				.mapToSetAllLedIndicators(sampleProgramParameterData);
-		assertArrayEquals(LividCodev2Map.buildSet_all_LED_indicators(0x1),
+		assertArrayEquals(LividCodev2Map.buildSet_all_LED_indicators(),
 				result.getMessage());
+	}
 
+	public TetraProgramParameterToLividCodeV2 getCutAsTetraToLividMap() {
+		return (TetraProgramParameterToLividCodeV2) cut;
+	}
+
+	@Test
+	public void mapProgramParameterData_to_SetLedRingIndicators()
+			throws Exception {
+		EventProcessorMidiMessage result = getCutAsTetraToLividMap()
+				.mapToSetLedRingsIndicators(sampleProgramParameterData);
+		assertArrayEquals(LividCodev2Map.buildSet_LED_Ring_indicators(17),
+				result.getMessage());
 	}
 }
