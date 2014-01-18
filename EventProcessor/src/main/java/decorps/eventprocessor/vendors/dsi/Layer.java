@@ -10,49 +10,25 @@ public class Layer {
 	public final AbstractProgramParameter oscillator1FineTune;
 	public final AbstractProgramParameter oscillator1Shape;
 	public final AbstractProgramParameter oscillator1Glide;
-	private final Class<? extends AbstractProgramParameter>[] parametersClasses;
-	private final byte[] data;
-	private final int offset;
-	int parameterIndex = 0;
 
 	Layer(Class<? extends AbstractProgramParameter>[] parametersClasses,
 			byte[] data, int offset) throws InstantiationException,
 			IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException {
-		this.parametersClasses = parametersClasses;
-		this.data = data;
-		this.offset = offset;
-		oscillator1Frequency = buildNextParameter();
-		oscillator1FineTune = buildNextParameter();
-		oscillator1Shape = buildNextParameter();
-		oscillator1Glide = buildNextParameter();
-	}
-
-	private AbstractProgramParameter buildNextParameter()
-			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
-		return instanciateParameter(parametersClasses, data, offset,
-				parameterIndex++);
-	}
-
-	public AbstractProgramParameter instanciateParameter(
-			Class<? extends AbstractProgramParameter>[] parametersClasses,
-			byte[] data, int offset, int parameterIndex)
-			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, NoSuchMethodException {
-		try {
-			return parametersClasses[parameterIndex].getConstructor(byte.class)
-					.newInstance(data[offset + parameterIndex]);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new EventProcessorException("missing parameter class", e);
-		}
+		ParameterFactory factory = new ParameterFactory(data, offset,
+				parametersClasses);
+		oscillator1Frequency = factory.buildNextParameter();
+		oscillator1FineTune = factory.buildNextParameter();
+		oscillator1Shape = factory.buildNextParameter();
+		oscillator1Glide = factory.buildNextParameter();
 	}
 
 	@Override
 	public String toString() {
 		return "Layer [oscillator1Frequency=" + oscillator1Frequency
 				+ ", oscillator1FineTune=" + oscillator1FineTune
-				+ ", oscillator1Shape=" + oscillator1Shape + "]";
+				+ ", oscillator1Shape=" + oscillator1Shape
+				+ ", oscillator1Glide=" + oscillator1Glide + "]";
 	}
 
 	public static Layer build(
