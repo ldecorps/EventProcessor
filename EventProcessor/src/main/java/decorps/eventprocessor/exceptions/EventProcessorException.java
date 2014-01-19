@@ -1,10 +1,9 @@
 package decorps.eventprocessor.exceptions;
 
-
 @SuppressWarnings("serial")
 public class EventProcessorException extends RuntimeException {
 
-	public EventProcessorException(Exception e) {
+	public EventProcessorException(Throwable e) {
 		super(e);
 	}
 

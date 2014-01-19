@@ -1,5 +1,6 @@
 package decorps.eventprocessor.messages;
 
+import static decorps.eventprocessor.utils.BaseUtils.addAll;
 import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
 import static decorps.eventprocessor.utils.BaseUtils.bytesToHexa;
 import static decorps.eventprocessor.utils.BaseUtils.representationsToBytes;
@@ -9,8 +10,6 @@ import java.util.Arrays;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.SysexMessage;
-
-import org.apache.commons.lang.ArrayUtils;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
 
@@ -87,7 +86,7 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 			binaries[i] = byteToBinary(currentPacket[i]);
 		String[] unpackedPacket = unpack(binaries);
 		byte[] currentPacketAsBytes = representationsToBytes(unpackedPacket);
-		result = ArrayUtils.addAll(result, currentPacketAsBytes);
+		result = addAll(result, currentPacketAsBytes);
 		return result;
 	}
 

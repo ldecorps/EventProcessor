@@ -46,19 +46,16 @@ public class ProgramParameterData {
 		layers = new Layer[] { A, B };
 	}
 
-	@SuppressWarnings("unchecked")
 	private Layer buildB(
 			Class<? extends AbstractProgramParameter>... parametersClasses) {
 		return build(offset + 200, parametersClasses);
 	}
 
-	@SuppressWarnings("unchecked")
 	private Layer buildA(
 			Class<? extends AbstractProgramParameter>... parametersClasses) {
 		return build(offset, parametersClasses);
 	}
 
-	@SuppressWarnings("unchecked")
 	public Layer build(int offset,
 			Class<? extends AbstractProgramParameter>... parametersClasses) {
 		return Layer.build(parametersClasses, data, offset);

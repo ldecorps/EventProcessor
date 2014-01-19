@@ -15,12 +15,8 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.akai.AkaiMap;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
-import decorps.eventprocessor.vendors.dsi.TestingTetraReceiver;
-import decorps.eventprocessor.vendors.dsi.TestingTetraTransmitter;
 import decorps.eventprocessor.vendors.korg.KorgMap;
 import decorps.eventprocessor.vendors.livid.LividCodev2Map;
-import decorps.eventprocessor.vendors.livid.TestingLividCode2Receiver;
-import decorps.eventprocessor.vendors.livid.TestingLividTransmitter;
 
 public class LinkFactory {
 
@@ -43,7 +39,25 @@ public class LinkFactory {
 	private Transmitter tryToGetTetraOrTestingTetraTransmitter() {
 		if (isTetraPluggedIn())
 			return getTetraTransmitter();
-		return new TestingTetraTransmitter();
+		return buildTestingTetraTransmitter();
+	}
+
+	public Transmitter buildTestingTetraTransmitter() {
+		try {
+			return (Transmitter) Class
+					.forName(
+							"decorps.eventprocessor.vendors.dsi.TestingTetraTransmitter")
+					.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		}
 	}
 
 	Link build(Transmitter transmitter, Receiver receiver) {
@@ -187,7 +201,7 @@ public class LinkFactory {
 		Info[] infos = MidiSystem.getMidiDeviceInfo();
 		if (!isMmjRunning(infos))
 			return infos;
-		List<Info> infoList = new ArrayList<>();
+		List<Info> infoList = new ArrayList<Info>();
 		for (Info info : infos) {
 			if (isMmjAware(infos, info.getName()))
 				infoList.add(info);
@@ -219,13 +233,48 @@ public class LinkFactory {
 		if (isTetraPluggedIn())
 			return getTetraReceiver();
 		else
-			return new TestingTetraReceiver();
+			return buildTestingTetraReceiver();
+	}
+
+	public Receiver buildTestingTetraReceiver() {
+		try {
+			return (Receiver) Class.forName(
+					"decorps.eventprocessor.vendors.dsi.TestingTetraReceiver")
+					.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		}
 	}
 
 	private Transmitter tryToGetLividOrTestingTransmitter() {
 		if (isLividCodev2PluggedIn())
 			getLividTransmitter();
-		return new TestingLividTransmitter();
+		return buildTestingLividTransmitter();
+	}
+
+	public Transmitter buildTestingLividTransmitter() {
+		try {
+			return (Transmitter) Class
+					.forName(
+							"decorps.eventprocessor.vendors.livid.TestingLividTransmitter")
+					.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		}
 	}
 
 	private Transmitter getLividTransmitter() {
@@ -254,7 +303,25 @@ public class LinkFactory {
 		if (isLividCodev2PluggedIn())
 			return getLividCode2Receiver();
 		System.out.println("Connecting to Testing Livid Receiver");
-		return new TestingLividCode2Receiver();
+		return buildTesgingLividCode2Receiver();
+	}
+
+	public Receiver buildTesgingLividCode2Receiver() {
+		try {
+			return (Receiver) Class
+					.forName(
+							"decorps.eventprocessor.vendors.livid.TestingLividCode2Receiver")
+					.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		}
 	}
 
 	public static boolean isLividCodev2PluggedIn() {
