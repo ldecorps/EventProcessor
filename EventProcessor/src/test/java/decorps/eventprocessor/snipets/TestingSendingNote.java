@@ -4,7 +4,6 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.RulesAwareReceiverWrapper;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 
 public class TestingSendingNote {
@@ -22,9 +21,9 @@ public class TestingSendingNote {
 
 		eventProcessor.fromTetraToLivid.receiver.send(shortMessage, -1);
 
-		synchronized (RulesAwareReceiverWrapper.wait) {
+		synchronized (eventProcessor.fromTetraToLivid.receiver.wait) {
 			try {
-				RulesAwareReceiverWrapper.wait.wait();
+				eventProcessor.fromTetraToLivid.receiver.wait.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				throw new EventProcessorException(e);

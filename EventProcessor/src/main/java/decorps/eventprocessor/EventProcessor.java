@@ -34,6 +34,13 @@ public class EventProcessor {
 		links.add(fromLividToTetra);
 	}
 
+	public void close() {
+		for (Link link : links) {
+			link.transmitter.close();
+			link.receiver.close();
+		}
+	}
+
 	Receiver tryToGetTetraOrDefaultToDummyReceiver() {
 		if (isTetraPluggedIn())
 			return getTetraReceiver();

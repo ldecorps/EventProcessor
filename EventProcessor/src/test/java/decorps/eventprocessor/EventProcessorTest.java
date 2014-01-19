@@ -1,5 +1,6 @@
 package decorps.eventprocessor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
@@ -8,10 +9,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -19,6 +21,8 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
@@ -30,10 +34,21 @@ import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class EventProcessorTest {
 
-	EventProcessor cut = EventProcessor.build();
+	EventProcessor cut;
+
+	@Before
+	public void buildEventProcessor() {
+		cut = EventProcessor.build();
+	}
+
+	@After
+	public void close() {
+		cut.close();
+	}
 
 	@Test
 	public void newEventProcessor_shouldHaveAReceiver() {
@@ -132,14 +147,18 @@ public class EventProcessorTest {
 	public void registerRule_SendAllLedInfosToLividCode_To_ProgramDataDump()
 			throws Exception {
 		cut.registerAction(new SetLedAndLedRingIndicatorsRule(),
-				TetraParameter.ProgramDataDump, cut.fromTetraToLivid);
-		MidiMessage sampleProgramDataDump = DsiTetraMapTest.sampleProgramDataDump;
+				TetraParameter.ProgramEditBufferDataDump, cut.fromTetraToLivid);
+		MidiMessage sampleEditBufferProgramDataDump = DsiTetraMapTest.sampleEditbyfferProgramDataDump;
 
-		cut.fromTetraToLivid.receiver.send(sampleProgramDataDump, -1);
+		cut.fromTetraToLivid.receiver.send(sampleEditBufferProgramDataDump, -1);
 
-		assertThat(cut.fromTetraToLivid.receiver.getSentMidiMessages(),
-				not(empty()));
-		assertThat(cut.fromTetraToLivid.receiver.getSentMidiMessages().get(0),
-				instanceOf(EventProcessorMidiMessageComposite.class));
+		for (EventProcessorMidiMessage message : ((EventProcessorMidiMessageComposite) cut.fromTetraToLivid.receiver
+				.getSentMidiMessages().get(0)).eventProcessorMidiMessages) {
+			if (Arrays.equals(message.getMessage(), LividMessageFactory
+					.buildSet_all_LED_indicators().getMessage())
+					|| Arrays.equals(message.getMessage(), LividMessageFactory
+							.buildSet_LED_Ring_indicators().getMessage()))
+				fail("Message should contain some non zero data: mapping is not working");
+		}
 	}
 }

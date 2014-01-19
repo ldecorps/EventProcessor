@@ -24,7 +24,11 @@ public class SetLedAndLedRingIndicatorsRule implements Rule {
 						.build(programEditBufferDataDump.unpacked));
 		EventProcessorSysexMessage setAllRing = LividMessageFactory
 				.buildSet_LED_Ring_indicators().getAsSysexMessage();
-		return EventProcessorMidiMessageComposite.buildComposite(setAllLed,
-				setAllRing);
+		final EventProcessorMidiMessage composite = EventProcessorMidiMessageComposite
+				.buildComposite(setAllLed, setAllRing);
+		synchronized (this.getClass()) {
+			SetLedAndLedRingIndicatorsRule.class.notify();
+		}
+		return composite;
 	}
 }

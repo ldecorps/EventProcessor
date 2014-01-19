@@ -255,7 +255,7 @@ public class LinkFactory {
 
 	private Transmitter tryToGetLividOrTestingTransmitter() {
 		if (isLividCodev2PluggedIn())
-			getLividTransmitter();
+			return getLividTransmitter();
 		return buildTestingLividTransmitter();
 	}
 

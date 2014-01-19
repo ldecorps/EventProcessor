@@ -7,6 +7,7 @@ import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.exceptions.WrongSysexPayloadSize;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 
 public class BaseUtils {
@@ -124,6 +125,15 @@ public class BaseUtils {
 		else if (message instanceof EventProcessorSysexMessage)
 			return DumpReceiver
 					.decodeMessage(((EventProcessorSysexMessage) message).sysexMessage);
+		else if (message instanceof EventProcessorMidiMessageComposite) {
+			String result = " Composite: ";
+			for (EventProcessorMidiMessage currentMessage : ((EventProcessorMidiMessageComposite) message).eventProcessorMidiMessages) {
+				result += LINE_SEPARATOR
+						+ DumpReceiver
+								.decodeMessage(((EventProcessorSysexMessage) currentMessage).sysexMessage);
+			}
+			return result;
+		}
 		return "Cannot decode message";
 	}
 

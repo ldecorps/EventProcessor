@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.RulesAwareReceiverWrapper;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 
 public class EventProcessorSysexMessageTest {
@@ -17,10 +16,10 @@ public class EventProcessorSysexMessageTest {
 		final EventProcessorMidiMessage sysexMessage = DsiMessageFactory
 				.buildUniversal_System_Exclusive_Message_Device_Inquiry();
 		eventProcessor.fromTetraToLivid.receiver.send(sysexMessage, -1);
-		synchronized (RulesAwareReceiverWrapper.wait) {
+		synchronized (eventProcessor.fromTetraToLivid.receiver.wait) {
 			if (eventProcessor.fromTetraToLivid.receiver.getSentMidiMessages()
 					.isEmpty())
-				RulesAwareReceiverWrapper.wait.wait();
+				eventProcessor.fromTetraToLivid.receiver.wait.wait();
 		}
 		EventProcessorMidiMessage sentSysex = eventProcessor.fromTetraToLivid.receiver
 				.getSentMidiMessages().get(0).getAsSysexMessage();

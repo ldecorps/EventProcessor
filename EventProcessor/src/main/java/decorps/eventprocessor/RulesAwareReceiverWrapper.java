@@ -17,7 +17,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 	private final Receiver receiver;
 	private final List<EventProcessorMidiMessage> midiMessages = new ArrayList<EventProcessorMidiMessage>();
 	public final Set<Action> actions;
-	public static Object wait = new Object();
+	public Object wait = new Object();
 
 	protected RulesAwareReceiverWrapper(Receiver receiver, Set<Action> actions) {
 		this.receiver = receiver;
@@ -40,6 +40,9 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		if (actions.isEmpty()) {
 			eventProcessorMidiMessage.send(receiver, timeStamp);
 			this.midiMessages.add(eventProcessorMidiMessage);
+			synchronized (wait) {
+				wait.notifyAll();
+			}
 			return;
 		}
 		EventProcessorMidiMessage newEventProcessorMidiMessage = eventProcessorMidiMessage;
@@ -48,7 +51,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 					newEventProcessorMidiMessage, action);
 		}
 		synchronized (wait) {
-			wait.notify();
+			wait.notifyAll();
 		}
 
 	}

@@ -36,6 +36,7 @@ public class DsiTetraMapTest {
 	private static final String CHANNEL_ONE = "0000";
 	private static final String PROGAM_ONE = "000 0001";
 	public static final SysexMessage sampleProgramDataDump = getSampleProgramDataDumpSysexMessage();
+	public static final SysexMessage sampleEditbyfferProgramDataDump = getSampleEditBufferDataDumpSysexMessage();
 	final DsiTetraMap cut = new DsiTetraMap();
 	EventProcessorShortMessageComposite result = cut
 			.convert(sampleProgramDataDump);
@@ -153,11 +154,18 @@ public class DsiTetraMapTest {
 	}
 
 	private static SysexMessage getSampleProgramDataDumpSysexMessage() {
+		return createSysexFromFile("src/test/resources/programDataDump");
+	}
+
+	private static SysexMessage getSampleEditBufferDataDumpSysexMessage() {
+		return createSysexFromFile("src/test/resources/editBufferProgramDataDump");
+	}
+
+	public static SysexMessage createSysexFromFile(String file) {
 		SysexMessage myMsg = new SysexMessage();
 		try {
 			byte[] bytes;
-			bytes = IOUtils.toByteArray(new FileInputStream(new File(
-					"src/test/resources/oneProgram")));
+			bytes = IOUtils.toByteArray(new FileInputStream(new File(file)));
 			int length = bytes.length;
 			myMsg.setMessage(bytes, length);
 		} catch (IOException e) {
