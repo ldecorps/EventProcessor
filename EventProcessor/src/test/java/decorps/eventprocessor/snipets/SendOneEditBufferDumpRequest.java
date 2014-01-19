@@ -2,9 +2,6 @@ package decorps.eventprocessor.snipets;
 
 import static decorps.eventprocessor.utils.BaseUtils.decodeMessage;
 import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
-import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.DSI_ID;
-import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.RequestProgramEditBufferTransmit;
-import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.Tetra_ID;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
@@ -20,6 +17,7 @@ import decorps.eventprocessor.LinkFactory;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
+import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 
 public class SendOneEditBufferDumpRequest {
 
@@ -42,9 +40,8 @@ public class SendOneEditBufferDumpRequest {
 				continue;
 			tetraReceiver = tetra.getReceiver();
 		}
-		byte[] EditBufferDumpRequest = new byte[] {
-				DsiTetraMap.System_Exclusive, DSI_ID, Tetra_ID,
-				RequestProgramEditBufferTransmit, DsiTetraMap.End_Of_Exclusive };
+		byte[] EditBufferDumpRequest = DsiMessageFactory
+				.buildProgramEditBufferDumpRequest().getMessage();
 		while (true) {
 			SysexMessage sysexMessage = new SysexMessage();
 			try {

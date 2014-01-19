@@ -1,6 +1,7 @@
 package decorps.eventprocessor.messages;
 
 import static decorps.eventprocessor.utils.BaseUtils.decodeMessage;
+import static decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory.System_Exclusive;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
@@ -82,7 +83,7 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 	}
 
 	public static EventProcessorMidiMessage build(byte... message) {
-		if (message[0] == DsiTetraMap.System_Exclusive)
+		if (message[0] == System_Exclusive)
 			return EventProcessorSysexMessage.build(message);
 		else
 			return EventProcessorShortMessage.buildShortMessage(message);

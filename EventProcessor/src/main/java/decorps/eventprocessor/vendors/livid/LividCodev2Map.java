@@ -35,10 +35,6 @@ public class LividCodev2Map {
 		return buildWithSpecificByteAndPayloadSize(payload, 0x1f, 64);
 	}
 
-	public static final byte[] buildRequest_all_LED_indicators() {
-		return buildWithSpecificByteAndPayloadSize(new int[] { 0x04 }, 0x07, 1);
-	}
-
 	static byte[] buildWithSpecificByteAndPayloadSize(int[] bytes,
 			int specifyingBit, int maximumLength) {
 		checkSizeIsNotMoreThan(maximumLength, bytes);

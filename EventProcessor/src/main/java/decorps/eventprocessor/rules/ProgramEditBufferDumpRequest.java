@@ -1,17 +1,12 @@
 package decorps.eventprocessor.rules;
 
-import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.DSI_ID;
-import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.RequestProgramEditBufferTransmit;
-import static decorps.eventprocessor.vendors.dsi.DsiTetraMap.Tetra_ID;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
-import decorps.eventprocessor.messages.EventProcessorSysexMessage;
-import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 
 public class ProgramEditBufferDumpRequest implements Rule {
 
-	public static final EventProcessorSysexMessage programEditBufferDumpRequest = EventProcessorSysexMessage.build(
-			DsiTetraMap.System_Exclusive, DSI_ID, Tetra_ID,
-			RequestProgramEditBufferTransmit, DsiTetraMap.End_Of_Exclusive);
+	public static final EventProcessorMidiMessage programEditBufferDumpRequest = DsiMessageFactory
+			.buildProgramEditBufferDumpRequest();
 
 	@Override
 	public EventProcessorMidiMessage transform(

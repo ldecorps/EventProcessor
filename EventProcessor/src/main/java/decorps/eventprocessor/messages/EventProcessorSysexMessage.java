@@ -90,4 +90,8 @@ public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
 		result = ArrayUtils.addAll(result, currentPacketAsBytes);
 		return result;
 	}
+
+	public boolean isA(byte[] bytes) {
+		return Arrays.equals(sysexMessage.getMessage(), bytes);
+	}
 }

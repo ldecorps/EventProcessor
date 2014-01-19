@@ -4,23 +4,18 @@ import static decorps.eventprocessor.utils.BaseUtils.bytesToHexa;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import javax.sound.midi.SysexMessage;
-
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.RulesAwareReceiverWrapper;
-import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 
 public class EventProcessorSysexMessageTest {
 	@Test
 	public void canSendOneSysEx() throws Exception {
 		EventProcessor eventProcessor = EventProcessor.build();
-		SysexMessage sysexMessage = new SysexMessage();
-		sysexMessage
-				.setMessage(
-						DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry,
-						DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry.length);
+		final EventProcessorMidiMessage sysexMessage = DsiMessageFactory
+				.buildUniversal_System_Exclusive_Message_Device_Inquiry();
 		eventProcessor.fromTetraToLivid.receiver.send(sysexMessage, -1);
 		synchronized (RulesAwareReceiverWrapper.wait) {
 			if (eventProcessor.fromTetraToLivid.receiver.getSentMidiMessages()
@@ -29,9 +24,7 @@ public class EventProcessorSysexMessageTest {
 		}
 		EventProcessorMidiMessage sentSysex = eventProcessor.fromTetraToLivid.receiver
 				.getSentMidiMessages().get(0).getAsSysexMessage();
-		assertThat(
-				"sending sysex "
-						+ bytesToHexa(DsiTetraMap.Universal_System_Exclusive_Message_Device_Inquiry),
+		assertThat("sending sysex " + bytesToHexa(sysexMessage.getMessage()),
 				bytesToHexa(sentSysex.getMessage()),
 				is(bytesToHexa(sysexMessage.getMessage())));
 	}

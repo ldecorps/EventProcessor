@@ -28,6 +28,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
+import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 
 public class DsiTetraMapTest {
@@ -147,8 +148,8 @@ public class DsiTetraMapTest {
 	@Test
 	public void various() {
 		assertThat(new byte[] { (byte) 0xF0, (byte) 0x01, (byte) 0x26,
-				(byte) 0x31, (byte) 0xF7 },
-				is(DsiTetraMap.Mode_Change__ComboChange));
+				(byte) 0x31, (byte) 0xF7 }, is(DsiMessageFactory
+				.buildMode_Change__ComboChange().getMessage()));
 	}
 
 	private static SysexMessage getSampleProgramDataDumpSysexMessage() {
