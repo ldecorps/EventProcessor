@@ -9,7 +9,7 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
-import decorps.eventprocessor.vendors.livid.LividCodev2Map;
+import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class TetraProgramParameterToLividCodeV2Test {
 	EventProcessorMap cut = new TetraProgramParameterToLividCodeV2();
@@ -43,8 +43,8 @@ public class TetraProgramParameterToLividCodeV2Test {
 			throws Exception {
 		EventProcessorMidiMessage result = getCutAsTetraToLividMap()
 				.mapToSetAllLedIndicators(sampleProgramParameterData);
-		assertArrayEquals(LividCodev2Map.buildSet_all_LED_indicators(),
-				result.getMessage());
+		assertArrayEquals(LividMessageFactory.buildSet_all_LED_indicators()
+				.getMessage(), result.getMessage());
 	}
 
 	public TetraProgramParameterToLividCodeV2 getCutAsTetraToLividMap() {
@@ -56,7 +56,7 @@ public class TetraProgramParameterToLividCodeV2Test {
 			throws Exception {
 		EventProcessorMidiMessage result = getCutAsTetraToLividMap()
 				.mapToSetLedRingsIndicators(sampleProgramParameterData);
-		assertArrayEquals(LividCodev2Map.buildSet_LED_Ring_indicators(17),
-				result.getMessage());
+		assertArrayEquals(LividMessageFactory.buildSet_LED_Ring_indicators(17)
+				.getMessage(), result.getMessage());
 	}
 }

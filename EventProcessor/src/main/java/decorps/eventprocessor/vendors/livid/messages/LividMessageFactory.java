@@ -8,4 +8,14 @@ public class LividMessageFactory {
 		return new Request_all_LED_indicators();
 	}
 
+	public static EventProcessorMidiMessage buildSet_all_LED_indicators(
+			int... payload) {
+		return new Set_all_LED_indicators(payload, 0x04, 8);
+	}
+
+	public static EventProcessorMidiMessage buildSet_LED_Ring_indicators(
+			int... payload) {
+		return new Set_LED_Ring_indicators(payload, 0x1f, 64);
+	}
+
 }

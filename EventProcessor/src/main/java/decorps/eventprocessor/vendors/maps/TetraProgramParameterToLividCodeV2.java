@@ -8,7 +8,7 @@ import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParam
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
-import decorps.eventprocessor.vendors.livid.LividCodev2Map;
+import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
@@ -64,9 +64,10 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 		mapOscillator1Shape(programParameterData);
 
-		byte[] Set_all_LED_indicators = LividCodev2Map
-				.buildSet_all_LED_indicators(BankLayout.CurrentBank
-						.getButtonsAsArrayOfInts());
+		byte[] Set_all_LED_indicators = LividMessageFactory
+				.buildSet_all_LED_indicators(
+						BankLayout.CurrentBank.getButtonsAsArrayOfInts())
+				.getMessage();
 		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
 	}
 
@@ -110,9 +111,10 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 		mapOscillator1Frequency(programParameterData);
 		mapOscillator1FineTune(programParameterData);
 
-		byte[] Set_all_LED_indicators = LividCodev2Map
-				.buildSet_LED_Ring_indicators(BankLayout.CurrentBank
-						.getEncodersAsArrayOfInts());
+		byte[] Set_all_LED_indicators = LividMessageFactory
+				.buildSet_LED_Ring_indicators(
+						BankLayout.CurrentBank.getEncodersAsArrayOfInts())
+				.getMessage();
 		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
 	}
 }
