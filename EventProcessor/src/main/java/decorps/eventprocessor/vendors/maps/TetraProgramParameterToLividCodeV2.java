@@ -62,7 +62,7 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	public EventProcessorMidiMessage mapToSetAllLedIndicators(
 			ProgramParameterData programParameterData) {
 
-		mapOscillator1Shape(programParameterData);
+		mapOscillator1ShapeButton(programParameterData);
 
 		byte[] Set_all_LED_indicators = LividMessageFactory
 				.buildSet_all_LED_indicators(
@@ -83,7 +83,7 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 				.currentLayer().oscillator1FineTune.getRebasedValue());
 	}
 
-	void mapOscillator1Shape(ProgramParameterData programParameterData) {
+	void mapOscillator1ShapeButton(ProgramParameterData programParameterData) {
 		final byte value = programParameterData.currentLayer().oscillator1Shape.data;
 		final boolean isOscillator1Off = value == 0;
 		BankLayout.CurrentBank.turnOff(1);
@@ -110,11 +110,27 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 		mapOscillator1Frequency(programParameterData);
 		mapOscillator1FineTune(programParameterData);
+		mapOscillator1ShapePulseWidth(programParameterData);
+		mapOscillator1Glide(programParameterData);
 
 		byte[] Set_all_LED_indicators = LividMessageFactory
 				.buildSet_LED_Ring_indicators(
 						BankLayout.CurrentBank.getEncodersAsArrayOfInts())
 				.getMessage();
 		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
+	}
+
+	private void mapOscillator1ShapePulseWidth(
+			ProgramParameterData programParameterData) {
+		final byte data = programParameterData.currentLayer().oscillator1Shape.data;
+		if (data <= 3)
+			return;
+		byte rebasedPulseWidthValues = (byte) (((data - 4.0) / 100d) * 127d);
+		BankLayout.CurrentBank.setEncoderValue(4, rebasedPulseWidthValues);
+	}
+
+	private void mapOscillator1Glide(ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(3, programParameterData
+				.currentLayer().oscillator1Glide.getRebasedValue());
 	}
 }

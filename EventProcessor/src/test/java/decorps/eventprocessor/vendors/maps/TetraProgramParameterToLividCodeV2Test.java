@@ -52,7 +52,7 @@ public class TetraProgramParameterToLividCodeV2Test {
 	}
 
 	@Test
-	public void mapProgramParameterData_to_SetLedRingIndicators()
+	public void mapProgramParametejrData_to_SetLedRingIndicators()
 			throws Exception {
 		EventProcessorMidiMessage result = getCutAsTetraToLividMap()
 				.mapToSetLedRingsIndicators(sampleProgramParameterData);

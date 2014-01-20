@@ -156,7 +156,7 @@ public class EventProcessorTest {
 				.getSentMidiMessages().get(0)).eventProcessorMidiMessages) {
 			if (Arrays.equals(message.getMessage(), LividMessageFactory
 					.buildSet_all_LED_indicators().getMessage())
-					|| Arrays.equals(message.getMessage(), LividMessageFactory
+					&& Arrays.equals(message.getMessage(), LividMessageFactory
 							.buildSet_LED_Ring_indicators().getMessage()))
 				fail("Message should contain some non zero data: mapping is not working");
 		}

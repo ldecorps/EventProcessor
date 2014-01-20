@@ -5,7 +5,6 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
-import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 import decorps.eventprocessor.vendors.maps.TetraProgramParameterToLividCodeV2;
 
 public class SetLedAndLedRingIndicatorsRule implements Rule {
@@ -19,11 +18,12 @@ public class SetLedAndLedRingIndicatorsRule implements Rule {
 		final byte[] message = sysexMessage.getMessage();
 		final ProgramEditBufferDataDump programEditBufferDataDump = ProgramEditBufferDataDump
 				.buildProgramEditBufferDataDump(message);
+		final ProgramParameterData upacked = ProgramParameterData
+				.build(programEditBufferDataDump.unpacked);
 		EventProcessorSysexMessage setAllLed = (EventProcessorSysexMessage) map
-				.mapToSetAllLedIndicators(ProgramParameterData
-						.build(programEditBufferDataDump.unpacked));
-		EventProcessorSysexMessage setAllRing = LividMessageFactory
-				.buildSet_LED_Ring_indicators().getAsSysexMessage();
+				.mapToSetAllLedIndicators(upacked);
+		EventProcessorSysexMessage setAllRing = (EventProcessorSysexMessage) map
+				.mapToSetLedRingsIndicators(upacked);
 		final EventProcessorMidiMessage composite = EventProcessorMidiMessageComposite
 				.buildComposite(setAllLed, setAllRing);
 		synchronized (this.getClass()) {
