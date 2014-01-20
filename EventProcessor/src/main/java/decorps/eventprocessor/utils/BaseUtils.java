@@ -205,4 +205,12 @@ public class BaseUtils {
 		}
 		return array.clone();
 	}
+
+	public static String reverseString(String stringToReverse) {
+		String result = "";
+		for (int i = stringToReverse.length(); i > 0; i--)
+			result += stringToReverse.substring(i - 1, i - 0);
+		return result;
+
+	}
 }

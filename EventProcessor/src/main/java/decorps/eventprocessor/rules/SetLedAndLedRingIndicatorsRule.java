@@ -1,5 +1,6 @@
 package decorps.eventprocessor.rules;
 
+import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
@@ -20,6 +21,7 @@ public class SetLedAndLedRingIndicatorsRule implements Rule {
 				.buildProgramEditBufferDataDump(message);
 		final ProgramParameterData upacked = ProgramParameterData
 				.build(programEditBufferDataDump.unpacked);
+		printOutBytesAsHexa(upacked.data);
 		EventProcessorSysexMessage setAllLed = (EventProcessorSysexMessage) map
 				.mapToSetAllLedIndicators(upacked);
 		EventProcessorSysexMessage setAllRing = (EventProcessorSysexMessage) map

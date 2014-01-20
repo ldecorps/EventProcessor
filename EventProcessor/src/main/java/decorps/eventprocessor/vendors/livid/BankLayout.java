@@ -2,6 +2,7 @@ package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import static decorps.eventprocessor.utils.BaseUtils.bytesToInts;
+import decorps.eventprocessor.utils.BaseUtils;
 
 public class BankLayout {
 	final boolean[] buttons = new boolean[45];
@@ -12,8 +13,9 @@ public class BankLayout {
 		byte[] result = new byte[8];
 		String binaryRepresentation = buildBinaryRepresentation(buttons);
 		for (int i = 0; i < 7 && (1 + i) * 8 < buttons.length; i++) {
-			result[i] = binaryToByte(binaryRepresentation.substring((i * 8),
-					(1 + i) * 8));
+			final String representation = binaryRepresentation.substring(
+					(i * 8), (1 + i) * 8);
+			result[i] = binaryToByte(BaseUtils.reverseString(representation));
 		}
 		return result;
 	}

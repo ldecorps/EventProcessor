@@ -86,12 +86,14 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	void mapOscillator1ShapeButton(ProgramParameterData programParameterData) {
 		final byte value = programParameterData.currentLayer().oscillator1Shape.data;
 		final boolean isOscillator1Off = value == 0;
-		BankLayout.CurrentBank.turnOff(1);
-		if (isOscillator1Off)
+		if (isOscillator1Off) {
+			BankLayout.CurrentBank.turnOff(1);
 			return;
+		}
+		BankLayout.CurrentBank.turnOn(1);
 		final boolean setToSawooth = 1 == value;
 		final boolean setToTriangle = 2 == value;
-		final boolean setSquare = 3 == value;
+		final boolean setSquare = 2 < value;
 		if (setToSawooth) {
 			BankLayout.CurrentBank.turnOn(2);
 			return;

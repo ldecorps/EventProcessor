@@ -1,5 +1,8 @@
 package decorps.eventprocessor.vendors.maps;
 
+import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
+import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
+import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -8,6 +11,7 @@ import org.junit.Test;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
+import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
@@ -39,12 +43,25 @@ public class TetraProgramParameterToLividCodeV2Test {
 	}
 
 	@Test
+	public void understandWhichButtonsNeedToBeTurnedOnOrOff() throws Exception {
+		getCutAsTetraToLividMap().mapToSetAllLedIndicators(
+				sampleProgramParameterData);
+		printOutBytesAsHexa(sampleProgramParameterData.data);
+		final String firstSevenIndicatorLEDs = byteToBinary(BankLayout.CurrentBank
+				.getButtonsAsByteArrays()[0]);
+		assertEquals("Should lit up square shape", "0000 1001",
+				firstSevenIndicatorLEDs);
+	}
+
+	@Test
 	public void mapProgramParameterData_to_SetAllLedIndicators()
 			throws Exception {
 		EventProcessorMidiMessage result = getCutAsTetraToLividMap()
 				.mapToSetAllLedIndicators(sampleProgramParameterData);
-		assertArrayEquals(LividMessageFactory.buildSet_all_LED_indicators()
-				.getMessage(), result.getMessage());
+		assertArrayEquals(
+				LividMessageFactory.buildSet_all_LED_indicators(
+						binaryToByte("0000 1001")).getMessage(),
+				result.getMessage());
 	}
 
 	public TetraProgramParameterToLividCodeV2 getCutAsTetraToLividMap() {

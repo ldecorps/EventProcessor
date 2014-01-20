@@ -60,7 +60,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 			EventProcessorMidiMessage eventProcessorMidiMessage, Action action) {
 		if (!action.shouldTriggerOn(eventProcessorMidiMessage))
 			return eventProcessorMidiMessage;
-		System.out.print("will react upon receiving "
+		System.out.println("will react upon receiving "
 				+ action.tetraParameter.name());
 		EventProcessorMidiMessage newEventProcessorMidiMessage = action.rule
 				.transform(eventProcessorMidiMessage);
