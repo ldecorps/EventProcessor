@@ -76,7 +76,6 @@ public class ProgramParameterData {
 		result.add(layers[i].oscillator1FineTune);
 		result.add(layers[i].oscillator1Shape);
 		result.add(layers[i].oscillator1Glide);
-
 	}
 
 	public Layer currentLayer() {

@@ -4,6 +4,9 @@ import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
 import static decorps.eventprocessor.utils.BaseUtils.byteToHexa;
 import static decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory.System_Exclusive;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice.Info;
 import javax.sound.midi.ShortMessage;
@@ -11,8 +14,8 @@ import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
-import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 
@@ -24,15 +27,17 @@ public class DsiTetraMap {
 
 	private byte[] messageAsBytes;
 
-	public EventProcessorShortMessageComposite convert(SysexMessage message) {
-		EventProcessorShortMessageComposite eventProcessorShortMessageComposite = EventProcessorShortMessageComposite
-				.build();
+	public EventProcessorMidiMessage convert(SysexMessage message) {
+		List<EventProcessorMidiMessage> listOfMessages = new ArrayList<EventProcessorMidiMessage>();
 		messageAsBytes = message.getMessage();
 		if (!isValidTetraProgramDump())
-			return eventProcessorShortMessageComposite;
+			return null;
 		for (int i = 5; i < messageAsBytes.length; i++) {
-			doByte(eventProcessorShortMessageComposite, messageAsBytes[i]);
+			listOfMessages.add(doByte(messageAsBytes[i]));
 		}
+		EventProcessorMidiMessage eventProcessorShortMessageComposite = EventProcessorMidiMessageComposite
+				.buildComposite(listOfMessages
+						.toArray(new EventProcessorMidiMessage[] {}));
 		return eventProcessorShortMessageComposite;
 	}
 
@@ -40,11 +45,9 @@ public class DsiTetraMap {
 		return isProgramDataDump(messageAsBytes);
 	}
 
-	private void doByte(
-			EventProcessorShortMessageComposite eventProcessorShortMessageComposite,
-			byte currentByte) {
+	private EventProcessorMidiMessage doByte(byte currentByte) {
 		if (isEndOfExclusive(currentByte))
-			return;
+			return null;
 		ShortMessage shortMessage = new ShortMessage();
 		try {
 			shortMessage.setMessage(ShortMessage.CONTROL_CHANGE, 0,
@@ -58,7 +61,7 @@ public class DsiTetraMap {
 		}
 		EventProcessorShortMessage eventProcessorShortMessage = (EventProcessorShortMessage) EventProcessorMidiMessage
 				.build(shortMessage);
-		eventProcessorShortMessageComposite.add(eventProcessorShortMessage);
+		return eventProcessorShortMessage;
 	}
 
 	public boolean isEndOfExclusive(byte currentByte) {

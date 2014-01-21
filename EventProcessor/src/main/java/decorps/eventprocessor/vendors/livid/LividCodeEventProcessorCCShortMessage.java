@@ -8,6 +8,12 @@ import decorps.eventprocessor.messages.EventProcessorShortMessage;
 
 public class LividCodeEventProcessorCCShortMessage extends
 		EventProcessorShortMessage {
+	@Override
+	public String toString() {
+		return "LividCodeEventProcessorCCShortMessage [type=" + type
+				+ ", value=" + value + ", channel=" + channel + "]";
+	}
+
 	final byte type;
 	final byte value;
 	final byte channel;

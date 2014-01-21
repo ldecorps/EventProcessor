@@ -27,19 +27,17 @@ public class TetraProgramParameterToLividCodeV2Test {
 		checkOscillator1Frequency(forCodeV2);
 	}
 
-	public void checkOscillator1Frequency(
-			LividCodeEventProcessorCCShortMessage forCodeV2) {
-		assertEquals(0, forCodeV2.shortMessage.getChannel());
-		assertEquals(0, forCodeV2.shortMessage.getData1());
-		assertEquals(25, forCodeV2.shortMessage.getData2());
+	public void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
+		assertEquals(0, forCodeV2.getAsShortMessage().getChannel());
+		assertEquals(0, forCodeV2.getAsShortMessage().getData1());
+		assertEquals(25, forCodeV2.getAsShortMessage().getData2());
 	}
 
 	@Test
 	public void canMapWholeProgramParameterData() throws Exception {
 		LividCodeEventProcessorCCShortMessageComposite allCcShortMessages = cut
 				.mapToCcs(sampleProgramParameterData);
-		checkOscillator1Frequency(allCcShortMessages
-				.getLividCodeEventProcessorCCShortMessageList().get(0));
+		checkOscillator1Frequency(allCcShortMessages.getMessages().get(0));
 	}
 
 	@Test

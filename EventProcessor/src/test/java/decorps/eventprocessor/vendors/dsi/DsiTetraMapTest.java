@@ -27,7 +27,6 @@ import org.junit.Test;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
-import decorps.eventprocessor.messages.EventProcessorShortMessageComposite;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 
@@ -38,8 +37,7 @@ public class DsiTetraMapTest {
 	public static final SysexMessage sampleProgramDataDump = getSampleProgramDataDumpSysexMessage();
 	public static final SysexMessage sampleEditbyfferProgramDataDump = getSampleEditBufferDataDumpSysexMessage();
 	final DsiTetraMap cut = new DsiTetraMap();
-	EventProcessorShortMessageComposite result = cut
-			.convert(sampleProgramDataDump);
+	EventProcessorMidiMessage result = cut.convert(sampleProgramDataDump);
 	private ProgramDataDump programDataDump;
 	private Layer currentLayer;
 

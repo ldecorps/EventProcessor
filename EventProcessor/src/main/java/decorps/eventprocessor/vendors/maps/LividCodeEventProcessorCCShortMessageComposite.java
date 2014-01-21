@@ -3,13 +3,23 @@ package decorps.eventprocessor.vendors.maps;
 import java.util.ArrayList;
 import java.util.List;
 
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 
-public class LividCodeEventProcessorCCShortMessageComposite {
-	List<LividCodeEventProcessorCCShortMessage> lividCodeEventProcessorCCShortMessage = new ArrayList<LividCodeEventProcessorCCShortMessage>(
+public class LividCodeEventProcessorCCShortMessageComposite extends
+		EventProcessorMidiMessageComposite {
+
+	@Override
+	public String toString() {
+		return "LividCodeEventProcessorCCShortMessageComposite [lividCodeEventProcessorCCShortMessage="
+				+ lividCodeEventProcessorCCShortMessage + "]";
+	}
+
+	List<EventProcessorMidiMessage> lividCodeEventProcessorCCShortMessage = new ArrayList<EventProcessorMidiMessage>(
 			400);
 
-	public List<LividCodeEventProcessorCCShortMessage> getLividCodeEventProcessorCCShortMessageList() {
+	public List<EventProcessorMidiMessage> getMessages() {
 		return lividCodeEventProcessorCCShortMessage;
 	}
 

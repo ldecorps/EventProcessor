@@ -1,5 +1,9 @@
 package decorps.eventprocessor.messages;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.sound.midi.MidiMessage;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
@@ -7,13 +11,13 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 public class EventProcessorMidiMessageComposite extends
 		EventProcessorMidiMessage {
 	public static final byte[] NullCompositeMessageByteArray = new byte[] {};
-	public final EventProcessorMidiMessage[] eventProcessorMidiMessages;
+	public final List<EventProcessorMidiMessage> eventProcessorMidiMessages = new ArrayList<EventProcessorMidiMessage>();
 
 	protected EventProcessorMidiMessageComposite(
 			EventProcessorMidiMessage... eventProcessorMidiMessages) {
 		super(NullCompositeMessageByteArray);
-		this.eventProcessorMidiMessages = eventProcessorMidiMessages;
-
+		this.eventProcessorMidiMessages.addAll(Arrays
+				.asList(eventProcessorMidiMessages));
 	}
 
 	public static EventProcessorMidiMessage buildComposite(
@@ -39,6 +43,10 @@ public class EventProcessorMidiMessageComposite extends
 	@Override
 	public Object clone() {
 		throw new EventProcessorException("Not Implemented Yet");
+	}
+
+	public void add(EventProcessorMidiMessage eventProcessorMidiMessage) {
+		eventProcessorMidiMessages.add(eventProcessorMidiMessage);
 	}
 
 }
