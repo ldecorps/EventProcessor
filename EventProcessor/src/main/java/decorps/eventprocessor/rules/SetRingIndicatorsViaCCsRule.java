@@ -6,7 +6,6 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
-import decorps.eventprocessor.vendors.maps.LividCodeEventProcessorCCShortMessageComposite;
 import decorps.eventprocessor.vendors.maps.TetraProgramParameterToLividCodeV2;
 
 public class SetRingIndicatorsViaCCsRule implements Rule {
@@ -25,8 +24,7 @@ public class SetRingIndicatorsViaCCsRule implements Rule {
 		printOutBytesAsHexa(upacked.data);
 		EventProcessorSysexMessage setAllLed = (EventProcessorSysexMessage) map
 				.mapToSetAllLedIndicators(upacked);
-		LividCodeEventProcessorCCShortMessageComposite setAllRingViaCcs = map
-				.mapToCcs(upacked);
+		EventProcessorMidiMessage setAllRingViaCcs = map.mapToCcs(upacked);
 		final EventProcessorMidiMessage composite = EventProcessorMidiMessageComposite
 				.buildComposite(setAllLed, setAllRingViaCcs);
 		synchronized (this.getClass()) {

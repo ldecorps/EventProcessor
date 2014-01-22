@@ -88,4 +88,8 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		else
 			return EventProcessorShortMessage.buildShortMessage(message);
 	}
+
+	public EventProcessorMidiMessageComposite getAsEventProcessorMidiMessageComposite() {
+		return (EventProcessorMidiMessageComposite) this;
+	}
 }

@@ -35,9 +35,10 @@ public class TetraProgramParameterToLividCodeV2Test {
 
 	@Test
 	public void canMapWholeProgramParameterData() throws Exception {
-		LividCodeEventProcessorCCShortMessageComposite allCcShortMessages = cut
+		EventProcessorMidiMessage allCcShortMessages = cut
 				.mapToCcs(sampleProgramParameterData);
-		checkOscillator1Frequency(allCcShortMessages.getMessages().get(0));
+		checkOscillator1Frequency(allCcShortMessages
+				.getAsEventProcessorMidiMessageComposite().getMessages().get(0));
 	}
 
 	@Test

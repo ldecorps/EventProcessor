@@ -49,4 +49,7 @@ public class EventProcessorMidiMessageComposite extends
 		eventProcessorMidiMessages.add(eventProcessorMidiMessage);
 	}
 
+	public List<EventProcessorMidiMessage> getMessages() {
+		return eventProcessorMidiMessages;
+	}
 }

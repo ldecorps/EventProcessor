@@ -1,5 +1,8 @@
 package decorps.eventprocessor.vendors.maps;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
@@ -33,8 +36,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	public LividCodeEventProcessorCCShortMessage map(
 			AbstractProgramParameter abstractProgramParameter) {
 		for (Map map : mapping) {
-			return new LividCodeEventProcessorCCShortMessage(map.bank,
-					map.controllerNumber,
+			return new LividCodeEventProcessorCCShortMessage(
+					abstractProgramParameter, map.bank, map.controllerNumber,
 					abstractProgramParameter.getRebasedValue());
 		}
 
@@ -43,13 +46,16 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	}
 
 	@Override
-	public LividCodeEventProcessorCCShortMessageComposite mapToCcs(
+	public EventProcessorMidiMessage mapToCcs(
 			ProgramParameterData programParameterData) {
-		LividCodeEventProcessorCCShortMessageComposite result = new LividCodeEventProcessorCCShortMessageComposite();
+		List<EventProcessorMidiMessage> eventProcessorMidiMessages = new ArrayList<EventProcessorMidiMessage>();
 		for (AbstractProgramParameter abstractProgramParameter : programParameterData
 				.getAllAbstractProgramParameters()) {
-			result.add(map(abstractProgramParameter));
+			eventProcessorMidiMessages.add(map(abstractProgramParameter));
 		}
+		EventProcessorMidiMessage result = EventProcessorMidiMessageComposite
+				.buildComposite(eventProcessorMidiMessages
+						.toArray(new EventProcessorMidiMessage[] {}));
 		return result;
 	}
 
