@@ -20,9 +20,9 @@ public class TetraProgramParameterToLividCodeV2Test {
 	final static ProgramParameterData sampleProgramParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 
 	private void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
-		assertEquals(0, forCodeV2.getAsShortMessage().getChannel());
-		assertEquals(0, forCodeV2.getAsShortMessage().getData1());
-		assertEquals(25, forCodeV2.getAsShortMessage().getData2());
+		assertEquals("channel", 0, forCodeV2.getAsShortMessage().getChannel());
+		assertEquals("ledring", 33, forCodeV2.getAsShortMessage().getData1());
+		assertEquals("value", 25, forCodeV2.getAsShortMessage().getData2());
 	}
 
 	@Test

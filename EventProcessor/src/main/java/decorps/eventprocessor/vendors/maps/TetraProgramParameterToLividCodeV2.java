@@ -8,7 +8,11 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1FineTune;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.ZeroOrOneRange;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
@@ -30,12 +34,21 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 		}
 	}
 
-	Map[] mapping = new Map[] { new Map(Oscillator1Frequency.class, 0, 0) };
+	Map[] mapping = new Map[] { new Map(Oscillator1Frequency.class, 0, 33),
+			new Map(Oscillator1FineTune.class, 0, 41),
+			new Map(Oscillator1Shape.class, 0, 49),
+			new Map(Oscillator1Glide.class, 0, 57) };
 
 	@Override
 	public LividCodeEventProcessorCCShortMessage map(
 			AbstractProgramParameter abstractProgramParameter) {
 		for (Map map : mapping) {
+			if (!map.abstractProgramParameterClass
+					.isAssignableFrom(abstractProgramParameter.getClass())
+					&& !ZeroOrOneRange.class
+							.isAssignableFrom(abstractProgramParameter
+									.getClass()))
+				continue;
 			return new LividCodeEventProcessorCCShortMessage(
 					abstractProgramParameter, map.bank, map.controllerNumber,
 					abstractProgramParameter.getRebasedValue());
