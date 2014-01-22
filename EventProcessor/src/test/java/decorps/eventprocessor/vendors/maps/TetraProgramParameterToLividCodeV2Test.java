@@ -57,10 +57,11 @@ public class TetraProgramParameterToLividCodeV2Test {
 			throws Exception {
 		EventProcessorMidiMessage result = getCutAsTetraToLividMap()
 				.mapToSetAllLedIndicators(sampleProgramParameterData);
+		final byte[] message = result.getMessage();
 		assertArrayEquals(
 				LividMessageFactory.buildSet_all_LED_indicators(
-						binaryToByte("0000 1001")).getMessage(),
-				result.getMessage());
+						binaryToByte("0000 1001"), binaryToByte("0000 1000"))
+						.getMessage(), message);
 	}
 
 	public TetraProgramParameterToLividCodeV2 getCutAsTetraToLividMap() {

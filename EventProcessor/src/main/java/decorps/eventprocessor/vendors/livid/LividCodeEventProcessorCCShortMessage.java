@@ -25,14 +25,16 @@ public class LividCodeEventProcessorCCShortMessage extends
 	public LividCodeEventProcessorCCShortMessage(
 			AbstractProgramParameter abstractProgramParameter, byte channel,
 			byte type, byte value) {
-		super(buildLividCodeShortMessage(type, value, channel));
+		super(buildLividCodeShortMessage(abstractProgramParameter, type, value,
+				channel));
 		this.type = type;
 		this.value = value;
 		this.channel = channel;
 		this.abstractProgramParameter = abstractProgramParameter;
 	}
 
-	private static ShortMessage buildLividCodeShortMessage(byte type,
+	private static ShortMessage buildLividCodeShortMessage(
+			AbstractProgramParameter abstractProgramParameter, byte type,
 			byte value, byte channel) {
 		ShortMessage result;
 		try {
@@ -40,7 +42,9 @@ public class LividCodeEventProcessorCCShortMessage extends
 					type, value);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
-			throw new EventProcessorException(e);
+			throw new EventProcessorException(
+					"Invalid Midi Data Exception when trying to build CC for "
+							+ abstractProgramParameter, e);
 		}
 		return result;
 	}

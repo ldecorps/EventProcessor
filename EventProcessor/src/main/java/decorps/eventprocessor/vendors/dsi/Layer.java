@@ -10,6 +10,7 @@ public class Layer {
 	public final AbstractProgramParameter oscillator1FineTune;
 	public final AbstractProgramParameter oscillator1Shape;
 	public final AbstractProgramParameter oscillator1Glide;
+	public final AbstractProgramParameter oscillator1Keyboard;
 
 	Layer(Class<? extends AbstractProgramParameter>[] parametersClasses,
 			byte[] data, int offset) throws InstantiationException,
@@ -21,6 +22,7 @@ public class Layer {
 		oscillator1FineTune = factory.buildNextParameter();
 		oscillator1Shape = factory.buildNextParameter();
 		oscillator1Glide = factory.buildNextParameter();
+		oscillator1Keyboard = factory.buildNextParameter();
 	}
 
 	@Override
@@ -28,7 +30,8 @@ public class Layer {
 		return "Layer [oscillator1Frequency=" + oscillator1Frequency
 				+ ", oscillator1FineTune=" + oscillator1FineTune
 				+ ", oscillator1Shape=" + oscillator1Shape
-				+ ", oscillator1Glide=" + oscillator1Glide + "]";
+				+ ", oscillator1Glide=" + oscillator1Glide
+				+ ", oscillator1Keyboard=" + oscillator1Keyboard + "]";
 	}
 
 	public static Layer build(

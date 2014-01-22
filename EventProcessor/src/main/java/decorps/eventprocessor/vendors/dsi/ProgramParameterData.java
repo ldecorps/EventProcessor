@@ -10,6 +10,7 @@ import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParam
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1FineTune;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Keyboard;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
 
 public class ProgramParameterData {
@@ -39,7 +40,8 @@ public class ProgramParameterData {
 		this.Name = bytesToText(Arrays.copyOfRange(data, 184, 200));
 		Class<? extends AbstractProgramParameter>[] parameters = new Class[] {
 				Oscillator1Frequency.class, Oscillator1FineTune.class,
-				Oscillator1Shape.class, Oscillator1Glide.class };
+				Oscillator1Shape.class, Oscillator1Glide.class,
+				Oscillator1Keyboard.class };
 		A = buildA(parameters);
 		B = buildB(parameters);
 		currentLayer = A;
@@ -76,6 +78,7 @@ public class ProgramParameterData {
 		result.add(layers[i].oscillator1FineTune);
 		result.add(layers[i].oscillator1Shape);
 		result.add(layers[i].oscillator1Glide);
+		result.add(layers[i].oscillator1Keyboard);
 	}
 
 	public Layer currentLayer() {

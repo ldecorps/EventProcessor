@@ -46,41 +46,9 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	}
 
 	@Override
-	public EventProcessorMidiMessage mapToCcs(
-			ProgramParameterData programParameterData) {
-		List<EventProcessorMidiMessage> eventProcessorMidiMessages = new ArrayList<EventProcessorMidiMessage>();
-		for (AbstractProgramParameter abstractProgramParameter : programParameterData
-				.getAllAbstractProgramParameters()) {
-			eventProcessorMidiMessages.add(map(abstractProgramParameter));
-		}
-		EventProcessorMidiMessage result = EventProcessorMidiMessageComposite
-				.buildComposite(eventProcessorMidiMessages
-						.toArray(new EventProcessorMidiMessage[] {}));
-		return result;
-	}
-
-	@Override
 	public EventProcessorMidiMessageComposite map(
 			ProgramParameterData programparameterdata) {
 		throw new EventProcessorException("Not Implemented Yet");
-	}
-
-	public EventProcessorMidiMessage mapToSetAllLedIndicators(
-			ProgramParameterData programParameterData) {
-
-		mapOscillator1ShapeButton(programParameterData);
-
-		byte[] Set_all_LED_indicators = LividMessageFactory
-				.buildSet_all_LED_indicators(
-						BankLayout.CurrentBank.getButtonsAsArrayOfInts())
-				.getMessage();
-		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
-	}
-
-	private void mapOscillator1Frequency(
-			ProgramParameterData programParameterData) {
-		BankLayout.CurrentBank.setEncoderValue(1, programParameterData
-				.currentLayer().oscillator1Frequency.getRebasedValue());
 	}
 
 	private void mapOscillator1FineTune(
@@ -89,7 +57,19 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 				.currentLayer().oscillator1FineTune.getRebasedValue());
 	}
 
-	void mapOscillator1ShapeButton(ProgramParameterData programParameterData) {
+	private void mapOscillator1Frequency(
+			ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(1, programParameterData
+				.currentLayer().oscillator1Frequency.getRebasedValue());
+	}
+
+	private void mapOscillator1Glide(ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(3, programParameterData
+				.currentLayer().oscillator1Glide.getRebasedValue());
+	}
+
+	private void mapOscillator1ShapeButton(
+			ProgramParameterData programParameterData) {
 		final byte value = programParameterData.currentLayer().oscillator1Shape.data;
 		final boolean isOscillator1Off = value == 0;
 		if (isOscillator1Off) {
@@ -113,6 +93,51 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	}
 
+	private void mapOscillator1ShapePulseWidth(
+			ProgramParameterData programParameterData) {
+		final byte data = programParameterData.currentLayer().oscillator1Shape.data;
+		if (data <= 3)
+			return;
+		byte rebasedPulseWidthValues = (byte) (((data - 4.0) / 100d) * 127d);
+		BankLayout.CurrentBank.setEncoderValue(4, rebasedPulseWidthValues);
+	}
+
+	@Override
+	public EventProcessorMidiMessage mapToCcs(
+			ProgramParameterData programParameterData) {
+		List<EventProcessorMidiMessage> eventProcessorMidiMessages = new ArrayList<EventProcessorMidiMessage>();
+		for (AbstractProgramParameter abstractProgramParameter : programParameterData
+				.getAllAbstractProgramParameters()) {
+			eventProcessorMidiMessages.add(map(abstractProgramParameter));
+		}
+		EventProcessorMidiMessage result = EventProcessorMidiMessageComposite
+				.buildComposite(eventProcessorMidiMessages
+						.toArray(new EventProcessorMidiMessage[] {}));
+		return result;
+	}
+
+	public EventProcessorMidiMessage mapToSetAllLedIndicators(
+			ProgramParameterData programParameterData) {
+
+		mapOscillator1ShapeButton(programParameterData);
+		mapOscillator1Keyboard(programParameterData);
+
+		byte[] Set_all_LED_indicators = LividMessageFactory
+				.buildSet_all_LED_indicators(
+						BankLayout.CurrentBank.getButtonsAsArrayOfInts())
+				.getMessage();
+		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
+	}
+
+	private void mapOscillator1Keyboard(
+			ProgramParameterData programParameterData) {
+		final byte value = programParameterData.currentLayer().oscillator1Keyboard.data;
+		if (0 == value)
+			BankLayout.CurrentBank.turnOff(12);
+		else
+			BankLayout.CurrentBank.turnOn(12);
+	}
+
 	public EventProcessorMidiMessage mapToSetLedRingsIndicators(
 			ProgramParameterData programParameterData) {
 
@@ -126,19 +151,5 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 						BankLayout.CurrentBank.getEncodersAsArrayOfInts())
 				.getMessage();
 		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
-	}
-
-	private void mapOscillator1ShapePulseWidth(
-			ProgramParameterData programParameterData) {
-		final byte data = programParameterData.currentLayer().oscillator1Shape.data;
-		if (data <= 3)
-			return;
-		byte rebasedPulseWidthValues = (byte) (((data - 4.0) / 100d) * 127d);
-		BankLayout.CurrentBank.setEncoderValue(4, rebasedPulseWidthValues);
-	}
-
-	private void mapOscillator1Glide(ProgramParameterData programParameterData) {
-		BankLayout.CurrentBank.setEncoderValue(3, programParameterData
-				.currentLayer().oscillator1Glide.getRebasedValue());
 	}
 }
