@@ -12,7 +12,6 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
-import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class TetraProgramParameterToLividCodeV2Test {
@@ -20,14 +19,7 @@ public class TetraProgramParameterToLividCodeV2Test {
 
 	final static ProgramParameterData sampleProgramParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 
-	@Test
-	public void canMapOscillator1Frequency() throws Exception {
-		LividCodeEventProcessorCCShortMessage forCodeV2 = cut
-				.map(sampleProgramParameterData.A.oscillator1Frequency);
-		checkOscillator1Frequency(forCodeV2);
-	}
-
-	public void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
+	private void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
 		assertEquals(0, forCodeV2.getAsShortMessage().getChannel());
 		assertEquals(0, forCodeV2.getAsShortMessage().getData1());
 		assertEquals(25, forCodeV2.getAsShortMessage().getData2());

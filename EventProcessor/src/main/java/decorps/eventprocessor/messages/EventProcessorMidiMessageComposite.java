@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.sound.midi.MidiMessage;
+import javax.sound.midi.Receiver;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
 
@@ -51,5 +52,11 @@ public class EventProcessorMidiMessageComposite extends
 
 	public List<EventProcessorMidiMessage> getMessages() {
 		return eventProcessorMidiMessages;
+	}
+
+	@Override
+	public void send(Receiver receiver, long timeStamp) {
+		for (EventProcessorMidiMessage currentMessage : getMessages())
+			receiver.send(currentMessage, timeStamp);
 	}
 }

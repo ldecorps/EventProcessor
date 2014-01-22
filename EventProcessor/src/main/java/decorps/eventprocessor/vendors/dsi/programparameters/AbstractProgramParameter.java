@@ -17,13 +17,14 @@ public abstract class AbstractProgramParameter implements HasCcValue {
 
 	@Override
 	public byte getRebasedValue() {
+		byte result = 0;
 		if (ZeroTo120Range.class.isAssignableFrom(getClass()))
-			return (byte) (data * (127d / 120d));
+			result = (byte) (data * (127d / 120d));
 		else if (ZeroTo100Range.class.isAssignableFrom(getClass()))
-			return (byte) (data * (127d / 100d));
+			result = (byte) (data * (127d / 100d));
 		else if (ZeroOrOneRange.class.isAssignableFrom(getClass()))
-			return (byte) ((byte) 0x7f & (data * (byte) 127));
-		final byte result = (byte) (data & 0x7F);
+			result = (byte) ((byte) 0x7f & (data * (byte) 127));
+		result = (byte) (result & 0x7F);
 		return result;
 	}
 }

@@ -108,7 +108,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 		List<EventProcessorMidiMessage> eventProcessorMidiMessages = new ArrayList<EventProcessorMidiMessage>();
 		for (AbstractProgramParameter abstractProgramParameter : programParameterData
 				.getAllAbstractProgramParameters()) {
-			eventProcessorMidiMessages.add(map(abstractProgramParameter));
+			final LividCodeEventProcessorCCShortMessage cc = map(abstractProgramParameter);
+			eventProcessorMidiMessages.add(cc);
 		}
 		EventProcessorMidiMessage result = EventProcessorMidiMessageComposite
 				.buildComposite(eventProcessorMidiMessages

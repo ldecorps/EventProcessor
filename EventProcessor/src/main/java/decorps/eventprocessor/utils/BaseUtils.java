@@ -8,6 +8,7 @@ import javax.sound.midi.SysexMessage;
 import decorps.eventprocessor.exceptions.WrongSysexPayloadSize;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 
 public class BaseUtils {
@@ -116,8 +117,12 @@ public class BaseUtils {
 	}
 
 	public static String decodeMessage(MidiMessage message) {
-		if (message instanceof ShortMessage)
+		if (ShortMessage.class.isAssignableFrom(message.getClass()))
 			return DumpReceiver.decodeMessage((ShortMessage) message);
+		else if (EventProcessorShortMessage.class.isAssignableFrom(message
+				.getClass()))
+			return DumpReceiver
+					.decodeMessage(((EventProcessorShortMessage) message).shortMessage);
 		else if (message instanceof SysexMessage)
 			return DumpReceiver.decodeMessage((SysexMessage) message);
 		else if (message instanceof MetaMessage)
@@ -129,8 +134,7 @@ public class BaseUtils {
 			String result = " Composite: ";
 			for (EventProcessorMidiMessage currentMessage : ((EventProcessorMidiMessageComposite) message).eventProcessorMidiMessages) {
 				result += LINE_SEPARATOR
-						+ DumpReceiver
-								.decodeMessage(((EventProcessorSysexMessage) currentMessage).sysexMessage);
+						+ BaseUtils.decodeMessage(currentMessage);
 			}
 			return result;
 		}

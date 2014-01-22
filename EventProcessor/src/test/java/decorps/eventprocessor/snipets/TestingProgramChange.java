@@ -1,27 +1,21 @@
 package decorps.eventprocessor.snipets;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.exceptions.EventProcessorException;
-import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
+import decorps.eventprocessor.rules.SetRingIndicatorsViaCCsRule;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class TestingProgramChange {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		EventProcessor eventProcessor = new EventProcessor();
-		// ProgramEditBufferDumpRequest
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
-				TetraParameter.ProgramChange, eventProcessor.fromTetraToLivid);
-
-		synchronized (EventProcessorMidiMessage.wait) {
-			try {
-				EventProcessorMidiMessage.wait.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				throw new EventProcessorException(e);
-			}
+				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
+		eventProcessor.registerAction(new SetRingIndicatorsViaCCsRule(),
+				TetraParameter.ProgramEditBufferDataDump,
+				eventProcessor.fromTetraToLivid);
+		synchronized (TestingProgramChange.class) {
+			TestingProgramChange.class.wait();
 		}
 	}
-
 }
