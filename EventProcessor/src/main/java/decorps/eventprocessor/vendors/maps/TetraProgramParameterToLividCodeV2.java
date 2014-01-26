@@ -11,8 +11,8 @@ import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParam
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1FineTune;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Keyboard;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.ZeroOrOneRange;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
@@ -37,21 +37,21 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	Map[] mapping = new Map[] { new Map(Oscillator1Frequency.class, 0, 33),
 			new Map(Oscillator1FineTune.class, 0, 41),
 			new Map(Oscillator1Shape.class, 0, 49),
-			new Map(Oscillator1Glide.class, 0, 57) };
+			new Map(Oscillator1Glide.class, 0, 57),
+			new Map(Oscillator1Keyboard.class, 0, 12) };
 
 	@Override
 	public LividCodeEventProcessorCCShortMessage map(
 			AbstractProgramParameter abstractProgramParameter) {
 		for (Map map : mapping) {
-			if (!map.abstractProgramParameterClass
-					.isAssignableFrom(abstractProgramParameter.getClass())
-					&& !ZeroOrOneRange.class
-							.isAssignableFrom(abstractProgramParameter
-									.getClass()))
+			final boolean notRightIndex = !map.abstractProgramParameterClass
+					.equals(abstractProgramParameter.getClass());
+			if (notRightIndex)
 				continue;
+			final byte type = map.controllerNumber;
+			final byte value = abstractProgramParameter.getRebasedValue();
 			return new LividCodeEventProcessorCCShortMessage(
-					abstractProgramParameter, map.bank, map.controllerNumber,
-					abstractProgramParameter.getRebasedValue());
+					abstractProgramParameter, map.bank, type, value);
 		}
 
 		throw new EventProcessorException(abstractProgramParameter.getClass()
@@ -119,8 +119,10 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	public EventProcessorMidiMessage mapToCcs(
 			ProgramParameterData programParameterData) {
 		List<EventProcessorMidiMessage> eventProcessorMidiMessages = new ArrayList<EventProcessorMidiMessage>();
-		for (AbstractProgramParameter abstractProgramParameter : programParameterData
-				.getAllAbstractProgramParameters()) {
+		final List<AbstractProgramParameter> firstLayerAbstractProgramParameters = programParameterData
+				.getFirst200AbstractProgramParameters();
+
+		for (AbstractProgramParameter abstractProgramParameter : firstLayerAbstractProgramParameters) {
 			final LividCodeEventProcessorCCShortMessage cc = map(abstractProgramParameter);
 			eventProcessorMidiMessages.add(cc);
 		}

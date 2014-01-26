@@ -26,14 +26,15 @@ public class ParameterFactory {
 		this.offset = offset;
 	}
 
-	public AbstractProgramParameter instanciateParameter(
+	private AbstractProgramParameter instanciateParameter(
 			Class<? extends AbstractProgramParameter>[] parametersClasses,
 			byte[] data, int offset, int parameterIndex)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException {
 		try {
-			return parametersClasses[parameterIndex].getConstructor(byte.class)
-					.newInstance(data[offset + parameterIndex]);
+			return parametersClasses[parameterIndex].getConstructor(int.class,
+					byte.class).newInstance(parameterIndex,
+					data[offset + parameterIndex]);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new EventProcessorException("missing parameter class", e);
 		}

@@ -28,7 +28,8 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		if (this instanceof EventProcessorShortMessage)
 			return (EventProcessorShortMessage) this;
 		RuntimeException e = new ClassCastException(
-				"not a EventProcessorShortMessage");
+				"not a EventProcessorShortMessage: "
+						+ this.getClass().getSimpleName());
 		e.printStackTrace();
 		throw e;
 	}
@@ -74,7 +75,7 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 			return EventProcessorShortMessage.buildShortMessage(message);
 	}
 
-	public EventProcessorMidiMessageComposite getAsEventProcessorMidiMessageComposite() {
+	public EventProcessorMidiMessageComposite getAsComposite() {
 		return (EventProcessorMidiMessageComposite) this;
 	}
 }

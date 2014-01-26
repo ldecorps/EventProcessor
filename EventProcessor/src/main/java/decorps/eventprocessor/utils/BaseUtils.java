@@ -132,10 +132,9 @@ public class BaseUtils {
 					.decodeMessage(((EventProcessorSysexMessage) message).sysexMessage);
 		else if (message instanceof EventProcessorMidiMessageComposite) {
 			String result = " Composite: ";
-			for (EventProcessorMidiMessage currentMessage : ((EventProcessorMidiMessageComposite) message).eventProcessorMidiMessages) {
+			for (EventProcessorMidiMessage currentMessage : ((EventProcessorMidiMessageComposite) message).eventProcessorMidiMessages)
 				result += LINE_SEPARATOR
 						+ BaseUtils.decodeMessage(currentMessage);
-			}
 			return result;
 		}
 		return "Cannot decode message";

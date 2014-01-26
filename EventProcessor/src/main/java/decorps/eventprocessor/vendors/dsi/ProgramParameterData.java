@@ -63,12 +63,19 @@ public class ProgramParameterData {
 		return Layer.build(parametersClasses, data, offset);
 	}
 
-	public List<AbstractProgramParameter> getAllAbstractProgramParameters() {
+	public List<AbstractProgramParameter> getAll400AbstractProgramParameters() {
 		List<AbstractProgramParameter> result = new ArrayList<AbstractProgramParameter>(
 				400);
 		for (int i = 0; i < 2; i++) {
 			populateProgramParameterForLayer(result, i);
 		}
+		return result;
+	}
+
+	public List<AbstractProgramParameter> getFirst200AbstractProgramParameters() {
+		List<AbstractProgramParameter> result = new ArrayList<AbstractProgramParameter>(
+				200);
+		populateProgramParameterForLayer(result, 0);
 		return result;
 	}
 

@@ -9,12 +9,15 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
@@ -25,11 +28,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
+import decorps.eventprocessor.rules.Rule;
 import decorps.eventprocessor.rules.SetLedAndLedRingIndicatorsRule;
+import decorps.eventprocessor.rules.SetRingIndicatorsViaCCsRule;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
@@ -146,19 +152,56 @@ public class EventProcessorTest {
 	@Test
 	public void registerRule_SendAllLedInfosToLividCode_To_ProgramDataDump()
 			throws Exception {
-		cut.registerAction(new SetLedAndLedRingIndicatorsRule(),
-				TetraParameter.ProgramEditBufferDataDump, cut.fromTetraToLivid);
-		MidiMessage sampleEditBufferProgramDataDump = DsiTetraMapTest.sampleEditbyfferProgramDataDump;
+		registering(new SetLedAndLedRingIndicatorsRule());
 
-		cut.fromTetraToLivid.receiver.send(sampleEditBufferProgramDataDump, -1);
+		injectingProgramDataDump();
 
-		for (EventProcessorMidiMessage message : ((EventProcessorMidiMessageComposite) cut.fromTetraToLivid.receiver
-				.getSentMidiMessages().get(0)).eventProcessorMidiMessages) {
+		for (EventProcessorMidiMessage message : getSentComposite()) {
 			if (Arrays.equals(message.getMessage(), LividMessageFactory
 					.buildSet_all_LED_indicators().getMessage())
 					&& Arrays.equals(message.getMessage(), LividMessageFactory
 							.buildSet_LED_Ring_indicators().getMessage()))
 				fail("Message should contain some non zero data: mapping is not working");
 		}
+	}
+
+	private List<EventProcessorMidiMessage> getSentComposite() {
+		return ((EventProcessorMidiMessageComposite) cut.fromTetraToLivid.receiver
+				.getSentMidiMessages().get(0)).eventProcessorMidiMessages;
+	}
+
+	@Test
+	public void registerSetRingInicatorViaCcs_To_ProgramDataDump()
+			throws Exception {
+		registering(new SetRingIndicatorsViaCCsRule());
+
+		injectingProgramDataDump();
+
+		Set<Integer> controlchanges = new HashSet<Integer>();
+		for (EventProcessorMidiMessage message : getInnerCompositeCcs()) {
+			final int data1 = message.getAsShortMessage().getData1();
+			assertFalse(controlchanges.contains(data1));
+			controlchanges.add(data1);
+		}
+	}
+
+	private void registering(Rule rule) {
+		cut.registerAction(rule, TetraParameter.ProgramEditBufferDataDump,
+				cut.fromTetraToLivid);
+	}
+
+	private void injectingProgramDataDump() {
+		cut.fromTetraToLivid.receiver.send(
+				DsiTetraMapTest.sampleEditbyfferProgramDataDump, -1);
+	}
+
+	public List<EventProcessorMidiMessage> getInnerCompositeCcs() {
+		for (EventProcessorMidiMessage message : getSentComposite()) {
+			if (!EventProcessorMidiMessageComposite.class
+					.isAssignableFrom(message.getClass()))
+				continue;
+			return message.getAsComposite().getMessages();
+		}
+		throw new EventProcessorException("Did not find any messages");
 	}
 }

@@ -4,8 +4,10 @@ import decorps.eventprocessor.utils.BaseUtils;
 
 public abstract class AbstractProgramParameter implements HasCcValue {
 	public final byte data;
+	public final int number;
 
-	protected AbstractProgramParameter(byte b) {
+	protected AbstractProgramParameter(int number, byte b) {
+		this.number = number;
 		this.data = b;
 	}
 

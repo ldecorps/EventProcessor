@@ -14,7 +14,7 @@ public class AbstractProgramParameterTest {
 
 	@Test
 	public void canConvertValuesForZeroOrOne() throws Exception {
-		Oscillator1Keyboard oneZeroOrOneParameter = new Oscillator1Keyboard(
+		Oscillator1Keyboard oneZeroOrOneParameter = new Oscillator1Keyboard(4,
 				(byte) 0);
 		assertThat(ZeroOrOneRange.class.isAssignableFrom(oneZeroOrOneParameter
 				.getClass()), is(true));
@@ -24,7 +24,7 @@ public class AbstractProgramParameterTest {
 	private void checkZeroTo120Range(Class<? extends HasCcValue> class1,
 			int fromTetra, int forLividCode) {
 		Oscillator1Frequency oneZeroTo120Parameter = new Oscillator1Frequency(
-				(byte) fromTetra);
+				0, (byte) fromTetra);
 		assertThat(class1.isAssignableFrom(oneZeroTo120Parameter.getClass()),
 				is(true));
 		assertThat((int) oneZeroTo120Parameter.getRebasedValue(),

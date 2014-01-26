@@ -30,7 +30,7 @@ public class TetraProgramParameterToLividCodeV2Test {
 		EventProcessorMidiMessage allCcShortMessages = cut
 				.mapToCcs(sampleProgramParameterData);
 		checkOscillator1Frequency(allCcShortMessages
-				.getAsEventProcessorMidiMessageComposite().getMessages().get(0));
+				.getAsComposite().getMessages().get(0));
 	}
 
 	@Test

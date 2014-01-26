@@ -26,17 +26,17 @@ public class SetRingIndicatorsViaCCsRuleTest {
 				.transform(eventProcessorMidiMessage);
 		assertThat(result, instanceOf(EventProcessorMidiMessageComposite.class));
 		assertThat(
-				result.getAsEventProcessorMidiMessageComposite().eventProcessorMidiMessages,
+				result.getAsComposite().eventProcessorMidiMessages,
 				hasSize(2));
 		final EventProcessorMidiMessage ccs = result
-				.getAsEventProcessorMidiMessageComposite().eventProcessorMidiMessages
+				.getAsComposite().eventProcessorMidiMessages
 				.get(1);
 		assertThat(ccs, instanceOf(EventProcessorMidiMessageComposite.class));
 		assertThat(
-				ccs.getAsEventProcessorMidiMessageComposite().eventProcessorMidiMessages,
+				ccs.getAsComposite().eventProcessorMidiMessages,
 				not(empty()));
 		for (EventProcessorMidiMessage cc : ccs
-				.getAsEventProcessorMidiMessageComposite().eventProcessorMidiMessages) {
+				.getAsComposite().eventProcessorMidiMessages) {
 			final LividCodeEventProcessorCCShortMessage currentCc = (LividCodeEventProcessorCCShortMessage) cc;
 			final AbstractProgramParameter abstractProgramParameter = currentCc.abstractProgramParameter;
 			assertEquals(abstractProgramParameter + " not mapped correctly",
