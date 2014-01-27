@@ -20,26 +20,30 @@ public class LividCodeEventProcessorCCShortMessage extends
 	final byte type;
 	final byte value;
 	final byte channel;
+	final AbstractMap map;
 	public final AbstractProgramParameter abstractProgramParameter;
 
 	public LividCodeEventProcessorCCShortMessage(
-			AbstractProgramParameter abstractProgramParameter, byte channel,
+			AbstractProgramParameter abstractProgramParameter, AbstractMap map,
 			byte type, byte value) {
 		super(buildLividCodeShortMessage(abstractProgramParameter, type, value,
-				channel));
+				map));
 		this.type = type;
 		this.value = value;
-		this.channel = channel;
+		this.channel = map.bank;
 		this.abstractProgramParameter = abstractProgramParameter;
+		this.map = map;
 	}
 
 	private static ShortMessage buildLividCodeShortMessage(
 			AbstractProgramParameter abstractProgramParameter, byte type,
-			byte value, byte channel) {
+			byte value, AbstractMap map) {
 		ShortMessage result;
 		try {
-			result = new ShortMessage(ShortMessage.CONTROL_CHANGE, channel,
-					type, value);
+			final int shortMessageType = EncoderMap.class.isAssignableFrom(map
+					.getClass()) ? ShortMessage.CONTROL_CHANGE
+					: ShortMessage.NOTE_ON;
+			result = new ShortMessage(shortMessageType, map.bank, type, value);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(

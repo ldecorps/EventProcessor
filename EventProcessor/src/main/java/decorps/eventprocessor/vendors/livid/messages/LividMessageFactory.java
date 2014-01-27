@@ -18,4 +18,9 @@ public class LividMessageFactory {
 		return new Set_LED_Ring_indicators(payload, 0x1f, 64);
 	}
 
+	public static EventProcessorMidiMessage buildSet_encoder_values(
+			int... payload) {
+		return new Set_encoder_values(payload, 0x26, 32);
+	}
+
 }

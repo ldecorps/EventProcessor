@@ -25,7 +25,10 @@ public abstract class AbstractProgramParameter implements HasCcValue {
 		else if (ZeroTo100Range.class.isAssignableFrom(getClass()))
 			result = (byte) (data * (127d / 100d));
 		else if (ZeroOrOneRange.class.isAssignableFrom(getClass()))
-			result = (byte) ((byte) 0x7f & (data * (byte) 127));
+			result = (byte) ((byte) 0x7f & (data * 127));
+		else if (FourTo103Range.class.isAssignableFrom(getClass()))
+			result = (byte) ((data - 4) * (127d / 100d));
+
 		result = (byte) (result & 0x7F);
 		return result;
 	}

@@ -13,37 +13,26 @@ import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Keyboard;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
+import decorps.eventprocessor.vendors.livid.AbstractMap;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.ButtonMap;
+import decorps.eventprocessor.vendors.livid.EncoderMap;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
-	class Map {
-		public final Class<? extends AbstractProgramParameter> abstractProgramParameterClass;
-		public final byte bank;
-		public final byte controllerNumber;
-
-		public Map(
-				Class<? extends AbstractProgramParameter> abstractProgramParameterClass,
-				int bank, int controllerNumber) {
-			super();
-			this.abstractProgramParameterClass = abstractProgramParameterClass;
-			this.bank = (byte) bank;
-			this.controllerNumber = (byte) controllerNumber;
-		}
-	}
-
-	Map[] mapping = new Map[] { new Map(Oscillator1Frequency.class, 0, 33),
-			new Map(Oscillator1FineTune.class, 0, 41),
-			new Map(Oscillator1Shape.class, 0, 49),
-			new Map(Oscillator1Glide.class, 0, 57),
-			new Map(Oscillator1Keyboard.class, 0, 12) };
+	AbstractMap[] mapping = new AbstractMap[] {
+			new EncoderMap(Oscillator1Frequency.class, 0, 1),
+			new EncoderMap(Oscillator1FineTune.class, 0, 2),
+			new EncoderMap(Oscillator1Shape.class, 0, 3),
+			new EncoderMap(Oscillator1Glide.class, 0, 4),
+			new ButtonMap(Oscillator1Keyboard.class, 0, 12) };
 
 	@Override
 	public LividCodeEventProcessorCCShortMessage map(
 			AbstractProgramParameter abstractProgramParameter) {
-		for (Map map : mapping) {
+		for (AbstractMap map : mapping) {
 			final boolean notRightIndex = !map.abstractProgramParameterClass
 					.equals(abstractProgramParameter.getClass());
 			if (notRightIndex)
@@ -51,7 +40,7 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 			final byte type = map.controllerNumber;
 			final byte value = abstractProgramParameter.getRebasedValue();
 			return new LividCodeEventProcessorCCShortMessage(
-					abstractProgramParameter, map.bank, type, value);
+					abstractProgramParameter, map, type, value);
 		}
 
 		throw new EventProcessorException(abstractProgramParameter.getClass()

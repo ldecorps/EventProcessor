@@ -166,8 +166,9 @@ public class EventProcessorTest {
 	}
 
 	private List<EventProcessorMidiMessage> getSentComposite() {
-		return ((EventProcessorMidiMessageComposite) cut.fromTetraToLivid.receiver
-				.getSentMidiMessages().get(0)).eventProcessorMidiMessages;
+		final List<EventProcessorMidiMessage> sentMidiMessages = cut.fromTetraToLivid.receiver
+				.getSentMidiMessages();
+		return sentMidiMessages;
 	}
 
 	@Test

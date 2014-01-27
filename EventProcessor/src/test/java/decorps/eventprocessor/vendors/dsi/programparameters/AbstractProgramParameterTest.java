@@ -14,11 +14,16 @@ public class AbstractProgramParameterTest {
 
 	@Test
 	public void canConvertValuesForZeroOrOne() throws Exception {
+		checkZeroOrOne(0, 0);
+		checkZeroOrOne(1, 127);
+	}
+
+	public void checkZeroOrOne(int data, int rebased) {
 		Oscillator1Keyboard oneZeroOrOneParameter = new Oscillator1Keyboard(4,
-				(byte) 0);
+				(byte) data);
 		assertThat(ZeroOrOneRange.class.isAssignableFrom(oneZeroOrOneParameter
 				.getClass()), is(true));
-		assertThat((int) oneZeroOrOneParameter.getRebasedValue(), is(0));
+		assertThat((int) oneZeroOrOneParameter.getRebasedValue(), is(rebased));
 	}
 
 	private void checkZeroTo120Range(Class<? extends HasCcValue> class1,
