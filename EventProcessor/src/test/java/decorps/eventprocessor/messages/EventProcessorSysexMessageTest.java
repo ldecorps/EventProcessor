@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 
 public class EventProcessorSysexMessageTest {
@@ -45,6 +46,8 @@ public class EventProcessorSysexMessageTest {
 				0x64, 0x32 };
 		byte[] expectedUnpacked = new byte[] { 0x02, 0x40, (byte) 0xF4,
 				(byte) 0x96, 0x00, 0x64, 0x32 };
+		System.out.println(BaseUtils.bytesToHexa(expectedUnpacked));
+		System.out.println(BaseUtils.bytesToBinary(expectedUnpacked));
 		assertThat(EventProcessorSysexMessage.unpack(packedPacket),
 				is(expectedUnpacked));
 

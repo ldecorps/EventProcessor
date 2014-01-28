@@ -5,9 +5,14 @@ import static decorps.eventprocessor.utils.BaseUtils.bytesToInts;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public class BankLayout {
-	final boolean[] buttons = new boolean[45];
-	final byte[] encoders = new byte[32];
+	final boolean[] buttons;
+	final byte[] encoders;
 	public static BankLayout CurrentBank = new BankLayout();
+
+	public BankLayout() {
+		buttons = new boolean[45];
+		encoders = new byte[32];
+	}
 
 	public byte[] getButtonsAsByteArrays() {
 		byte[] result = new byte[8];

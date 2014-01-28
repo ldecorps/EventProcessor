@@ -32,6 +32,12 @@ public class ParameterFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException {
 		try {
+			System.out.println(parametersClasses[parameterIndex]
+					.getSimpleName()
+					+ " "
+					+ parameterIndex
+					+ " "
+					+ data[offset + parameterIndex]);
 			return parametersClasses[parameterIndex].getConstructor(int.class,
 					byte.class).newInstance(parameterIndex,
 					data[offset + parameterIndex]);

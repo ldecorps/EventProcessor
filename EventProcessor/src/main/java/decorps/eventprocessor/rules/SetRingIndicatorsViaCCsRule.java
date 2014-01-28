@@ -20,6 +20,7 @@ public class SetRingIndicatorsViaCCsRule implements Rule {
 				.buildProgramEditBufferDataDump(message);
 		final ProgramParameterData upacked = ProgramParameterData
 				.build(programEditBufferDataDump.unpacked);
+		System.out.println(programEditBufferDataDump);
 		printOutBytesAsHexa(upacked.data);
 		EventProcessorMidiMessage setAllRingViaCcs = map.mapToCcs(upacked);
 		synchronized (this.getClass()) {

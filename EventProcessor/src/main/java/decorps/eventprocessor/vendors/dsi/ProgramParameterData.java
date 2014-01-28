@@ -37,7 +37,7 @@ public class ProgramParameterData {
 	ProgramParameterData(byte[] data) {
 		super();
 		this.data = data;
-		this.Name = bytesToText(Arrays.copyOfRange(data, 184, 200));
+		this.Name = bytesToText(Arrays.copyOfRange(data, 184, 199));
 		Class<? extends AbstractProgramParameter>[] parameters = new Class[] {
 				Oscillator1Frequency.class, Oscillator1FineTune.class,
 				Oscillator1Shape.class, Oscillator1Glide.class,

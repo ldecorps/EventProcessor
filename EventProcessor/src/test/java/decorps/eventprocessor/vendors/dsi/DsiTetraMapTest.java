@@ -35,10 +35,11 @@ public class DsiTetraMapTest {
 	private static final String CHANNEL_ONE = "0000";
 	private static final String PROGAM_ONE = "000 0001";
 	public static final SysexMessage sampleProgramDataDump = getSampleProgramDataDumpSysexMessage();
-	public static final SysexMessage sampleEditbyfferProgramDataDump = getSampleEditBufferDataDumpSysexMessage();
+	public static final SysexMessage sampleEditbufferProgramDataDump = getSampleEditBufferDataDumpSysexMessage();
 	final DsiTetraMap cut = new DsiTetraMap();
 	EventProcessorMidiMessage result = cut.convert(sampleProgramDataDump);
 	private ProgramDataDump programDataDump;
+	private ProgramEditBufferDataDump programEditBufferDataDump;
 	private Layer currentLayer;
 
 	@Test
@@ -100,21 +101,44 @@ public class DsiTetraMapTest {
 		assertTrue(DsiTetraMap.isProgramDataDump(sysexMessage));
 		DsiTetraMap.isProgramDataDump(sysexMessage);
 		programDataDump = ProgramDataDump.buildProgramDump(sysexMessage);
-		assertEquals(programDataDump.bankNumber, 3);
-		assertEquals(programDataDump.programNumber, 24);
-		assertEquals(programDataDump.programParameterData.Name, "PulseOrgan");
+		System.out.println(programDataDump.programParameterData);
+		assertEquals(3, programDataDump.bankNumber);
+		assertEquals(24, programDataDump.programNumber);
+		assertEquals("PulseOrgan", programDataDump.programParameterData.Name);
 		currentLayer = programDataDump.programParameterData.currentLayer;
-		assertData(0x18, currentLayer.oscillator1Frequency);
-		assertData(0x33, currentLayer.oscillator1FineTune);
-		assertData(0x0e, currentLayer.oscillator1Shape);
-
+		assertData(0x18, currentLayer.oscillator1Frequency,
+				programDataDump.unpacked);
+		assertData(0x33, currentLayer.oscillator1FineTune,
+				programDataDump.unpacked);
+		assertData(0x0e, currentLayer.oscillator1Shape,
+				programDataDump.unpacked);
 	}
 
-	public void assertData(int expected, AbstractProgramParameter actual) {
+	@Test
+	public void unpacksCorrectlyEditBufferProgramData() throws Exception {
+		byte[] sysexMessage = sampleEditbufferProgramDataDump.getMessage();
+		assertTrue(DsiTetraMap.isProgramEditBufferDataDump(sysexMessage));
+		DsiTetraMap.isProgramDataDump(sysexMessage);
+		programEditBufferDataDump = ProgramEditBufferDataDump
+				.buildProgramEditBufferDataDump(sysexMessage);
+		System.out.println(programEditBufferDataDump.programParameterData);
+		assertEquals("Alternative",
+				programEditBufferDataDump.programParameterData.Name);
+		currentLayer = programEditBufferDataDump.programParameterData.currentLayer;
+		assertData(0x18, currentLayer.oscillator1Frequency,
+				programEditBufferDataDump.unpacked);
+		assertData(0x31, currentLayer.oscillator1FineTune,
+				programEditBufferDataDump.unpacked);
+		assertData(0x01, currentLayer.oscillator1Shape,
+				programEditBufferDataDump.unpacked);
+	}
+
+	public void assertData(int expected, AbstractProgramParameter actual,
+			byte[] unpackedMessage) {
 		try {
 			assertEquals(expected, actual.data);
 		} catch (AssertionError e) {
-			printOutBytesAsHexa(programDataDump.unpackedMessages);
+			printOutBytesAsHexa(unpackedMessage);
 			throw e;
 		}
 	}

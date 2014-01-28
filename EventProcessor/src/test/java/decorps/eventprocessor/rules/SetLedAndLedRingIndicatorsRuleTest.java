@@ -13,7 +13,7 @@ import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
 public class SetLedAndLedRingIndicatorsRuleTest {
 	SetLedAndLedRingIndicatorsRule cut = new SetLedAndLedRingIndicatorsRule();
 	EventProcessorMidiMessage eventProcessorMidiMessage = EventProcessorMidiMessage
-			.build(DsiTetraMapTest.sampleEditbyfferProgramDataDump);
+			.build(DsiTetraMapTest.sampleEditbufferProgramDataDump);
 
 	@Test
 	public void itSpitsOut_OneSetAllIndicator_and_OneSetRingIndicator_sysex()

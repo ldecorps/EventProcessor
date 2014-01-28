@@ -14,7 +14,7 @@ import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessag
 
 public class SetRingIndicatorsViaCCsRuleTest {
 	EventProcessorMidiMessage eventProcessorMidiMessage = EventProcessorMidiMessage
-			.build(DsiTetraMapTest.sampleEditbyfferProgramDataDump);
+			.build(DsiTetraMapTest.sampleEditbufferProgramDataDump);
 	SetRingIndicatorsViaCCsRule cut = new SetRingIndicatorsViaCCsRule();
 
 	@Test

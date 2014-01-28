@@ -193,7 +193,7 @@ public class EventProcessorTest {
 
 	private void injectingProgramDataDump() {
 		cut.fromTetraToLivid.receiver.send(
-				DsiTetraMapTest.sampleEditbyfferProgramDataDump, -1);
+				DsiTetraMapTest.sampleEditbufferProgramDataDump, -1);
 	}
 
 	public List<EventProcessorMidiMessage> getInnerCompositeCcs() {

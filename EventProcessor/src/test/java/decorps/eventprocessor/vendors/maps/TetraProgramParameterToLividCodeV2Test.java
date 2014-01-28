@@ -6,6 +6,7 @@ import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
@@ -18,6 +19,11 @@ public class TetraProgramParameterToLividCodeV2Test {
 	EventProcessorMap cut = new TetraProgramParameterToLividCodeV2();
 
 	final static ProgramParameterData sampleProgramParameterData = ProgramParameterDataTest.sampleProgramParameterData;
+
+	@Before
+	public void initialiseLayout() {
+		BankLayout.CurrentBank = new BankLayout();
+	}
 
 	private void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
 		assertEquals("channel", 0, forCodeV2.getAsShortMessage().getChannel());
