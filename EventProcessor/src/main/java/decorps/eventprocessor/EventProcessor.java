@@ -24,7 +24,11 @@ public class EventProcessor {
 	final LinkFactory linkFactory;
 	public final List<Link> links = new ArrayList<Link>();
 
-	public EventProcessor() {
+	public static EventProcessor build() {
+		return new EventProcessor();
+	}
+
+	private EventProcessor() {
 		actions = new HashSet<Action>();
 		linkFactory = new LinkFactory(actions);
 		fromTetraToLivid = linkFactory.buildFromTetraToLivid();
@@ -53,10 +57,6 @@ public class EventProcessor {
 
 	Receiver getDefaultRemoteReceiver() {
 		return fromTetraToLivid.transmitter.getReceiver();
-	}
-
-	public static EventProcessor build() {
-		return new EventProcessor();
 	}
 
 	public static boolean isTetraPluggedIn() {

@@ -9,7 +9,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 public class MakingRingCycle {
 
 	public static void main(String[] args) throws InterruptedException {
-		EventProcessor eventProcessor = new EventProcessor();
+		EventProcessor eventProcessor = EventProcessor.build();
 
 		ShortMessage shortMessage = new ShortMessage();
 		for (byte i = 0; i < 128; i++) {

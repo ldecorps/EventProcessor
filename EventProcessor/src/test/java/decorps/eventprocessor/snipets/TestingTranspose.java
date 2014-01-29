@@ -8,7 +8,7 @@ import decorps.eventprocessor.vendors.dsi.TetraParameter;
 public class TestingTranspose {
 
 	public static void main(String[] args) throws InterruptedException {
-		EventProcessor eventProcessor = new EventProcessor();
+		EventProcessor eventProcessor = EventProcessor.build();
 		eventProcessor.registerAction(new Transpose(-12),
 				TetraParameter.ANY_MESSAGE, eventProcessor.fromTetraToLivid);
 		synchronized (EventProcessorMidiMessage.wait) {

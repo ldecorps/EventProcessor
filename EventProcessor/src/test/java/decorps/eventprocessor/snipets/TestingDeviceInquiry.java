@@ -8,7 +8,7 @@ import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 public class TestingDeviceInquiry {
 
 	public static void main(String[] args) {
-		EventProcessor eventProcessor = new EventProcessor();
+		EventProcessor eventProcessor = EventProcessor.build();
 
 		eventProcessor.fromTetraToLivid.receiver.send(DsiMessageFactory
 				.buildUniversal_System_Exclusive_Message_Device_Inquiry()

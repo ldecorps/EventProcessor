@@ -8,7 +8,7 @@ import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 public class TestingChangeToProgramMode {
 
 	public static void main(String[] args) throws InvalidMidiDataException {
-		EventProcessor eventProcessor = new EventProcessor();
+		EventProcessor eventProcessor = EventProcessor.build();
 		eventProcessor.fromTetraToLivid.receiver.send(
 				DsiMessageFactory.buildMode_Change__ProgramChange(), -1);
 	}

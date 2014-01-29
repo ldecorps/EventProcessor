@@ -23,4 +23,12 @@ public class LividMessageFactory {
 		return new Set_encoder_values(payload, 0x26, 32);
 	}
 
+	public static EventProcessorMidiMessage buildLED_Ring_Style(int... payload) {
+		return new Set_LED_Ring_Style(payload, 0x32, 64);
+	}
+
+	public static EventProcessorMidiMessage buildLED_Ring_Mode(int... payload) {
+		return new Set_LED_Ring_Mode(payload);
+	}
+
 }

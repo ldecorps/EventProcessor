@@ -11,7 +11,7 @@ public class Main {
 	}
 
 	public void run() throws InterruptedException {
-		EventProcessor eventProcessor = new EventProcessor();
+		EventProcessor eventProcessor = EventProcessor.build();
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
 		eventProcessor.registerAction(new SetLedAndLedRingIndicatorsRule(),

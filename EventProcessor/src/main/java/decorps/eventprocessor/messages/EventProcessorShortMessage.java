@@ -24,6 +24,19 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 		}
 	}
 
+	public static EventProcessorMidiMessage buildShortMessage(int command,
+			int channel, int data1, int data2) {
+		ShortMessage shortMessage;
+		try {
+			shortMessage = new ShortMessage();
+			shortMessage.setMessage(command, channel, data1, data2);
+			return EventProcessorShortMessage.buildShortMessage(shortMessage);
+		} catch (InvalidMidiDataException e) {
+			e.printStackTrace();
+			throw new EventProcessorException(e);
+		}
+	}
+
 	protected static EventProcessorShortMessage buildShortMessage(
 			ShortMessage message) {
 		return new EventProcessorShortMessage(message);

@@ -97,5 +97,6 @@ public class RulesAwareReceiverWrapper implements Receiver {
 	@Override
 	public void close() {
 		receiver.close();
+		actions.clear();
 	}
 }
