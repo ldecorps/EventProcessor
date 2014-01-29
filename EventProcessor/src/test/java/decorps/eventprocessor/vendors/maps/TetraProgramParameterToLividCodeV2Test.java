@@ -1,14 +1,13 @@
 package decorps.eventprocessor.vendors.maps;
 
-import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
-import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
-import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static decorps.eventprocessor.utils.BaseUtils.*;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
@@ -73,5 +72,14 @@ public class TetraProgramParameterToLividCodeV2Test {
 				.mapToSetLedRingsIndicators(sampleProgramParameterData);
 		assertArrayEquals(LividMessageFactory.buildSet_LED_Ring_indicators(17)
 				.getMessage(), result.getMessage());
+	}
+
+	@Test
+	@Ignore
+	// TODO the tetra params are all sent down, using the all the banks,
+	// that means usage of change program to populate the 4 banks
+	public void tetraParamsShouldBeMappedToAllBanks_EverythingIsSentDown()
+			throws Exception {
+		throw new EventProcessorException("Not Implemented Yet");
 	}
 }

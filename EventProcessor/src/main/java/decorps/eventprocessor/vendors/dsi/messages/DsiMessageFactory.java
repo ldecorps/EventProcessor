@@ -2,6 +2,7 @@ package decorps.eventprocessor.vendors.dsi.messages;
 
 import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 
 public class DsiMessageFactory {
 	public static final byte System_Exclusive = binaryToByte("1111 0000");
@@ -60,5 +61,13 @@ public class DsiMessageFactory {
 
 	public static EventProcessorMidiMessage buildProgramEditBufferDumpRequest() {
 		return new ProgramEditBufferDumpRequest();
+	}
+
+	public static EventProcessorMidiMessage buildNRPNForProgramParameter(
+			AbstractProgramParameter parameter) {
+
+		EventProcessorNRPNMessage nrpn = null;
+
+		return nrpn;
 	}
 }

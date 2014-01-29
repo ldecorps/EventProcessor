@@ -85,7 +85,7 @@ public class BaseUtils {
 	}
 
 	public static boolean MsbEquals(String expectedMsb, int actualByte) {
-		final byte msb = getMsb((byte) actualByte);
+		final byte msb = getFirstFourBits((byte) actualByte);
 		final byte expectedMsbAsByte = binaryToByte(expectedMsb);
 		return msb == expectedMsbAsByte;
 	}
@@ -95,12 +95,12 @@ public class BaseUtils {
 				Integer.toBinaryString(byteToBeConverted & 0xFF), 2);
 	}
 
-	public static byte getMsb(byte eightBits) {
+	public static byte getFirstFourBits(byte eightBits) {
 		String binary = byteToBinary(eightBits);
 		return binaryToByte(binary.substring(0, 4));
 	}
 
-	public static byte getLsb(byte eightBits) {
+	public static byte getLastFourBits(byte eightBits) {
 		String binary = byteToBinary(eightBits);
 		return binaryToByte(binary.substring(4, 8));
 	}

@@ -12,4 +12,11 @@ public class BankLayoutTest {
 		cut.setFirstColumnOff();
 		assertEquals(0x0000, cut.getButtonsAsByteArrays()[0] & 0x00001111);
 	}
+
+	@Test
+	public void lividShouldNotifyWhenItChangesBank() throws Exception {
+		// Livid does not send messages when it changes bank...
+		// all banks have to be loaded in advance, via change program, when new
+		// patch is selected
+	}
 }

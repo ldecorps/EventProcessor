@@ -1,14 +1,9 @@
 package decorps.eventprocessor.vendors.dsi;
 
-import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
-import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
-import static decorps.eventprocessor.utils.BaseUtils.byteToHexa;
-import static decorps.eventprocessor.utils.BaseUtils.printOutBytesAsHexa;
-import static decorps.eventprocessor.utils.BaseUtils.printOutHexaMessage;
+import static decorps.eventprocessor.utils.BaseUtils.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,8 +13,6 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
-
-import junit.framework.Assert;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
@@ -165,7 +158,7 @@ public class DsiTetraMapTest {
 	public void canRecognizeAProgramChangeForTetra() throws Exception {
 		EventProcessorMidiMessage midiMessage = EventProcessorShortMessage
 				.build("1100 " + CHANNEL_ONE, "0" + PROGAM_ONE, null);
-		Assert.assertTrue(midiMessage.is(TetraParameter.ProgramChange));
+		assertTrue(midiMessage.is(TetraParameter.ProgramChange));
 	}
 
 	@Test

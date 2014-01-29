@@ -28,8 +28,12 @@ public abstract class AbstractProgramParameter implements HasCcValue {
 			result = (byte) ((byte) 0x7f & (data * 127));
 		else if (FourTo103Range.class.isAssignableFrom(getClass()))
 			result = (byte) ((data - 4) * (127d / 100d));
+		else if (ZeroTo254Range.class.isAssignableFrom(getClass()))
+			result = (byte) (data * (127d / 254d));
 
 		result = (byte) (result & 0x7F);
 		return result;
 	}
+
+	public abstract byte getNRPNNumber();
 }

@@ -5,9 +5,11 @@ import static org.junit.Assert.assertArrayEquals;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.SysexMessage;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public class LividMessageFactoryTest {
@@ -45,5 +47,13 @@ public class LividMessageFactoryTest {
 		SysexMessage setAllLedIndicator = new SysexMessage(
 				Set_all_LED_indicators, Set_all_LED_indicators.length);
 		envProc.fromTetraToLivid.receiver.send(setAllLedIndicator, -1);
+	}
+
+	@Test
+	@Ignore
+	// TODO shouldBuildMessageForSettingEncoderTypeAbsoluteOrRelative
+	public void shouldBuildMessageForSettingEncoderTypeAbsoluteOrRelative()
+			throws Exception {
+		throw new EventProcessorException("Not Implemented Yet");
 	}
 }

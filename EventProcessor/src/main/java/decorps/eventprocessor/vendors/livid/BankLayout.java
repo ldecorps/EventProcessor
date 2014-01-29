@@ -1,13 +1,13 @@
 package decorps.eventprocessor.vendors.livid;
 
-import static decorps.eventprocessor.utils.BaseUtils.binaryToByte;
-import static decorps.eventprocessor.utils.BaseUtils.bytesToInts;
+import static decorps.eventprocessor.utils.BaseUtils.*;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public class BankLayout {
 	final boolean[] buttons;
 	final byte[] encoders;
 	public static BankLayout CurrentBank = new BankLayout();
+	public static final BankLayout[] AllBanks = new BankLayout[4];
 
 	public BankLayout() {
 		buttons = new boolean[45];

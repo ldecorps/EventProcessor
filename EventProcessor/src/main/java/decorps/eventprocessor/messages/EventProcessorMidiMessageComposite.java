@@ -59,4 +59,5 @@ public class EventProcessorMidiMessageComposite extends
 		for (EventProcessorMidiMessage currentMessage : getMessages())
 			receiver.send(currentMessage, timeStamp);
 	}
+
 }

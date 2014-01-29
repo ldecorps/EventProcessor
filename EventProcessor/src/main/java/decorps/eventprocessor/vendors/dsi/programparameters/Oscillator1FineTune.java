@@ -7,4 +7,9 @@ public class Oscillator1FineTune extends AbstractProgramParameter implements
 		super(number, b);
 	}
 
+	@Override
+	public byte getNRPNNumber() {
+		return 1;
+	}
+
 }

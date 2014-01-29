@@ -1,15 +1,15 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class Oscillator1Glide extends AbstractProgramParameter implements
+public class Resonance extends AbstractProgramParameter implements
 		ZeroTo127Range {
 
-	public Oscillator1Glide(int number, byte b) {
+	protected Resonance(int number, byte b) {
 		super(number, b);
 	}
 
 	@Override
 	public byte getNRPNNumber() {
-		return 3;
+		return 16;
 	}
 
 }
