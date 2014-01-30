@@ -34,7 +34,7 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.rules.Rule;
-import decorps.eventprocessor.rules.SetLedAndLedRingIndicatorsRule;
+import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.rules.SetRingIndicatorsViaCCsRule;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
@@ -152,7 +152,7 @@ public class EventProcessorTest {
 	@Test
 	public void registerRule_SendAllLedInfosToLividCode_To_ProgramDataDump()
 			throws Exception {
-		registering(new SetLedAndLedRingIndicatorsRule());
+		registering(new SetEncodersAndLedIndicatorsRule());
 
 		injectingProgramDataDump();
 

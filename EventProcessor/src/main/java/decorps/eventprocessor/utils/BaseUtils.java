@@ -1,13 +1,10 @@
 package decorps.eventprocessor.utils;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.exceptions.WrongSysexPayloadSize;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
@@ -153,20 +150,7 @@ public class BaseUtils {
 	}
 
 	public static String bytesToText(byte[] data) {
-		byte[] tmp = new byte[data.length];
-		for (int i = 0; i < tmp.length; i++) {
-			tmp[i] = (byte) (0x7f & data[i]);
-			try {
-				System.out.println("plus " + tmp[i] + " "
-						+ new String(tmp, "UTF8").trim());
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-				throw new EventProcessorException(e);
-			}
-		}
-
-		printOutBytesAsHexa(tmp);
-		return new String(tmp).trim();
+		return new String(data).trim();
 	}
 
 	public static byte[] putInArrayAfter(byte[] array, int addAfter,

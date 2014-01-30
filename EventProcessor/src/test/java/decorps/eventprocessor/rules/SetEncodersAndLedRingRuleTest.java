@@ -10,13 +10,13 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
 
-public class SetLedAndLedRingIndicatorsRuleTest {
-	SetLedAndLedRingIndicatorsRule cut = new SetLedAndLedRingIndicatorsRule();
+public class SetEncodersAndLedRingRuleTest {
+	SetEncodersAndLedIndicatorsRule cut = new SetEncodersAndLedIndicatorsRule();
 	EventProcessorMidiMessage eventProcessorMidiMessage = EventProcessorMidiMessage
 			.build(DsiTetraMapTest.sampleEditbufferProgramDataDump);
 
 	@Test
-	public void itSpitsOut_OneSetAllIndicator_and_OneSetRingIndicator_sysex()
+	public void itSpitsOut_OneSetAllIndicator_and_OneSetAllEncoderValues_sysex()
 			throws Exception {
 		EventProcessorMidiMessage result = cut
 				.transform(eventProcessorMidiMessage);

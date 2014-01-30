@@ -8,7 +8,7 @@ import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.maps.TetraProgramParameterToLividCodeV2;
 
-public class SetLedAndLedRingIndicatorsRule implements Rule {
+public class SetEncodersAndLedIndicatorsRule implements Rule {
 	static final TetraProgramParameterToLividCodeV2 map = new TetraProgramParameterToLividCodeV2();
 
 	@Override
@@ -24,12 +24,12 @@ public class SetLedAndLedRingIndicatorsRule implements Rule {
 		printOutBytesAsHexa(upacked.data);
 		EventProcessorSysexMessage setAllLed = (EventProcessorSysexMessage) map
 				.mapToSetAllLedIndicators(upacked);
-		EventProcessorSysexMessage setAllRing = (EventProcessorSysexMessage) map
-				.mapToSetLedRingsIndicators(upacked);
+		EventProcessorSysexMessage setAllEncoderValues = (EventProcessorSysexMessage) map
+				.mapToSetAllEncoderValues(upacked);
 		final EventProcessorMidiMessage composite = EventProcessorMidiMessageComposite
-				.buildComposite(setAllLed, setAllRing);
+				.buildComposite(setAllLed, setAllEncoderValues);
 		synchronized (this.getClass()) {
-			SetLedAndLedRingIndicatorsRule.class.notify();
+			SetEncodersAndLedIndicatorsRule.class.notify();
 		}
 		return composite;
 	}

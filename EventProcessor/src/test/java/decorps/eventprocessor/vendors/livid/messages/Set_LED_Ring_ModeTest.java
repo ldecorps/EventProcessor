@@ -10,7 +10,7 @@ public class Set_LED_Ring_ModeTest {
 	public void setLEDRingMode() throws Exception {
 		EventProcessor envProcessor = EventProcessor.build();
 		final EventProcessorMidiMessageComposite buildLED_Ring_Mode = (EventProcessorMidiMessageComposite) LividMessageFactory
-				.buildLED_Ring_Mode(Set_LED_Ring_Mode.WALK,
+				.buildSet_LED_Ring_Mode(Set_LED_Ring_Mode.WALK,
 						Set_LED_Ring_Mode.FILL, Set_LED_Ring_Mode.WALK,
 						Set_LED_Ring_Mode.WALK, Set_LED_Ring_Mode.WALK,
 						Set_LED_Ring_Mode.WALK, Set_LED_Ring_Mode.WALK,

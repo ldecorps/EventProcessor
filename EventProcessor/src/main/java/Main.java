@@ -1,6 +1,6 @@
 import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
-import decorps.eventprocessor.rules.SetLedAndLedRingIndicatorsRule;
+import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class Main {
@@ -14,7 +14,7 @@ public class Main {
 		EventProcessor eventProcessor = EventProcessor.build();
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
-		eventProcessor.registerAction(new SetLedAndLedRingIndicatorsRule(),
+		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
 				TetraParameter.ProgramEditBufferDataDump,
 				eventProcessor.fromTetraToLivid);
 		synchronized (this) {

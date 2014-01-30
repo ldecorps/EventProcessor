@@ -18,16 +18,16 @@ public class LividMessageFactory {
 		return new Set_LED_Ring_indicators(payload, 0x1f, 64);
 	}
 
-	public static EventProcessorMidiMessage buildSet_encoder_values(
+	public static EventProcessorMidiMessage buildSet_Encoder_Values(
 			int... payload) {
-		return new Set_encoder_values(payload, 0x26, 32);
+		return new Set_Encoder_Values(payload, 0x26, 32);
 	}
 
 	public static EventProcessorMidiMessage buildLED_Ring_Style(int... payload) {
 		return new Set_LED_Ring_Style(payload, 0x32, 32);
 	}
 
-	public static EventProcessorMidiMessage buildLED_Ring_Mode(int... payload) {
+	public static EventProcessorMidiMessage buildSet_LED_Ring_Mode(int... payload) {
 		return new Set_LED_Ring_Mode(payload);
 	}
 

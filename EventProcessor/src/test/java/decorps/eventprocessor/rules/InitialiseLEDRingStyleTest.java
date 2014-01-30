@@ -16,7 +16,7 @@ public class InitialiseLEDRingStyleTest {
 		EventProcessor eventProcessor = EventProcessor.build();
 
 		EventProcessorMidiMessage initialiseLEDRingStyle = LividMessageFactory
-				.buildLED_Ring_Style(WALK, EQ);
+				.buildLED_Ring_Style(WALK, EQ, FILL, SPREAD);
 		eventProcessor.fromTetraToLivid.receiver.send(initialiseLEDRingStyle,
 				-1);
 	}

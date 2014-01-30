@@ -55,9 +55,9 @@ public class EventProcessorMidiMessageComposite extends
 	}
 
 	@Override
-	public void send(Receiver receiver, long timeStamp) {
+	public void send(Receiver receiver, long timestamp) {
 		for (EventProcessorMidiMessage currentMessage : getMessages())
-			receiver.send(currentMessage, timeStamp);
+			currentMessage.send(receiver, timestamp);
 	}
 
 }

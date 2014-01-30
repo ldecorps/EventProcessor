@@ -16,7 +16,7 @@ public class MidiUtilsTest {
 
 	@Test
 	@Ignore
-	// FIXME why is this suddenly failing
+	// TODO why is this suddenly failing
 	public void canListMidiDevices() throws Exception {
 		List<String> listMidiDevices = cut.listMidiDevices();
 		System.out.println(listMidiDevices);

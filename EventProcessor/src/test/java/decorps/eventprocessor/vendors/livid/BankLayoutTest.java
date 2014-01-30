@@ -9,7 +9,7 @@ public class BankLayoutTest {
 
 	@Test
 	public void setFirstColumnOff() throws Exception {
-		cut.setFirstColumnOff();
+		cut.switchFirstColumnOff();
 		assertEquals(0x0000, cut.getButtonsAsByteArrays()[0] & 0x00001111);
 	}
 

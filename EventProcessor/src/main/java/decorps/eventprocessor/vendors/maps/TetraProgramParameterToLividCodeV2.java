@@ -146,15 +146,34 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	public EventProcessorMidiMessage mapToSetLedRingsIndicators(
 			ProgramParameterData programParameterData) {
 
-		mapOscillator1Frequency(programParameterData);
-		mapOscillator1FineTune(programParameterData);
-		mapOscillator1ShapePulseWidth(programParameterData);
-		mapOscillator1Glide(programParameterData);
+		mapProgramParameterData(programParameterData);
 
 		byte[] Set_all_LED_indicators = LividMessageFactory
 				.buildSet_LED_Ring_indicators(
 						BankLayout.CurrentBank.getEncodersAsArrayOfInts())
 				.getMessage();
 		return EventProcessorMidiMessage.build(Set_all_LED_indicators);
+	}
+
+	public void mapProgramParameterData(
+			ProgramParameterData programParameterData) {
+		mapOscillator1Frequency(programParameterData);
+		mapOscillator1FineTune(programParameterData);
+		mapOscillator1ShapePulseWidth(programParameterData);
+		mapOscillator1Glide(programParameterData);
+	}
+
+	public EventProcessorMidiMessage mapToSetAllEncoderValues(
+			ProgramParameterData programParameterData) {
+		mapProgramParameterData(programParameterData);
+		int[] encoderValues = new int[32];
+		for (int i = 0; i < encoderValues.length; i++)
+			encoderValues[i] = getValueForEncoder(programParameterData, i);
+		return LividMessageFactory.buildSet_Encoder_Values(encoderValues);
+	}
+
+	private int getValueForEncoder(ProgramParameterData programParameterData,
+			int encoderNumber) {
+		return BankLayout.CurrentBank.getEncoderValue(encoderNumber);
 	}
 }
