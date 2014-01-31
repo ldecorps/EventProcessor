@@ -84,7 +84,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	private void mapOscillator1ShapeButton(
 			ProgramParameterData programParameterData) {
-		final byte value = programParameterData.currentLayer().oscillator1Shape.data;
+		final byte value = programParameterData.currentLayer().oscillator1Shape
+				.getValue();
 		final boolean isOscillator1Off = value == 0;
 		if (isOscillator1Off) {
 			BankLayout.CurrentBank.turnOff(1);
@@ -109,7 +110,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	private void mapOscillator1ShapePulseWidth(
 			ProgramParameterData programParameterData) {
-		final byte data = programParameterData.currentLayer().oscillator1Shape.data;
+		final byte data = programParameterData.currentLayer().oscillator1Shape
+				.getValue();
 		if (data <= 3)
 			return;
 		byte rebasedPulseWidthValues = (byte) (((data - 4.0) / 100d) * 127d);
@@ -150,7 +152,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	private void mapOscillator1Keyboard(
 			ProgramParameterData programParameterData) {
-		final byte value = programParameterData.currentLayer().oscillator1Keyboard.data;
+		final byte value = programParameterData.currentLayer().oscillator1Keyboard
+				.getValue();
 		if (0 == value)
 			BankLayout.CurrentBank.turnOff(12);
 		else
@@ -220,7 +223,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	private void mapOscillator2Keyboard(
 			ProgramParameterData programParameterData) {
-		final byte value = programParameterData.currentLayer().oscillator2Keyboard.data;
+		final byte value = programParameterData.currentLayer().oscillator2Keyboard
+				.getValue();
 		if (0 == value)
 			BankLayout.CurrentBank.turnOff(16);
 		else
@@ -229,7 +233,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	private void mapOscillator2ShapeButton(
 			ProgramParameterData programParameterData) {
-		final byte value = programParameterData.currentLayer().oscillator2Shape.data;
+		final byte value = programParameterData.currentLayer().oscillator2Shape
+				.getValue();
 		final boolean isOscillator2Off = value == 0;
 		if (isOscillator2Off) {
 			BankLayout.CurrentBank.turnOff(5);
@@ -254,7 +259,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	private void mapOscillator2ShapePulseWidth(
 			ProgramParameterData programParameterData) {
-		final byte data = programParameterData.currentLayer().oscillator2Shape.data;
+		final byte data = programParameterData.currentLayer().oscillator2Shape
+				.getValue();
 		if (data <= 3)
 			return;
 		byte rebasedPulseWidthValues = (byte) (((data - 4.0) / 100d) * 127d);
@@ -268,12 +274,17 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	}
 
 	@Override
-	public Class<? extends AbstractProgramParameter> getAbstractProgramParameterClass() {
+	public AbstractProgramParameter getAbstractProgramParameter() {
 		return null;
 	}
 
 	@Override
 	public List<Controller> getControllers() {
 		return null;
+	}
+
+	@Override
+	public void map(Controller controller) {
+		throw new EventProcessorException("Not Implemented Yet");
 	}
 }

@@ -9,7 +9,7 @@ import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.livid.Controller;
 
-public class ControllerParameterMap implements EventProcessorMap {
+public abstract class ControllerParameterMap implements EventProcessorMap {
 	final List<Controller> controllers = new ArrayList<Controller>();
 
 	@Override
@@ -17,20 +17,20 @@ public class ControllerParameterMap implements EventProcessorMap {
 		return controllers;
 	}
 
-	final Class<? extends AbstractProgramParameter> abstractProgramParameterClass;
+	final AbstractProgramParameter abstractProgramParameter;
 
 	@Override
-	public Class<? extends AbstractProgramParameter> getAbstractProgramParameterClass() {
-		return abstractProgramParameterClass;
+	public AbstractProgramParameter getAbstractProgramParameter() {
+		return abstractProgramParameter;
 	}
 
 	public ControllerParameterMap(
-			Class<? extends AbstractProgramParameter> abstractProgramParameterClass,
+			AbstractProgramParameter abstractProgramParameter,
 			Controller... controllers) {
 		for (Controller controller : controllers) {
 			this.controllers.add(controller);
 		}
-		this.abstractProgramParameterClass = abstractProgramParameterClass;
+		this.abstractProgramParameter = abstractProgramParameter;
 		MapRepository.register(this);
 	}
 

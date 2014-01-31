@@ -129,7 +129,7 @@ public class DsiTetraMapTest {
 	public void assertData(int expected, AbstractProgramParameter actual,
 			byte[] unpackedMessage) {
 		try {
-			assertEquals(expected, actual.data);
+			assertEquals(expected, actual.getValue());
 		} catch (AssertionError e) {
 			printOutBytesAsHexa(unpackedMessage);
 			throw e;

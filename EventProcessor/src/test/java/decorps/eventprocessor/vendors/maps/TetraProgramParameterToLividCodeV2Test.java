@@ -3,24 +3,30 @@ package decorps.eventprocessor.vendors.maps;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.*;
 
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class TetraProgramParameterToLividCodeV2Test {
 	EventProcessorMap cut = new TetraProgramParameterToLividCodeV2();
 
 	final static ProgramParameterData sampleProgramParameterData = ProgramParameterDataTest.sampleProgramParameterData;
+	byte[] bytes = new byte[1];
 
 	@Before
 	public void initialiseLayout() {
 		BankLayout.CurrentBank = new BankLayout(1);
+		new Random().nextBytes(bytes);
 	}
 
 	private void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
@@ -58,14 +64,36 @@ public class TetraProgramParameterToLividCodeV2Test {
 	@Test
 	public void oneMappingAssociateOneParameterToManyControllers()
 			throws Exception {
-		new ControllerParameterMap(Oscillator1Glide.class,
-				BankLayout.CurrentBank.encoders[0],
-				BankLayout.CurrentBank.buttons[1]);
+		getTestingMap();
 
 		assertThat(
-				MapRepository
-						.getControllersForParameter(Oscillator1Glide.class),
+				MapRepository.getControllersForParameter(new Oscillator1Glide(
+						0, (byte) 0)),
 				hasItems(BankLayout.CurrentBank.encoders[0],
 						BankLayout.CurrentBank.buttons[1]));
+	}
+
+	public EventProcessorMap getTestingMap() {
+		return new Oscillator1Glide_to_E0B1(new Oscillator1Glide(0, bytes[0]),
+				BankLayout.CurrentBank.encoders[0],
+				BankLayout.CurrentBank.buttons[1]);
+	}
+
+	@Test
+	public void mapOneOfItsControllersToItsAbstractProgramParameter()
+			throws Exception {
+		EventProcessorMap map = getTestingMap();
+		final Controller controller = map.getControllers().get(0);
+		controller.setValue(bytes[0]);
+
+		map.map(controller);
+
+		assertEquals(bytes[0], map.getAbstractProgramParameter().getValue());
+	}
+
+	@Test
+	public void mapItsAbstractProgramParameterToItsControllers()
+			throws Exception {
+		throw new EventProcessorException("Not Implemented Yet");
 	}
 }

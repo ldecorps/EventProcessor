@@ -10,16 +10,16 @@ import com.sun.corba.se.impl.orbutil.concurrent.Sync;
 
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.GlideMode;
-import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1KeyTrack;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc2FineFreq;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc2Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Glide;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
 import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorSlop;
 
 public class ProgramParameterData {
@@ -50,26 +50,29 @@ public class ProgramParameterData {
 		Class<? extends AbstractProgramParameter>[] parameters = new Class[] {
 				Osc1Frequency.class, Osc1FineFreq.class,
 				Oscillator1Shape.class, Oscillator1Glide.class,
-				Osc1KeyTrack.class, Osc2Frequency.class,
-				Osc2FineFreq.class, Oscillator2Shape.class,
-				Oscillator2Glide.class, Osc1KeyTrack.class, Sync.class,
-				GlideMode.class, OscillatorSlop.class, OscillatorMix.class };
+				Osc1KeyTrack.class, Osc2Frequency.class, Osc2FineFreq.class,
+				Oscillator2Shape.class, Oscillator2Glide.class,
+				Osc1KeyTrack.class, Sync.class, GlideMode.class,
+				OscillatorSlop.class, OscillatorMix.class };
 		A = buildA(parameters);
 		B = buildB(parameters);
 		CurrentLayer = A;
 		layers = new Layer[] { A, B };
 	}
 
+	@SuppressWarnings("unchecked")
 	private Layer buildB(
 			Class<? extends AbstractProgramParameter>... parametersClasses) {
 		return build(offset + 200, parametersClasses);
 	}
 
+	@SuppressWarnings("unchecked")
 	private Layer buildA(
 			Class<? extends AbstractProgramParameter>... parametersClasses) {
 		return build(offset, parametersClasses);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Layer build(int offset,
 			Class<? extends AbstractProgramParameter>... parametersClasses) {
 		return Layer.build(parametersClasses, data, offset);

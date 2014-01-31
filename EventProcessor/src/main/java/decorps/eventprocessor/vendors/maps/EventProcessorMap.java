@@ -21,8 +21,10 @@ public interface EventProcessorMap {
 
 	void applyMapping();
 
-	public abstract Class<? extends AbstractProgramParameter> getAbstractProgramParameterClass();
+	public abstract AbstractProgramParameter getAbstractProgramParameter();
 
 	public abstract List<Controller> getControllers();
+
+	void map(Controller controller);
 
 }

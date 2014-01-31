@@ -60,7 +60,7 @@ public class EventProcessorNRPNMessage extends
 			AbstractProgramParameter abstractProgramParameter) {
 		return new EventProcessorNRPNMessage(
 				abstractProgramParameter.getLayerANRPNNumber(),
-				abstractProgramParameter.data);
+				abstractProgramParameter.getValue());
 	}
 
 	@Override

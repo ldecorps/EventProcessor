@@ -12,10 +12,10 @@ public class MapRepository {
 	static final List<EventProcessorMap> maps = new ArrayList<EventProcessorMap>();
 
 	public static List<Controller> getControllersForParameter(
-			Class<? extends AbstractProgramParameter> abstractProgramParameterClass) {
+			AbstractProgramParameter abstractProgramParameter) {
 		for (EventProcessorMap map : maps) {
-			if (map.getAbstractProgramParameterClass().equals(
-					abstractProgramParameterClass))
+			if (map.getAbstractProgramParameter().getClass()
+					.equals(abstractProgramParameter.getClass()))
 				return map.getControllers();
 		}
 

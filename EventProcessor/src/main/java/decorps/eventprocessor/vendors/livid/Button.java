@@ -21,4 +21,14 @@ public class Button implements Controller {
 
 	public Button() {
 	}
+
+	@Override
+	public void setValue(byte value) {
+		this.value = value == 0;
+	}
+
+	@Override
+	public byte getValue() {
+		return (byte) (value ? 1 : 0);
+	}
 }
