@@ -2,6 +2,8 @@ package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.utils.BaseUtils.*;
 import decorps.eventprocessor.utils.BaseUtils;
+import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ZeroTo127Range;
 
 public class BankLayout {
 	public final Button[] buttons = new Button[45];
@@ -106,4 +108,30 @@ public class BankLayout {
 			setButtonOn(j);
 	}
 
+	public int[] getEncoderModes() {
+		int[] result = new int[8];
+		for (int i = 0; i < 32; i = i + 8) {
+			final int index = i / 8;
+			result[index] = getNextSevenEncoderModes(i);
+			result[index + 1] = getNextEncoderMode(i + 7);
+		}
+		return result;
+	}
+
+	private int getNextEncoderMode(int encoderIndex) {
+		final AbstractProgramParameter programParameter = encoders[encoderIndex++]
+				.getProgramParameter();
+		if (null == programParameter
+				|| programParameter instanceof ZeroTo127Range)
+			return 0;
+		return 1;
+	}
+
+	private int getNextSevenEncoderModes(int encoderIndex) {
+		String result = "";
+		for (int i = 0; i < 7; i++) {
+			result = getNextEncoderMode(encoderIndex + i) + result;
+		}
+		return binaryToByte(result);
+	}
 }

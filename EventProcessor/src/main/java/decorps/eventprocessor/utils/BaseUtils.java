@@ -113,6 +113,8 @@ public class BaseUtils {
 		String result = "";
 		for (byte currentByte : bytes)
 			result += byteToHexa(currentByte) + " ";
+		if (result.endsWith(" "))
+			result = result.substring(0, result.length() - 1);
 		return result;
 	}
 

@@ -40,4 +40,8 @@ public class LividMessageFactory {
 				.buildEventProcessorNRPNMessage(abstractProgramParameter);
 	}
 
+	public static EventProcessorMidiMessage buildMap_Encosion_Mode(
+			int... payload) {
+		return new Set_Map_Encosion_Mode(payload, 0x10, 8);
+	}
 }
