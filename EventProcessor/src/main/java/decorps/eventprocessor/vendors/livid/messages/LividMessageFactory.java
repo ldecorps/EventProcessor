@@ -1,6 +1,8 @@
 package decorps.eventprocessor.vendors.livid.messages;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
+import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 
 public class LividMessageFactory {
 
@@ -27,8 +29,15 @@ public class LividMessageFactory {
 		return new Set_LED_Ring_Style(payload, 0x32, 32);
 	}
 
-	public static EventProcessorMidiMessage buildSet_LED_Ring_Mode(int... payload) {
+	public static EventProcessorMidiMessage buildSet_LED_Ring_Mode(
+			int... payload) {
 		return new Set_LED_Ring_Mode(payload);
+	}
+
+	public static EventProcessorMidiMessage buildEventProcessorNRPNMessage(
+			AbstractProgramParameter abstractProgramParameter) {
+		return EventProcessorNRPNMessage
+				.buildEventProcessorNRPNMessage(abstractProgramParameter);
 	}
 
 }

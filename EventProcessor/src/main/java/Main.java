@@ -1,4 +1,5 @@
 import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.rules.LividEncoderOrButtonValueNewValue_SentToTetra;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
@@ -14,6 +15,10 @@ public class Main {
 		EventProcessor eventProcessor = EventProcessor.build();
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
+
+		eventProcessor.registerAction(
+				new LividEncoderOrButtonValueNewValue_SentToTetra(),
+				TetraParameter.ANY_NOTE_OR_CC, eventProcessor.fromLividToTetra);
 		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
 				TetraParameter.ProgramEditBufferDataDump,
 				eventProcessor.fromTetraToLivid);

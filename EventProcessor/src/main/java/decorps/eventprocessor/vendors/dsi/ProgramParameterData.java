@@ -6,12 +6,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.sun.corba.se.impl.orbutil.concurrent.Sync;
+
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1FineTune;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.GlideMode;
+import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Keyboard;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1KeyTrack;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc2FineFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc2Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Glide;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorSlop;
 
 public class ProgramParameterData {
 
@@ -20,7 +29,7 @@ public class ProgramParameterData {
 	public final Layer A;
 	public final Layer B;
 	public final Layer[] layers;
-	Layer currentLayer;
+	public static Layer CurrentLayer;
 	int offset = 0;
 
 	@Override
@@ -39,12 +48,15 @@ public class ProgramParameterData {
 		this.data = data;
 		this.Name = bytesToText(Arrays.copyOfRange(data, 184, 199));
 		Class<? extends AbstractProgramParameter>[] parameters = new Class[] {
-				Oscillator1Frequency.class, Oscillator1FineTune.class,
+				Osc1Frequency.class, Osc1FineFreq.class,
 				Oscillator1Shape.class, Oscillator1Glide.class,
-				Oscillator1Keyboard.class };
+				Osc1KeyTrack.class, Osc2Frequency.class,
+				Osc2FineFreq.class, Oscillator2Shape.class,
+				Oscillator2Glide.class, Osc1KeyTrack.class, Sync.class,
+				GlideMode.class, OscillatorSlop.class, OscillatorMix.class };
 		A = buildA(parameters);
 		B = buildB(parameters);
-		currentLayer = A;
+		CurrentLayer = A;
 		layers = new Layer[] { A, B };
 	}
 
@@ -86,9 +98,14 @@ public class ProgramParameterData {
 		result.add(layers[i].oscillator1Shape);
 		result.add(layers[i].oscillator1Glide);
 		result.add(layers[i].oscillator1Keyboard);
+		result.add(layers[i].oscillator2Frequency);
+		result.add(layers[i].oscillator2FineTune);
+		result.add(layers[i].oscillator2Shape);
+		result.add(layers[i].oscillator2Glide);
+		result.add(layers[i].oscillator2Keyboard);
 	}
 
 	public Layer currentLayer() {
-		return currentLayer;
+		return CurrentLayer;
 	}
 }

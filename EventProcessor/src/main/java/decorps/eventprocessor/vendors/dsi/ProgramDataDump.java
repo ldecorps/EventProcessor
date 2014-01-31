@@ -27,7 +27,7 @@ public class ProgramDataDump extends EventProcessorSysexMessage {
 		programParameterData = ProgramParameterData.build(unpacked);
 	}
 
-	public static ProgramDataDump buildProgramDump(byte[] sysexMessage) {
+	public static ProgramDataDump buildProgramDataDump(byte[] sysexMessage) {
 		ProgramDataDump programDataDump = new ProgramDataDump(sysexMessage);
 		return programDataDump;
 	}

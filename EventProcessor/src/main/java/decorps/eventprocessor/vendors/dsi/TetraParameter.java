@@ -48,6 +48,19 @@ public enum TetraParameter {
 					.isProgramDataDump(eventProcessorMidiMessage.getMessage());
 			return result;
 		}
+	},
+	ANY_NOTE {
+		@Override
+		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
+			return eventProcessorMidiMessage.isNote();
+		}
+	},
+	ANY_NOTE_OR_CC {
+		@Override
+		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
+			return eventProcessorMidiMessage.isNote()
+					|| eventProcessorMidiMessage.isCC();
+		}
 	};
 
 	abstract public boolean is(

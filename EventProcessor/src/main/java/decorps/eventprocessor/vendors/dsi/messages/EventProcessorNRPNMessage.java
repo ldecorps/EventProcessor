@@ -12,21 +12,24 @@ import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParam
 public class EventProcessorNRPNMessage extends
 		EventProcessorMidiMessageComposite {
 
+	public final int NRPNControllerNumber;
+	public final byte NRPNControllerValue;
 	public static final byte NRPN_parameter_number_MSB_CC = binaryToByte("0110 0011");
 	public static final byte NRPN_parameter_number_LSB_CC = binaryToByte("0110 0010");
 	public static final byte NRPN_parameter_value_MSB_CC = binaryToByte("0000 0110");
 	public static final byte NRPN_parameter_value_LSB_CC = binaryToByte("0010 0110");
 
-	private EventProcessorNRPNMessage(byte controllerNumber,
-			byte controllerValue) {
+	private EventProcessorNRPNMessage(int position, byte controllerValue) {
+		this.NRPNControllerNumber = position;
+		this.NRPNControllerValue = controllerValue;
 		eventProcessorMidiMessages.add(EventProcessorShortMessage
 				.buildShortMessage(ShortMessage.CONTROL_CHANGE,
 						NRPN_parameter_number_MSB_CC,
-						get7MostSignificantBits(controllerNumber)));
+						get7MostSignificantBits(position)));
 		eventProcessorMidiMessages.add(EventProcessorShortMessage
 				.buildShortMessage(ShortMessage.CONTROL_CHANGE,
 						NRPN_parameter_number_LSB_CC,
-						get7LeastSignificantBits(controllerNumber)));
+						get7LeastSignificantBits(position)));
 		eventProcessorMidiMessages.add(EventProcessorShortMessage
 				.buildShortMessage(ShortMessage.CONTROL_CHANGE,
 						NRPN_parameter_value_MSB_CC,
@@ -56,7 +59,7 @@ public class EventProcessorNRPNMessage extends
 	public static EventProcessorMidiMessage buildEventProcessorNRPNMessage(
 			AbstractProgramParameter abstractProgramParameter) {
 		return new EventProcessorNRPNMessage(
-				abstractProgramParameter.getNRPNNumber(),
+				abstractProgramParameter.getLayerANRPNNumber(),
 				abstractProgramParameter.data);
 	}
 
@@ -71,4 +74,5 @@ public class EventProcessorNRPNMessage extends
 		}
 		return result;
 	}
+
 }

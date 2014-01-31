@@ -19,7 +19,7 @@ public class AbstractProgramParameterTest {
 	}
 
 	public void checkZeroOrOne(int data, int rebased) {
-		Oscillator1Keyboard oneZeroOrOneParameter = new Oscillator1Keyboard(4,
+		Osc1KeyTrack oneZeroOrOneParameter = new Osc1KeyTrack(4,
 				(byte) data);
 		assertThat(ZeroOrOneRange.class.isAssignableFrom(oneZeroOrOneParameter
 				.getClass()), is(true));
@@ -28,7 +28,7 @@ public class AbstractProgramParameterTest {
 
 	private void checkZeroTo120Range(Class<? extends HasCcValue> class1,
 			int fromTetra, int forLividCode) {
-		Oscillator1Frequency oneZeroTo120Parameter = new Oscillator1Frequency(
+		Osc1Frequency oneZeroTo120Parameter = new Osc1Frequency(
 				0, (byte) fromTetra);
 		assertThat(class1.isAssignableFrom(oneZeroTo120Parameter.getClass()),
 				is(true));

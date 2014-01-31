@@ -6,6 +6,7 @@ import javax.sound.midi.ShortMessage;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.maps.DefaultMap;
 
 public class LividCodeEventProcessorCCShortMessage extends
 		EventProcessorShortMessage {
@@ -20,11 +21,11 @@ public class LividCodeEventProcessorCCShortMessage extends
 	final byte type;
 	final byte value;
 	final byte channel;
-	final AbstractMap map;
+	final DefaultMap map;
 	public final AbstractProgramParameter abstractProgramParameter;
 
 	public LividCodeEventProcessorCCShortMessage(
-			AbstractProgramParameter abstractProgramParameter, AbstractMap map,
+			AbstractProgramParameter abstractProgramParameter, DefaultMap map,
 			byte type, byte value) {
 		super(buildLividCodeShortMessage(abstractProgramParameter, type, value,
 				map));
@@ -37,7 +38,7 @@ public class LividCodeEventProcessorCCShortMessage extends
 
 	private static ShortMessage buildLividCodeShortMessage(
 			AbstractProgramParameter abstractProgramParameter, byte type,
-			byte value, AbstractMap map) {
+			byte value, DefaultMap map) {
 		ShortMessage result;
 		try {
 			final int shortMessageType = EncoderMap.class.isAssignableFrom(map

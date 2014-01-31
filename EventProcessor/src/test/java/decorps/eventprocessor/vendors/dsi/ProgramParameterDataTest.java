@@ -8,7 +8,7 @@ import org.junit.Test;
 public class ProgramParameterDataTest {
 
 	public final static byte[] unpacked = ProgramDataDump
-			.buildProgramDump(DsiTetraMapTest.sampleProgramDataDump
+			.buildProgramDataDump(DsiTetraMapTest.sampleProgramDataDump
 					.getMessage()).programParameterData.data;
 	public final static ProgramParameterData sampleProgramParameterData = ProgramParameterData
 			.build(unpacked);

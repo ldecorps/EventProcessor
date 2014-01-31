@@ -1,15 +1,15 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class Oscillator1Shape extends AbstractProgramParameter implements
+public class Oscillator2Shape extends AbstractProgramParameter implements
 		FourTo103Range, Centered {
 
-	public Oscillator1Shape(int number, byte b) {
+	public Oscillator2Shape(int number, byte b) {
 		super(number, b);
 	}
 
 	@Override
 	public byte getLayerANRPNNumber() {
-		return 2;
+		return 7;
 	}
 
 }

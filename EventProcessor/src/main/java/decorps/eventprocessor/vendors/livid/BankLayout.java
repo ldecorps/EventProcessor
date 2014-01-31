@@ -4,12 +4,22 @@ import static decorps.eventprocessor.utils.BaseUtils.*;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public class BankLayout {
-	Button[] buttons = new Button[45];
-	Encoder[] encoders = new Encoder[32];
-	public static BankLayout CurrentBank = new BankLayout();
-	public static final BankLayout[] AllBanks = new BankLayout[4];
+	public final Button[] buttons = new Button[45];
+	public final Encoder[] encoders = new Encoder[32];
+	public static final BankLayout[] AllBanks = createFourBanks();
+	public static BankLayout CurrentBank = AllBanks[0];
 
-	public BankLayout() {
+	public static BankLayout[] createFourBanks() {
+		BankLayout[] allBanks = new BankLayout[4];
+		for (int i = 0; i < allBanks.length; i++)
+			allBanks[i] = new BankLayout(i);
+		return allBanks;
+	}
+
+	public final int bankNumber;
+
+	public BankLayout(int bankNumber) {
+		this.bankNumber = bankNumber;
 		for (int i = 0; i < buttons.length; i++)
 			buttons[i] = new Button();
 		for (int i = 0; i < encoders.length; i++)
@@ -71,4 +81,29 @@ public class BankLayout {
 	public int getEncoderValue(int encoderNumber) {
 		return encoders[encoderNumber].getValue();
 	}
+
+	public void setButtonOn(int i) {
+		buttons[i - 1].switchOn();
+	}
+
+	public boolean isButtonSwitchedOff(int i) {
+		return false == buttons[i - 1].isSwitchedOn();
+	}
+
+	public void setButtonOff(int i) {
+		buttons[i - 1].switchOff();
+	}
+
+	public boolean areSwitchedOn(int... i) {
+		for (int j : i)
+			if (isButtonSwitchedOff(j))
+				return false;
+		return true;
+	}
+
+	public void setButtonsOn(int... i) {
+		for (int j : i)
+			setButtonOn(j);
+	}
+
 }

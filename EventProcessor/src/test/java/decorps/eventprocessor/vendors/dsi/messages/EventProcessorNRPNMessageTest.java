@@ -1,13 +1,14 @@
 package decorps.eventprocessor.vendors.dsi.messages;
 
+import static decorps.eventprocessor.utils.BaseUtils.bytesToHexa;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.Test;
 
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvelopeAmount;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1FineTune;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvAmount;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 
 public class EventProcessorNRPNMessageTest {
 	public static byte[] sampleReceivedNPRN_Osc1_FineTune_3 = new byte[] {
@@ -29,16 +30,15 @@ public class EventProcessorNRPNMessageTest {
 	@Test
 	public void testRelativeCase() throws Exception {
 		EventProcessorNRPNMessage oneMessage = (EventProcessorNRPNMessage) EventProcessorNRPNMessage
-				.buildEventProcessorNRPNMessage(new Oscillator1FineTune(3,
-						(byte) 50));
-		assertArrayEquals(sampleReceivedNPRN_Osc1_FineTune_3,
-				oneMessage.getMessage());
+				.buildEventProcessorNRPNMessage(new Osc1FineFreq((byte) 50));
+		assertArrayEquals(bytesToHexa(oneMessage.getMessage()),
+				sampleReceivedNPRN_Osc1_FineTune_3, oneMessage.getMessage());
 	}
 
 	@Test
 	public void testTwoBytesParameterValue() throws Exception {
 		EventProcessorNRPNMessage oneMessage = (EventProcessorNRPNMessage) EventProcessorNRPNMessage
-				.buildEventProcessorNRPNMessage(new FilterEnvelopeAmount(25,
+				.buildEventProcessorNRPNMessage(new FilterEnvAmount(25,
 						(byte) 254));
 		assertArrayEquals(sampleReceivedFilterEnvelopeAmount_to_254,
 				oneMessage.getMessage());

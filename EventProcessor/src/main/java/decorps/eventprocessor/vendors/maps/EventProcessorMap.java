@@ -1,19 +1,19 @@
 package decorps.eventprocessor.vendors.maps;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
-import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 
 public interface EventProcessorMap {
 
-	LividCodeEventProcessorCCShortMessage map(
+	EventProcessorMidiMessage map(
 			AbstractProgramParameter abstractProgramParameter);
 
 	EventProcessorMidiMessage mapToCcs(ProgramParameterData programparameterdata);
 
-	EventProcessorMidiMessageComposite map(
-			ProgramParameterData programparameterdata);
+	EventProcessorMidiMessage map(ProgramParameterData programparameterdata);
+
+	EventProcessorMidiMessage map(
+			EventProcessorMidiMessage eventProcessorMidiMessage);
 
 }

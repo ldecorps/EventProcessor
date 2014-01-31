@@ -8,12 +8,16 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1FineTune;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Keyboard;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1KeyTrack;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
-import decorps.eventprocessor.vendors.livid.AbstractMap;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc2FineFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc2Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Glide;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc2KeyTrack;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Shape;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.ButtonMap;
 import decorps.eventprocessor.vendors.livid.EncoderMap;
@@ -22,17 +26,24 @@ import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
-	AbstractMap[] mapping = new AbstractMap[] {
-			new EncoderMap(Oscillator1Frequency.class, 0, 1),
-			new EncoderMap(Oscillator1FineTune.class, 0, 2),
+	public static final DefaultMap[] mapping = new DefaultMap[] {
+			new EncoderMap(Osc1Frequency.class, 0, 1),
+			new EncoderMap(Osc1FineFreq.class, 0, 2),
 			new EncoderMap(Oscillator1Shape.class, 0, 3),
 			new EncoderMap(Oscillator1Glide.class, 0, 4),
-			new ButtonMap(Oscillator1Keyboard.class, 0, 12) };
+			new ButtonMap(Osc1KeyTrack.class, 0, 12),
+			new EncoderMap(Osc2Frequency.class, 0, 5),
+			new EncoderMap(Osc2FineFreq.class, 0, 6),
+			new EncoderMap(Oscillator2Shape.class, 0, 7),
+			new EncoderMap(Oscillator2Glide.class, 0, 8),
+			new ButtonMap(Osc2KeyTrack.class, 0, 16)
+
+	};
 
 	@Override
 	public LividCodeEventProcessorCCShortMessage map(
 			AbstractProgramParameter abstractProgramParameter) {
-		for (AbstractMap map : mapping) {
+		for (DefaultMap map : mapping) {
 			final boolean notRightIndex = !map.abstractProgramParameterClass
 					.equals(abstractProgramParameter.getClass());
 			if (notRightIndex)
@@ -126,6 +137,8 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 		mapOscillator1ShapeButton(programParameterData);
 		mapOscillator1Keyboard(programParameterData);
+		mapOscillator2ShapeButton(programParameterData);
+		mapOscillator2Keyboard(programParameterData);
 
 		byte[] Set_all_LED_indicators = LividMessageFactory
 				.buildSet_all_LED_indicators(
@@ -161,6 +174,10 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 		mapOscillator1FineTune(programParameterData);
 		mapOscillator1ShapePulseWidth(programParameterData);
 		mapOscillator1Glide(programParameterData);
+		mapOscillator2Frequency(programParameterData);
+		mapOscillator2FineTune(programParameterData);
+		mapOscillator2ShapePulseWidth(programParameterData);
+		mapOscillator2Glide(programParameterData);
 	}
 
 	public EventProcessorMidiMessage mapToSetAllEncoderValues(
@@ -175,5 +192,71 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 	private int getValueForEncoder(ProgramParameterData programParameterData,
 			int encoderNumber) {
 		return BankLayout.CurrentBank.getEncoderValue(encoderNumber);
+	}
+
+	@Override
+	public EventProcessorMidiMessage map(
+			EventProcessorMidiMessage eventProcessorMidiMessage) {
+		throw new EventProcessorException("Not Implemented Yet");
+	}
+
+	private void mapOscillator2FineTune(
+			ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(6, programParameterData
+				.currentLayer().oscillator2FineTune.getRebasedValue());
+	}
+
+	private void mapOscillator2Frequency(
+			ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(5, programParameterData
+				.currentLayer().oscillator1Frequency.getRebasedValue());
+	}
+
+	private void mapOscillator2Glide(ProgramParameterData programParameterData) {
+		BankLayout.CurrentBank.setEncoderValue(7, programParameterData
+				.currentLayer().oscillator1Glide.getRebasedValue());
+	}
+
+	private void mapOscillator2Keyboard(
+			ProgramParameterData programParameterData) {
+		final byte value = programParameterData.currentLayer().oscillator2Keyboard.data;
+		if (0 == value)
+			BankLayout.CurrentBank.turnOff(16);
+		else
+			BankLayout.CurrentBank.turnOn(16);
+	}
+
+	private void mapOscillator2ShapeButton(
+			ProgramParameterData programParameterData) {
+		final byte value = programParameterData.currentLayer().oscillator2Shape.data;
+		final boolean isOscillator2Off = value == 0;
+		if (isOscillator2Off) {
+			BankLayout.CurrentBank.turnOff(5);
+			return;
+		}
+		BankLayout.CurrentBank.turnOn(5);
+		final boolean setToSawooth = 1 == value;
+		final boolean setToTriangle = 2 == value;
+		final boolean setSquare = 2 < value;
+		if (setToSawooth) {
+			BankLayout.CurrentBank.turnOn(6);
+			return;
+		} else if (setToTriangle) {
+			BankLayout.CurrentBank.turnOn(7);
+			return;
+		} else if (setSquare) {
+			BankLayout.CurrentBank.turnOn(8);
+			return;
+		}
+
+	}
+
+	private void mapOscillator2ShapePulseWidth(
+			ProgramParameterData programParameterData) {
+		final byte data = programParameterData.currentLayer().oscillator2Shape.data;
+		if (data <= 3)
+			return;
+		byte rebasedPulseWidthValues = (byte) (((data - 4.0) / 100d) * 127d);
+		BankLayout.CurrentBank.setEncoderValue(8, rebasedPulseWidthValues);
 	}
 }

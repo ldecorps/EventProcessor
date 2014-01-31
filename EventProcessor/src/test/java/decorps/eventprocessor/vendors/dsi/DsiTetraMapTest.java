@@ -93,12 +93,12 @@ public class DsiTetraMapTest {
 		byte[] sysexMessage = sampleProgramDataDump.getMessage();
 		assertTrue(DsiTetraMap.isProgramDataDump(sysexMessage));
 		DsiTetraMap.isProgramDataDump(sysexMessage);
-		programDataDump = ProgramDataDump.buildProgramDump(sysexMessage);
+		programDataDump = ProgramDataDump.buildProgramDataDump(sysexMessage);
 		System.out.println(programDataDump.programParameterData);
 		assertEquals(3, programDataDump.bankNumber);
 		assertEquals(24, programDataDump.programNumber);
 		assertEquals("PulseOrgan", programDataDump.programParameterData.Name);
-		currentLayer = programDataDump.programParameterData.currentLayer;
+		currentLayer = ProgramParameterData.CurrentLayer;
 		assertData(0x18, currentLayer.oscillator1Frequency,
 				programDataDump.unpacked);
 		assertData(0x33, currentLayer.oscillator1FineTune,
@@ -117,7 +117,7 @@ public class DsiTetraMapTest {
 		System.out.println(programEditBufferDataDump.programParameterData);
 		assertEquals("Alternative",
 				programEditBufferDataDump.programParameterData.Name);
-		currentLayer = programEditBufferDataDump.programParameterData.currentLayer;
+		currentLayer = ProgramParameterData.CurrentLayer;
 		assertData(0x18, currentLayer.oscillator1Frequency,
 				programEditBufferDataDump.unpacked);
 		assertData(0x31, currentLayer.oscillator1FineTune,

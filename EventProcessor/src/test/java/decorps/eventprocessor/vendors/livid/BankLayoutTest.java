@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class BankLayoutTest {
-	BankLayout cut = new BankLayout();
+	BankLayout cut = new BankLayout(1);
 
 	@Test
 	public void setFirstColumnOff() throws Exception {

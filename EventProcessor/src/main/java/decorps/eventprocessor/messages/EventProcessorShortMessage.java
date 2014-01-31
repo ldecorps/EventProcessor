@@ -142,4 +142,16 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 			throw new EventProcessorException("ShortMessage should be 3 bytes");
 		return buildShortMessage(message[0], message[1], message[2]);
 	}
+
+	public boolean isNoteOn() {
+		return 0x90 == getCommand();
+	}
+
+	public boolean isNoteOff() {
+		return 0x80 == getCommand();
+	}
+
+	public boolean isControlChange() {
+		return 0xb0 == getCommand();
+	}
 }

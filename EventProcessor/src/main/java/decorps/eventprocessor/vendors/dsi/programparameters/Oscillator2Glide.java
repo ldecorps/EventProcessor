@@ -1,15 +1,15 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class Oscillator1Glide extends AbstractProgramParameter implements
+public class Oscillator2Glide extends AbstractProgramParameter implements
 		ZeroTo127Range {
 
-	public Oscillator1Glide(int number, byte b) {
+	public Oscillator2Glide(int number, byte b) {
 		super(number, b);
 	}
 
 	@Override
 	public byte getLayerANRPNNumber() {
-		return 3;
+		return 8;
 	}
 
 }

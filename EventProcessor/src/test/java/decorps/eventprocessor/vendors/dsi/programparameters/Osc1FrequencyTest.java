@@ -5,11 +5,11 @@ import static org.hamcrest.Matchers.typeCompatibleWith;
 
 import org.junit.Test;
 
-public class Oscillator1FrequencyTest {
+public class Osc1FrequencyTest {
 	@Test
 	public void hasRangeZeroTo120() throws Exception {
 
-		assertThat(Oscillator1Frequency.class,
+		assertThat(Osc1Frequency.class,
 				typeCompatibleWith(ZeroTo120Range.class));
 	}
 }

@@ -90,26 +90,17 @@ public class EventProcessor {
 	}
 
 	public void registerAction(Rule rule, TetraParameter tetraParameter,
-			Transmitter from, Receiver to) {
-		actions.add(Action.build(rule, tetraParameter, from, to));
-	}
-
-	public void registerAction(Rule rule, TetraParameter tetraParameter,
 			Link link) {
 		registerAction(rule, tetraParameter, link.transmitter, link.receiver);
 	}
 
-	public void registerAction(Rule rule, TetraParameter tetraParameter) {
-		registerAction(rule, tetraParameter, fromTetraToLivid);
+	public void registerAction(Rule rule, TetraParameter tetraParameter,
+			Transmitter from, Receiver to) {
+		actions.add(Action.build(rule, tetraParameter, from, to));
 	}
 
 	public Set<Action> getActions() {
 		return actions;
-	}
-
-	public void registerAction(Rule rule, TetraParameter tetraParameter,
-			Link in, Link out) {
-		registerAction(rule, tetraParameter, in.transmitter, out.receiver);
 	}
 
 }

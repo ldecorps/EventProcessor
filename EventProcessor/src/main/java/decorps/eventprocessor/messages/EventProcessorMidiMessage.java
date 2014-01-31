@@ -9,7 +9,11 @@ import javax.sound.midi.SysexMessage;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
+import decorps.eventprocessor.vendors.dsi.ProgramDataDump;
+import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 
 public abstract class EventProcessorMidiMessage extends MidiMessage {
 
@@ -46,6 +50,16 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		throw new ClassCastException("not a EventProcessorSysexMessage");
 	}
 
+	public EventProcessorNRPNMessage getAsEventProcessorNRPNMessage() {
+		if (this instanceof EventProcessorNRPNMessage)
+			return (EventProcessorNRPNMessage) this;
+		RuntimeException e = new ClassCastException(
+				"not a EventProcessorNRPNMessage: "
+						+ this.getClass().getSimpleName());
+		e.printStackTrace();
+		throw e;
+	}
+
 	public boolean isSysexMessage() {
 		return this instanceof EventProcessorSysexMessage;
 	}
@@ -77,5 +91,28 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 
 	public EventProcessorMidiMessageComposite getAsComposite() {
 		return (EventProcessorMidiMessageComposite) this;
+	}
+
+	public boolean isNote() {
+		if (!isShortMessage())
+			return false;
+		if (getAsShortMessage().isNoteOn() || getAsShortMessage().isNoteOff())
+			return true;
+		return false;
+	}
+
+	public ProgramParameterData getAsProgramParameterData() {
+		if (DsiTetraMap.isProgramEditBufferDataDump(getMessage()))
+			return ProgramEditBufferDataDump
+					.buildProgramEditBufferDataDump(getMessage()).programParameterData;
+		if (DsiTetraMap.isProgramDataDump(getMessage()))
+			return ProgramDataDump.buildProgramDataDump(getMessage()).programParameterData;
+		throw new EventProcessorException("not supported");
+	}
+
+	public boolean isCC() {
+		if (!isShortMessage())
+			return false;
+		return getAsShortMessage().getCommand() == ShortMessage.CONTROL_CHANGE;
 	}
 }

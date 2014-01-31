@@ -1,16 +1,8 @@
 package decorps.eventprocessor;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,6 +18,7 @@ import javax.sound.midi.SysexMessage;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
@@ -172,6 +165,7 @@ public class EventProcessorTest {
 	}
 
 	@Test
+	@Ignore
 	public void registerSetRingInicatorViaCcs_To_ProgramDataDump()
 			throws Exception {
 		registering(new SetRingIndicatorsViaCCsRule());
