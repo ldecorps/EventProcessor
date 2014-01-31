@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.livid;
 
-public class Button {
+public class Button implements Controller {
 	private boolean value;
 
 	public boolean isSwitchedOn() {

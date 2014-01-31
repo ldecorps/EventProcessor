@@ -2,14 +2,13 @@ package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.utils.BaseUtils.*;
 import decorps.eventprocessor.utils.BaseUtils;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.ZeroTo127Range;
 
 public class BankLayout {
 	public final Button[] buttons = new Button[45];
 	public final Encoder[] encoders = new Encoder[32];
 	public static final BankLayout[] AllBanks = createFourBanks();
 	public static BankLayout CurrentBank = AllBanks[0];
+	public static byte nextEncodeId;
 
 	public static BankLayout[] createFourBanks() {
 		BankLayout[] allBanks = new BankLayout[4];
@@ -22,6 +21,7 @@ public class BankLayout {
 
 	public BankLayout(int bankNumber) {
 		this.bankNumber = bankNumber;
+		nextEncodeId = 0;
 		for (int i = 0; i < buttons.length; i++)
 			buttons[i] = new Button();
 		for (int i = 0; i < encoders.length; i++)
@@ -119,12 +119,8 @@ public class BankLayout {
 	}
 
 	private int getNextEncoderMode(int encoderIndex) {
-		final AbstractProgramParameter programParameter = encoders[encoderIndex++]
-				.getProgramParameter();
-		if (null == programParameter
-				|| programParameter instanceof ZeroTo127Range)
-			return 0;
-		return 1;
+		return BankLayout.CurrentBank.encoders[encoderIndex].getMode() == Mode.Absolute ? 0
+				: 1;
 	}
 
 	private int getNextSevenEncoderModes(int encoderIndex) {

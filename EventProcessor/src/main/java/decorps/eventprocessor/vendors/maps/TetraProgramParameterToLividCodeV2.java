@@ -10,16 +10,17 @@ import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1KeyTrack;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc2FineFreq;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc2Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Glide;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc2KeyTrack;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Glide;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Shape;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.ButtonMap;
+import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.EncoderMap;
 import decorps.eventprocessor.vendors.livid.LividCodeEventProcessorCCShortMessage;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
@@ -258,5 +259,21 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 			return;
 		byte rebasedPulseWidthValues = (byte) (((data - 4.0) / 100d) * 127d);
 		BankLayout.CurrentBank.setEncoderValue(8, rebasedPulseWidthValues);
+	}
+
+	@Override
+	public void applyMapping() {
+		BankLayout.CurrentBank.encoders[0]
+				.setProgramParameter(new Oscillator1Glide(0, (byte) 0));
+	}
+
+	@Override
+	public Class<? extends AbstractProgramParameter> getAbstractProgramParameterClass() {
+		return null;
+	}
+
+	@Override
+	public List<Controller> getControllers() {
+		return null;
 	}
 }

@@ -1,16 +1,17 @@
 package decorps.eventprocessor.vendors.maps;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.hasItems;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class TetraProgramParameterToLividCodeV2Test {
 	EventProcessorMap cut = new TetraProgramParameterToLividCodeV2();
@@ -41,11 +42,30 @@ public class TetraProgramParameterToLividCodeV2Test {
 	}
 
 	@Test
-	@Ignore
-	// TODO the tetra params are all sent down, using the all the banks,
-	// that means usage of change program to populate the 4 banks
-	public void tetraParamsShouldBeMappedToAllBanks_EverythingIsSentDown()
+	public void applyTheMappingToEncodersAndButtons_OnStartUp()
 			throws Exception {
-		throw new EventProcessorException("Not Implemented Yet");
+		cut.applyMapping();
+		boolean oneEncoderHasOneProgramParameter = false;
+		for (Encoder encoder : BankLayout.CurrentBank.encoders) {
+			if (null != encoder.getProgramParameter()) {
+				oneEncoderHasOneProgramParameter = true;
+				break;
+			}
+		}
+		assertTrue(oneEncoderHasOneProgramParameter);
+	}
+
+	@Test
+	public void oneMappingAssociateOneParameterToManyControllers()
+			throws Exception {
+		new ControllerParameterMap(Oscillator1Glide.class,
+				BankLayout.CurrentBank.encoders[0],
+				BankLayout.CurrentBank.buttons[1]);
+
+		assertThat(
+				MapRepository
+						.getControllersForParameter(Oscillator1Glide.class),
+				hasItems(BankLayout.CurrentBank.encoders[0],
+						BankLayout.CurrentBank.buttons[1]));
 	}
 }

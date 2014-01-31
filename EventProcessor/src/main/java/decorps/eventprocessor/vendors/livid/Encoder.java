@@ -1,10 +1,11 @@
 package decorps.eventprocessor.vendors.livid;
 
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ZeroTo127Range;
 
-public class Encoder {
+public class Encoder implements Controller {
+	public final byte id;
 	private byte value;
-	private Mode mode;
 	private AbstractProgramParameter programParameter;
 
 	public AbstractProgramParameter getProgramParameter() {
@@ -16,11 +17,10 @@ public class Encoder {
 	}
 
 	public Mode getMode() {
-		return mode;
-	}
-
-	public void setMode(Mode mode) {
-		this.mode = mode;
+		if (null == programParameter
+				|| programParameter instanceof ZeroTo127Range)
+			return Mode.Absolute;
+		return Mode.Relative;
 	}
 
 	public byte getValue() {
@@ -33,7 +33,7 @@ public class Encoder {
 
 	public Encoder() {
 		value = 0;
-		mode = Mode.Absolute;
+		id = BankLayout.nextEncodeId++;
 	}
 
 }
