@@ -1,7 +1,7 @@
 package decorps.eventprocessor.vendors.maps;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -24,11 +24,23 @@ public class DefaultControllerParameterMapTest {
 		EventProcessorMap defaultMap = new DefaultControllerParameterMap(
 				oneParam, oneController, anotherController);
 
-		final byte newValue = AbstractProgramParameterTest.getRandomByte();
+		final byte newValue = AbstractProgramParameterTest
+				.getRandomByteOtherThan(oneController.getRebasedValue());
 		oneParam.setValue(newValue);
 		assertThat(oneController.getRebasedValue(), not(newValue));
 		defaultMap.refreshControllers();
 
-		assertEquals(oneController.getRebasedValue(), newValue);
+		assertEquals(newValue, oneController.getRebasedValue());
+		assertThat(anotherController.getRebasedValue(), not(newValue));
+	}
+
+	@Test
+	public void newMap_RegistersItselfWithTheRepository() throws Exception {
+		EventProcessorMap map = new Oscillator1Glide_to_E0B1(
+				AbstractProgramParameterTest.newSampleAbsoluteParameter(),
+				ControllerTest.newAbsoluteEncoderController());
+
+		assertThat(MapRepository.getMaps(), hasItem(map));
+
 	}
 }

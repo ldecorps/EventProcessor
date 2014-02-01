@@ -55,4 +55,11 @@ public class AbstractProgramParameterTest {
 		return new Oscillator1Shape(0, getRandomByte());
 	}
 
+	public static byte getRandomByteOtherThan(byte rebasedValue) {
+		byte candidateValue = 0;
+		do {
+			candidateValue = getRandomByte();
+		} while (rebasedValue == candidateValue);
+		return candidateValue;
+	}
 }

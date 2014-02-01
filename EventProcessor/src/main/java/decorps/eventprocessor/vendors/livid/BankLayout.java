@@ -21,7 +21,7 @@ public class BankLayout {
 
 	public BankLayout(int bankNumber) {
 		this.bankNumber = bankNumber;
-		nextEncodeId = 0;
+		nextEncodeId = 1;
 		for (int i = 0; i < buttons.length; i++)
 			buttons[i] = new Button();
 		for (int i = 0; i < encoders.length; i++)

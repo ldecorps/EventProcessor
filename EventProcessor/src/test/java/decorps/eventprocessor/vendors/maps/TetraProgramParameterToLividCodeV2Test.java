@@ -1,7 +1,9 @@
 package decorps.eventprocessor.vendors.maps;
 
-import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,8 +11,8 @@ import org.junit.Test;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameterTest;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.Encoder;
@@ -60,13 +62,14 @@ public class TetraProgramParameterToLividCodeV2Test {
 	@Test
 	public void oneMappingAssociateOneParameterToManyControllers()
 			throws Exception {
-		getTestingMap();
+		EventProcessorMap map = getTestingMap();
 
-		assertThat(
-				MapRepository.getControllersForParameter(new Oscillator1Glide(
-						0, (byte) 0)),
-				hasItems(BankLayout.CurrentBank.encoders[0],
-						BankLayout.CurrentBank.buttons[1]));
+		final AbstractProgramParameter abstractProgramParameter = map
+				.getAbstractProgramParameter();
+		final List<Controller> controllersForParameter = MapRepository
+				.getControllersForParameter(abstractProgramParameter);
+
+		assertThat(controllersForParameter.size(), is(2));
 	}
 
 	public EventProcessorMap getTestingMap() {

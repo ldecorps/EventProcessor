@@ -1,5 +1,7 @@
 package decorps.eventprocessor.vendors.livid;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -14,9 +16,19 @@ public class BankLayoutTest {
 	}
 
 	@Test
-	public void lividShouldNotifyWhenItChangesBank() throws Exception {
-		// Livid does not send messages when it changes bank...
-		// all banks have to be loaded in advance, via change program, when new
-		// patch is selected
+	public void newBank_shouldHaveAllItsEncodersAssingToNullParameter()
+			throws Exception {
+
+		Encoder[] encoders = new BankLayout(1).encoders;
+		for (Encoder encoder : encoders)
+			assertEquals(Mode.Absolute, encoder.getMode());
+		assertThat(encoders.length, is(32));
+	}
+
+	@Test
+	public void encodersId_followTheLividDefault() throws Exception {
+		BankLayout bankLayout = new BankLayout(1);
+		for (int i = 0; i < 32; i++)
+			assertEquals(i + 1, bankLayout.encoders[i].id);
 	}
 }

@@ -4,11 +4,11 @@ import decorps.eventprocessor.utils.BaseUtils;
 
 public abstract class AbstractProgramParameter implements HasCcValue {
 	public static final AbstractProgramParameter nullParameter = new AbstractProgramParameter(
-			0, (byte) 0) {
+			-1, (byte) -1) {
 
 		@Override
 		public byte getLayerANRPNNumber() {
-			return 0;
+			return -1;
 		}
 	};
 	private byte value;
