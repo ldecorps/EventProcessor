@@ -9,22 +9,21 @@ import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
 import decorps.eventprocessor.vendors.livid.Controller;
 
-public abstract class ControllerParameterMap implements EventProcessorMap {
+public class DefaultControllerParameterMap implements EventProcessorMap {
 	final List<Controller> controllers = new ArrayList<Controller>();
+	final AbstractProgramParameter abstractProgramParameter;
 
 	@Override
 	public List<Controller> getControllers() {
 		return controllers;
 	}
 
-	final AbstractProgramParameter abstractProgramParameter;
-
 	@Override
 	public AbstractProgramParameter getAbstractProgramParameter() {
 		return abstractProgramParameter;
 	}
 
-	public ControllerParameterMap(
+	public DefaultControllerParameterMap(
 			AbstractProgramParameter abstractProgramParameter,
 			Controller... controllers) {
 		for (Controller controller : controllers) {
@@ -32,12 +31,6 @@ public abstract class ControllerParameterMap implements EventProcessorMap {
 		}
 		this.abstractProgramParameter = abstractProgramParameter;
 		MapRepository.register(this);
-	}
-
-	@Override
-	public EventProcessorMidiMessage map(
-			AbstractProgramParameter abstractProgramParameter) {
-		throw new EventProcessorException("Not Implemented Yet");
 	}
 
 	@Override
@@ -61,6 +54,27 @@ public abstract class ControllerParameterMap implements EventProcessorMap {
 	@Override
 	public void applyMapping() {
 		throw new EventProcessorException("Not Implemented Yet");
+	}
+
+	@Override
+	public void map(Controller controller) {
+		abstractProgramParameter.setValue(controller.getRebasedValue());
+	}
+
+	@Override
+	public void map(AbstractProgramParameter abstractProgramParameter) {
+		controllers.get(0).setValue(abstractProgramParameter.getValue());
+	}
+
+	@Override
+	public void refreshControllers() {
+		final byte newValue = abstractProgramParameter.getRebasedValue();
+		controllers.get(0).setValue(newValue);
+	}
+
+	@Override
+	public void refreshProgramParameter() {
+		abstractProgramParameter.setValue(controllers.get(0).getValue());
 	}
 
 }

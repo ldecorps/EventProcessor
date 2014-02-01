@@ -41,8 +41,7 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	};
 
-	@Override
-	public LividCodeEventProcessorCCShortMessage map(
+	public LividCodeEventProcessorCCShortMessage mapToCC(
 			AbstractProgramParameter abstractProgramParameter) {
 		for (DefaultMap map : mapping) {
 			final boolean notRightIndex = !map.abstractProgramParameterClass
@@ -126,7 +125,7 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 				.getFirst200AbstractProgramParameters();
 
 		for (AbstractProgramParameter abstractProgramParameter : firstLayerAbstractProgramParameters) {
-			final LividCodeEventProcessorCCShortMessage cc = map(abstractProgramParameter);
+			final LividCodeEventProcessorCCShortMessage cc = mapToCC(abstractProgramParameter);
 			eventProcessorMidiMessages.add(cc);
 		}
 		EventProcessorMidiMessage result = EventProcessorMidiMessageComposite
@@ -285,6 +284,21 @@ public class TetraProgramParameterToLividCodeV2 implements EventProcessorMap {
 
 	@Override
 	public void map(Controller controller) {
+		throw new EventProcessorException("Not Implemented Yet");
+	}
+
+	@Override
+	public void map(AbstractProgramParameter abstractProgramParameter) {
+		throw new EventProcessorException("Not Implemented Yet");
+	}
+
+	@Override
+	public void refreshControllers() {
+		throw new EventProcessorException("Not Implemented Yet");
+	}
+
+	@Override
+	public void refreshProgramParameter() {
 		throw new EventProcessorException("Not Implemented Yet");
 	}
 }

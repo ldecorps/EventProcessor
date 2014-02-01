@@ -28,7 +28,12 @@ public class Button implements Controller {
 	}
 
 	@Override
-	public byte getValue() {
+	public byte getRebasedValue() {
 		return (byte) (value ? 1 : 0);
+	}
+
+	@Override
+	public byte getValue() {
+		return getRebasedValue();
 	}
 }

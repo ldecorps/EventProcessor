@@ -3,15 +3,13 @@ package decorps.eventprocessor.vendors.maps;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.*;
 
-import java.util.Random;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameterTest;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
@@ -21,12 +19,10 @@ public class TetraProgramParameterToLividCodeV2Test {
 	EventProcessorMap cut = new TetraProgramParameterToLividCodeV2();
 
 	final static ProgramParameterData sampleProgramParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-	byte[] bytes = new byte[1];
 
 	@Before
 	public void initialiseLayout() {
 		BankLayout.CurrentBank = new BankLayout(1);
-		new Random().nextBytes(bytes);
 	}
 
 	private void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
@@ -74,7 +70,8 @@ public class TetraProgramParameterToLividCodeV2Test {
 	}
 
 	public EventProcessorMap getTestingMap() {
-		return new Oscillator1Glide_to_E0B1(new Oscillator1Glide(0, bytes[0]),
+		return new Oscillator1Glide_to_E0B1(
+				AbstractProgramParameterTest.newSampleAbsoluteParameter(),
 				BankLayout.CurrentBank.encoders[0],
 				BankLayout.CurrentBank.buttons[1]);
 	}
@@ -84,16 +81,26 @@ public class TetraProgramParameterToLividCodeV2Test {
 			throws Exception {
 		EventProcessorMap map = getTestingMap();
 		final Controller controller = map.getControllers().get(0);
-		controller.setValue(bytes[0]);
+		final byte newControllerValue = AbstractProgramParameterTest
+				.getRandomByte();
+		controller.setValue(newControllerValue);
 
-		map.map(controller);
+		map.refreshProgramParameter();
 
-		assertEquals(bytes[0], map.getAbstractProgramParameter().getValue());
+		assertEquals(newControllerValue, map.getAbstractProgramParameter()
+				.getValue());
 	}
 
 	@Test
 	public void mapItsAbstractProgramParameterToItsControllers()
 			throws Exception {
-		throw new EventProcessorException("Not Implemented Yet");
+		EventProcessorMap map = getTestingMap();
+		final byte newParameterValue = AbstractProgramParameterTest
+				.getRandomByte();
+		map.getAbstractProgramParameter().setValue(newParameterValue);
+		map.refreshControllers();
+
+		assertEquals(newParameterValue, map.getControllers().get(0).getValue());
 	}
+
 }

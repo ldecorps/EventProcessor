@@ -72,8 +72,8 @@ public class BankLayout {
 	public int[] getEncodersAsArrayOfInts() {
 		int[] result = new int[64];
 		for (int i = 0; i < encoders.length; i++) {
-			byte leds_1_to_7 = (byte) (encoders[i].getValue() & 0x00001111);
-			byte leds_8_to_13 = (byte) (encoders[i].getValue() & 0x11110000);
+			byte leds_1_to_7 = (byte) (encoders[i].getRebasedValue() & 0x00001111);
+			byte leds_8_to_13 = (byte) (encoders[i].getRebasedValue() & 0x11110000);
 			result[(i * 2)] = leds_1_to_7;
 			result[(i * 2) + 1] = leds_8_to_13;
 		}
@@ -81,7 +81,7 @@ public class BankLayout {
 	}
 
 	public int getEncoderValue(int encoderNumber) {
-		return encoders[encoderNumber].getValue();
+		return encoders[encoderNumber].getRebasedValue();
 	}
 
 	public void setButtonOn(int i) {

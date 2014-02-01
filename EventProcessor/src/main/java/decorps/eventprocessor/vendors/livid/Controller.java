@@ -4,6 +4,8 @@ public interface Controller {
 
 	void setValue(byte value);
 
+	byte getRebasedValue();
+
 	byte getValue();
 
 }

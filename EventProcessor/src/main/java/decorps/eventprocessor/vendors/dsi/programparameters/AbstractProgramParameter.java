@@ -3,6 +3,14 @@ package decorps.eventprocessor.vendors.dsi.programparameters;
 import decorps.eventprocessor.utils.BaseUtils;
 
 public abstract class AbstractProgramParameter implements HasCcValue {
+	public static final AbstractProgramParameter nullParameter = new AbstractProgramParameter(
+			0, (byte) 0) {
+
+		@Override
+		public byte getLayerANRPNNumber() {
+			return 0;
+		}
+	};
 	private byte value;
 	public final int position;
 
@@ -19,7 +27,7 @@ public abstract class AbstractProgramParameter implements HasCcValue {
 
 	@Override
 	public byte getRebasedValue() {
-		byte result = 0;
+		byte result = value;
 		if (ZeroTo120Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 120d));
 		else if (ZeroOrOneRange.class.isAssignableFrom(getClass()))

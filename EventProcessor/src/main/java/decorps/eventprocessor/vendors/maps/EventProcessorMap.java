@@ -9,9 +9,6 @@ import decorps.eventprocessor.vendors.livid.Controller;
 
 public interface EventProcessorMap {
 
-	EventProcessorMidiMessage map(
-			AbstractProgramParameter abstractProgramParameter);
-
 	EventProcessorMidiMessage mapToCcs(ProgramParameterData programparameterdata);
 
 	EventProcessorMidiMessage map(ProgramParameterData programparameterdata);
@@ -25,6 +22,12 @@ public interface EventProcessorMap {
 
 	public abstract List<Controller> getControllers();
 
-	void map(Controller controller);
+	public abstract void map(AbstractProgramParameter abstractProgramParameter);
+
+	public abstract void map(Controller controller);
+
+	void refreshControllers();
+
+	void refreshProgramParameter();
 
 }

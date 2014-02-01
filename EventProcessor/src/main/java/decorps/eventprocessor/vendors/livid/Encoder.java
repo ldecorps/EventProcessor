@@ -5,8 +5,7 @@ import decorps.eventprocessor.vendors.dsi.programparameters.ZeroTo127Range;
 
 public class Encoder implements Controller {
 	public final byte id;
-	private byte value;
-	private AbstractProgramParameter programParameter;
+	private AbstractProgramParameter programParameter = AbstractProgramParameter.nullParameter;
 
 	public AbstractProgramParameter getProgramParameter() {
 		return programParameter;
@@ -18,22 +17,30 @@ public class Encoder implements Controller {
 
 	public Mode getMode() {
 		if (null == programParameter
-				|| programParameter instanceof ZeroTo127Range)
+				|| programParameter instanceof ZeroTo127Range
+				|| AbstractProgramParameter.nullParameter
+						.equals(programParameter))
 			return Mode.Absolute;
 		return Mode.Relative;
 	}
 
-	public byte getValue() {
-		return value;
+	@Override
+	public byte getRebasedValue() {
+		return programParameter.getRebasedValue();
 	}
 
+	@Override
 	public void setValue(byte value) {
-		this.value = value;
+		programParameter.setValue(value);
 	}
 
 	public Encoder() {
-		value = 0;
 		id = BankLayout.nextEncodeId++;
+	}
+
+	@Override
+	public byte getValue() {
+		return programParameter.getValue();
 	}
 
 }
