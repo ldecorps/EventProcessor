@@ -11,7 +11,7 @@ import org.junit.Test;
 import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.utils.BaseUtils;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameterTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Encoder;
 
@@ -56,10 +56,10 @@ public class LividMessageFactoryTest {
 	public void shouldBuildMessageForSettingEncoderTypeAbsoluteOrRelative()
 			throws Exception {
 		final Encoder relativeParam = new Encoder();
-		relativeParam.setProgramParameter(AbstractProgramParameterTest
+		relativeParam.setProgramParameter(ProgramParameterTest
 				.newSampleRelativeParameter());
 		final Encoder absoluteParam = new Encoder();
-		absoluteParam.setProgramParameter(AbstractProgramParameterTest
+		absoluteParam.setProgramParameter(ProgramParameterTest
 				.newSampleAbsoluteParameter());
 		BankLayout.CurrentBank.encoders[0] = relativeParam;
 		BankLayout.CurrentBank.encoders[1] = relativeParam;

@@ -7,9 +7,7 @@ import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
@@ -17,8 +15,8 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
@@ -28,7 +26,6 @@ import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.rules.Rule;
 import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
-import decorps.eventprocessor.rules.SetRingIndicatorsViaCCsRule;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
@@ -83,14 +80,15 @@ public class EventProcessorTest {
 	@Test
 	public void midiMessageIsPassedAlong() throws Exception {
 		ShortMessage myMsg = sendMiddleC();
-		assertThat(getSentMessage().getData1(), is(myMsg.getData1()));
+		Assert.assertThat(getSentMessage().getData1(), is(myMsg.getData1()));
 	}
 
 	@Test
 	public void canTranspose_Plus3() throws Exception {
 		cut.registerDefaultRule(new Transpose(3));
 		ShortMessage middleC = sendMiddleC();
-		assertThat(getSentMessage().getData1(), is(middleC.getData1() + 3));
+		Assert.assertThat(getSentMessage().getData1(),
+				is(middleC.getData1() + 3));
 	}
 
 	private void sendSysEx() throws InvalidMidiDataException,
@@ -162,22 +160,6 @@ public class EventProcessorTest {
 		final List<EventProcessorMidiMessage> sentMidiMessages = cut.fromTetraToLivid.receiver
 				.getSentMidiMessages();
 		return sentMidiMessages;
-	}
-
-	@Test
-	@Ignore
-	public void registerSetRingInicatorViaCcs_To_ProgramDataDump()
-			throws Exception {
-		registering(new SetRingIndicatorsViaCCsRule());
-
-		injectingProgramDataDump();
-
-		Set<Integer> controlchanges = new HashSet<Integer>();
-		for (EventProcessorMidiMessage message : getInnerCompositeCcs()) {
-			final int data1 = message.getAsShortMessage().getData1();
-			assertFalse(controlchanges.contains(data1));
-			controlchanges.add(data1);
-		}
 	}
 
 	private void registering(Rule rule) {

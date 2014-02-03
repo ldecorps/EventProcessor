@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
-import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
 import decorps.eventprocessor.vendors.maps.DefaultMap;
 import decorps.eventprocessor.vendors.maps.OscillatorButton_to_OscillatorShapeMap;
 
@@ -22,7 +22,6 @@ public class LividEncoderOrButtonValueNewValue_SentToTetra implements Rule {
 		maps.put((int) map.controllerNumber, map);
 	}
 
-	@Override
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
 		final DefaultMap map = getMapFor(eventProcessorMidiMessage);

@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class Osc2KeyTrack extends AbstractProgramParameter implements
+public class Osc2KeyTrack extends ProgramParameter implements
 		ZeroOrOneRange {
 
 	public Osc2KeyTrack(int number, byte b) {

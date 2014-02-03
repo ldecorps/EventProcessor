@@ -2,7 +2,7 @@ package decorps.eventprocessor.snipets;
 
 import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
-import decorps.eventprocessor.rules.SetRingIndicatorsViaCCsRule;
+import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
 public class TestingProgramChange {
@@ -11,7 +11,7 @@ public class TestingProgramChange {
 		EventProcessor eventProcessor = EventProcessor.build();
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
-		eventProcessor.registerAction(new SetRingIndicatorsViaCCsRule(),
+		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
 				TetraParameter.ProgramEditBufferDataDump,
 				eventProcessor.fromTetraToLivid);
 		synchronized (TestingProgramChange.class) {

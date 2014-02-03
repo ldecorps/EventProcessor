@@ -4,30 +4,34 @@ import java.util.List;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.Controller;
 
 public interface EventProcessorMap {
 
-	EventProcessorMidiMessage mapToCcs(ProgramParameterData programparameterdata);
-
-	EventProcessorMidiMessage map(ProgramParameterData programparameterdata);
+	EventProcessorMidiMessage mapToLividSysex(
+			ProgramParameterData programParameterData);
 
 	EventProcessorMidiMessage map(
 			EventProcessorMidiMessage eventProcessorMidiMessage);
 
 	void applyMapping();
 
-	public abstract AbstractProgramParameter getAbstractProgramParameter();
+	public abstract ProgramParameter getProgramParameter();
 
 	public abstract List<Controller> getControllers();
 
-	public abstract void map(AbstractProgramParameter abstractProgramParameter);
+	public abstract void map(ProgramParameter programParameter);
 
 	public abstract void map(Controller controller);
+
+	public EventProcessorMidiMessage mapToTetraNRPN(
+			ProgramParameterData programParameterData);
 
 	void refreshControllers();
 
 	void refreshProgramParameter();
+
+	EventProcessorMidiMessage mapToLividCc();
 
 }

@@ -2,13 +2,20 @@ package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.utils.BaseUtils.*;
 import decorps.eventprocessor.utils.BaseUtils;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 
 public class BankLayout {
 	public final Button[] buttons = new Button[45];
 	public final Encoder[] encoders = new Encoder[32];
 	public static final BankLayout[] AllBanks = createFourBanks();
 	public static BankLayout CurrentBank = AllBanks[0];
+	public static BankLayout Bank1 = AllBanks[0];
+	public static BankLayout Bank2 = AllBanks[1];
+	public static BankLayout Bank3 = AllBanks[2];
+	public static BankLayout Bank4 = AllBanks[3];
 	public static byte nextEncodeId;
+	public static ProgramParameterData programParameterData;
+	public final int bankNumber;
 
 	public static BankLayout[] createFourBanks() {
 		BankLayout[] allBanks = new BankLayout[4];
@@ -16,8 +23,6 @@ public class BankLayout {
 			allBanks[i] = new BankLayout(i);
 		return allBanks;
 	}
-
-	public final int bankNumber;
 
 	public BankLayout(int bankNumber) {
 		this.bankNumber = bankNumber;
@@ -129,5 +134,20 @@ public class BankLayout {
 			result = getNextEncoderMode(encoderIndex + i) + result;
 		}
 		return binaryToByte(result);
+	}
+
+	public Encoder getEncoderForCc(int ccNumber) {
+		return encoders[ccNumber - 1];
+	}
+
+	public static ProgramParameterData getCurrentProgramParameterData() {
+		return programParameterData;
+	}
+
+	public int[] getEncoderValues() {
+		int[] result = new int[32];
+		for (int i = 0; i < 32; i++)
+			result[i] = encoders[i].getRebasedValue();
+		return result;
 	}
 }

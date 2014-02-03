@@ -3,78 +3,95 @@ package decorps.eventprocessor.vendors.maps;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.midi.ShortMessage;
+
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
+import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class DefaultControllerParameterMap implements EventProcessorMap {
-	final List<Controller> controllers = new ArrayList<Controller>();
-	final AbstractProgramParameter abstractProgramParameter;
-
 	@Override
+	public String toString() {
+		return "DefaultControllerParameterMap [controllers=" + controllers
+				+ ", programParameter=" + programParameter + "]";
+	}
+
+	final List<Controller> controllers = new ArrayList<Controller>();
+	final ProgramParameter programParameter;
+
 	public List<Controller> getControllers() {
 		return controllers;
 	}
 
-	@Override
-	public AbstractProgramParameter getAbstractProgramParameter() {
-		return abstractProgramParameter;
+	public ProgramParameter getProgramParameter() {
+		return programParameter;
 	}
 
-	public DefaultControllerParameterMap(
-			AbstractProgramParameter abstractProgramParameter,
+	public DefaultControllerParameterMap(ProgramParameter programParameter,
 			Controller... controllers) {
 		for (Controller controller : controllers) {
 			this.controllers.add(controller);
 		}
-		this.abstractProgramParameter = abstractProgramParameter;
+		this.programParameter = programParameter;
 		MapRepository.register(this);
 	}
 
-	@Override
-	public EventProcessorMidiMessage mapToCcs(
-			ProgramParameterData programparameterdata) {
-		throw new EventProcessorException("Not Implemented Yet");
+	public EventProcessorMidiMessage mapToTetraNRPN(
+			ProgramParameterData programParameterData) {
+		EventProcessorMidiMessage messageForLivid = LividMessageFactory
+				.buildEventProcessorNRPNMessage(programParameter);
+		return messageForLivid;
 	}
 
-	@Override
-	public EventProcessorMidiMessage map(
-			ProgramParameterData programparameterdata) {
-		throw new EventProcessorException("Not Implemented Yet");
+	public EventProcessorMidiMessage mapToLividSysex(
+			ProgramParameterData programParameterData) {
+		return new SetEncodersAndLedIndicatorsRule()
+				.buildMidiMessagesForProgramParameterData(programParameterData);
 	}
 
-	@Override
 	public EventProcessorMidiMessage map(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
 		throw new EventProcessorException("Not Implemented Yet");
 	}
 
-	@Override
 	public void applyMapping() {
 		throw new EventProcessorException("Not Implemented Yet");
 	}
 
-	@Override
 	public void map(Controller controller) {
-		abstractProgramParameter.setValue(controller.getRebasedValue());
+		programParameter.setValue(controller.getRebasedValue());
 	}
 
-	@Override
-	public void map(AbstractProgramParameter abstractProgramParameter) {
-		controllers.get(0).setValue(abstractProgramParameter.getValue());
+	public void map(ProgramParameter programParameter) {
+		final Controller controller = controllers.get(0);
+		final byte value = programParameter.getValue();
+		controller.setValue(value);
 	}
 
-	@Override
 	public void refreshControllers() {
-		final byte newValue = abstractProgramParameter.getRebasedValue();
+		final byte newValue = programParameter.getRebasedValue();
 		controllers.get(0).setValue(newValue);
 	}
 
-	@Override
 	public void refreshProgramParameter() {
-		abstractProgramParameter.setValue(controllers.get(0).getValue());
+		programParameter.setValue(controllers.get(0).getValue());
 	}
 
+	public boolean contains(Controller controller) {
+		return controllers.contains(controller);
+	}
+
+	public EventProcessorMidiMessage mapToLividCc() {
+		return EventProcessorShortMessage.buildShortMessage(
+				ShortMessage.CONTROL_CHANGE,
+				BankLayout.CurrentBank.bankNumber - 1, getControllers().get(0)
+						.getCCNumber(), programParameter.getRebasedValue());
+
+	}
 }

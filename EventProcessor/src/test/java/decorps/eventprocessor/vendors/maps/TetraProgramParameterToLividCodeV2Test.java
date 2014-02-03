@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.maps;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -9,16 +9,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameterTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.ControllerTest;
 import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class TetraProgramParameterToLividCodeV2Test {
-	EventProcessorMap cut = new TetraProgramParameterToLividCodeV2();
+	EventProcessorMap cut = new DefaultControllerParameterMap(
+			ProgramParameterTest.newSampleAbsoluteParameter(),
+			ControllerTest.newAbsoluteEncoderController());
 
 	final static ProgramParameterData sampleProgramParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 
@@ -27,18 +31,28 @@ public class TetraProgramParameterToLividCodeV2Test {
 		BankLayout.CurrentBank = new BankLayout(1);
 	}
 
-	private void checkOscillator1Frequency(EventProcessorMidiMessage forCodeV2) {
-		assertEquals("channel", 0, forCodeV2.getAsShortMessage().getChannel());
-		assertEquals("ledring", 1, forCodeV2.getAsShortMessage().getData1());
-		assertEquals("value", 25, forCodeV2.getAsShortMessage().getData2());
+	private void checkOscillator1Frequency(
+			Controller newAbsoluteEncoderController,
+			ProgramParameter newSampleAbsoluteParameter,
+			EventProcessorShortMessage eventProcessorShortMessage) {
+		assertEquals("channel", 0, eventProcessorShortMessage.getChannel());
+		assertEquals("ledring", newAbsoluteEncoderController.getCCNumber(),
+				eventProcessorShortMessage.getData1());
+		assertEquals("value", newSampleAbsoluteParameter.getRebasedValue(),
+				eventProcessorShortMessage.getData2());
 	}
 
 	@Test
-	public void canMapWholeProgramParameterData() throws Exception {
-		EventProcessorMidiMessage allCcShortMessages = cut
-				.mapToCcs(sampleProgramParameterData);
-		checkOscillator1Frequency(allCcShortMessages.getAsComposite()
-				.getMessages().get(0));
+	public void canMapOneParameter() throws Exception {
+		final ProgramParameter newSampleAbsoluteParameter = ProgramParameterTest
+				.newSampleAbsoluteParameter();
+		final Controller newAbsoluteEncoderController = ControllerTest
+				.newAbsoluteEncoderController();
+		cut = new DefaultControllerParameterMap(newSampleAbsoluteParameter,
+				newAbsoluteEncoderController);
+		EventProcessorMidiMessage ccForLivid = cut.mapToLividCc();
+		checkOscillator1Frequency(newAbsoluteEncoderController,
+				newSampleAbsoluteParameter, ccForLivid.getAsShortMessage());
 	}
 
 	public TetraProgramParameterToLividCodeV2 getCutAsTetraToLividMap() {
@@ -48,7 +62,6 @@ public class TetraProgramParameterToLividCodeV2Test {
 	@Test
 	public void applyTheMappingToEncodersAndButtons_OnStartUp()
 			throws Exception {
-		cut.applyMapping();
 		boolean oneEncoderHasOneProgramParameter = false;
 		for (Encoder encoder : BankLayout.CurrentBank.encoders) {
 			if (null != encoder.getProgramParameter()) {
@@ -62,19 +75,22 @@ public class TetraProgramParameterToLividCodeV2Test {
 	@Test
 	public void oneMappingAssociateOneParameterToManyControllers()
 			throws Exception {
+		MapRepository.maps.clear();
 		EventProcessorMap map = getTestingMap();
 
-		final AbstractProgramParameter abstractProgramParameter = map
-				.getAbstractProgramParameter();
+		final ProgramParameter programParameter = map.getProgramParameter();
 		final List<Controller> controllersForParameter = MapRepository
-				.getControllersForParameter(abstractProgramParameter);
+				.getControllersForParameter(programParameter);
 
-		assertThat(controllersForParameter.size(), is(2));
+		assertThat(
+				controllersForParameter,
+				hasItems(BankLayout.CurrentBank.encoders[0],
+						BankLayout.CurrentBank.buttons[1]));
 	}
 
 	public EventProcessorMap getTestingMap() {
 		return new Oscillator1Glide_to_E0B1(
-				AbstractProgramParameterTest.newSampleAbsoluteParameter(),
+				ProgramParameterTest.newSampleAbsoluteParameter(),
 				BankLayout.CurrentBank.encoders[0],
 				BankLayout.CurrentBank.buttons[1]);
 	}
@@ -84,26 +100,25 @@ public class TetraProgramParameterToLividCodeV2Test {
 			throws Exception {
 		EventProcessorMap map = getTestingMap();
 		final Controller controller = map.getControllers().get(0);
-		final byte newControllerValue = AbstractProgramParameterTest
-				.getRandomByte();
+		final byte newControllerValue = ProgramParameterTest
+				.getRandomByteOtherThan(controller.getValue());
 		controller.setValue(newControllerValue);
 
 		map.refreshProgramParameter();
 
-		assertEquals(newControllerValue, map.getAbstractProgramParameter()
-				.getValue());
+		assertEquals(newControllerValue, map.getProgramParameter().getValue());
 	}
 
 	@Test
 	public void mapItsAbstractProgramParameterToItsControllers()
 			throws Exception {
 		EventProcessorMap map = getTestingMap();
-		final byte newParameterValue = AbstractProgramParameterTest
-				.getRandomByte();
-		map.getAbstractProgramParameter().setValue(newParameterValue);
+		final byte newParameterValue = ProgramParameterTest
+				.getRandomByteOtherThan(map.getProgramParameter().getValue());
+		map.getProgramParameter().setValue(newParameterValue);
+
 		map.refreshControllers();
 
 		assertEquals(newParameterValue, map.getControllers().get(0).getValue());
 	}
-
 }

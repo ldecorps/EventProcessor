@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class OscHardSync extends AbstractProgramParameter implements
+public class OscHardSync extends ProgramParameter implements
 		ZeroOrOneRange {
 
 	public OscHardSync(int number, byte b) {

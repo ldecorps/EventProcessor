@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class Osc2Frequency extends AbstractProgramParameter implements
+public class Osc2Frequency extends ProgramParameter implements
 		ZeroTo120Range {
 
 	public Osc2Frequency(int number, byte b) {

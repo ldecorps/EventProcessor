@@ -6,7 +6,6 @@ import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class InitialiseLEDRingStyle implements Rule {
 
-	@Override
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProvessorMidiMessage) {
 		throw new EventProcessorException("Not Implemented Yet");

@@ -14,7 +14,6 @@ public class DummyReceiver implements Receiver {
 		return sentMidiMessage;
 	}
 
-	@Override
 	public void send(MidiMessage message, long timeStamp) {
 		this.sentMidiMessage = message;
 		synchronized (wait) {
@@ -22,7 +21,6 @@ public class DummyReceiver implements Receiver {
 		}
 	}
 
-	@Override
 	public void close() {
 		throw new EventProcessorException("Not Implemented Yet");
 	}

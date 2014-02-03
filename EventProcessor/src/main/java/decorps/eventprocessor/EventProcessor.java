@@ -12,6 +12,7 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.Rule;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
@@ -101,6 +102,14 @@ public class EventProcessor {
 
 	public Set<Action> getActions() {
 		return actions;
+	}
+
+	public void sendToTetra(EventProcessorMidiMessage message) {
+		fromTetraToTetra.receiver.getRawReceiver().send(message, -1);
+	}
+
+	public void sendToLivid(EventProcessorMidiMessage message) {
+		fromTetraToLivid.receiver.getRawReceiver().send(message, -1);
 	}
 
 }

@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class Osc1FineFreq extends AbstractProgramParameter implements
+public class Osc1FineFreq extends ProgramParameter implements
 		ZeroTo100Range, Centered {
 
 	public Osc1FineFreq(int number, byte b) {

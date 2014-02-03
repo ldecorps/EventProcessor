@@ -7,6 +7,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.Test;
 
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvAmount;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 
@@ -17,6 +18,8 @@ public class EventProcessorNRPNMessageTest {
 			0x00, 0x62, 0x03, 0x06, 0x00, 0x26, 0x01 };
 	public static byte[] sampleReceivedFilterEnvelopeAmount_to_254 = new byte[] {
 			0x63, 0x00, 0x62, 0x14, 0x06, 0x01, 0x26, 0x7E };
+	public static final EventProcessorMidiMessage oneNRPNMessage = EventProcessorNRPNMessage
+			.buildEventProcessorNRPNMessage(3, 1);
 
 	@Test
 	public void testSimpleCase() throws Exception {

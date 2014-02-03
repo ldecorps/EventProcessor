@@ -6,12 +6,14 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorSysexMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 import decorps.eventprocessor.vendors.maps.TetraProgramParameterToLividCodeV2;
 
 public class SetEncodersAndLedIndicatorsRule implements Rule {
 	static final TetraProgramParameterToLividCodeV2 map = new TetraProgramParameterToLividCodeV2();
 
-	@Override
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProvessorMidiMessage) {
 		final EventProcessorSysexMessage sysexMessage = eventProvessorMidiMessage
@@ -22,15 +24,31 @@ public class SetEncodersAndLedIndicatorsRule implements Rule {
 		final ProgramParameterData upacked = ProgramParameterData
 				.build(programEditBufferDataDump.unpacked);
 		printOutBytesAsHexa(upacked.data);
-		EventProcessorSysexMessage setAllLed = (EventProcessorSysexMessage) map
-				.mapToSetAllLedIndicators(upacked);
-		EventProcessorSysexMessage setAllEncoderValues = (EventProcessorSysexMessage) map
-				.mapToSetAllEncoderValues(upacked);
+
+		final EventProcessorMidiMessage composite = buildMidiMessagesForProgramParameterData(upacked);
+		synchronized (SetEncodersAndLedIndicatorsRule.class) {
+			SetEncodersAndLedIndicatorsRule.class.notifyAll();
+		}
+		return composite;
+	}
+
+	public EventProcessorMidiMessage buildMidiMessagesForProgramParameterData(
+			final ProgramParameterData programParameterData) {
+		MapRepository.map(programParameterData);
+
+		final int[] buttonsAsArrayOfInts = BankLayout.CurrentBank
+				.getButtonsAsArrayOfInts();
+		byte[] Set_all_LED_indicators = LividMessageFactory
+				.buildSet_all_LED_indicators(buttonsAsArrayOfInts).getMessage();
+		EventProcessorMidiMessage setAllLed = EventProcessorMidiMessage
+				.build(Set_all_LED_indicators);
+
+		final int[] encoderValues = BankLayout.CurrentBank.getEncoderValues();
+		EventProcessorMidiMessage setAllEncoderValues = LividMessageFactory
+				.buildSet_Encoder_Values(encoderValues);
+
 		final EventProcessorMidiMessage composite = EventProcessorMidiMessageComposite
 				.buildComposite(setAllLed, setAllEncoderValues);
-		synchronized (this.getClass()) {
-			SetEncodersAndLedIndicatorsRule.class.notify();
-		}
 		return composite;
 	}
 }

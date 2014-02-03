@@ -154,4 +154,8 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public boolean isControlChange() {
 		return 0xb0 == getCommand();
 	}
+
+	public void setData2(byte newValue) {
+		throw new EventProcessorException("Not Implemented Yet");
+	}
 }

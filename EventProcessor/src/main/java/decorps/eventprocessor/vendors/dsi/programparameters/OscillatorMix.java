@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class OscillatorMix extends AbstractProgramParameter implements
+public class OscillatorMix extends ProgramParameter implements
 		ZeroTo127Range {
 
 	public OscillatorMix(int number, byte b) {

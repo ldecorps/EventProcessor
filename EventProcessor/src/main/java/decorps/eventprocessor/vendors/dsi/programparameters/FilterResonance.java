@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class FilterResonance extends AbstractProgramParameter implements
+public class FilterResonance extends ProgramParameter implements
 		ZeroTo127Range {
 
 	protected FilterResonance(int number, byte b) {

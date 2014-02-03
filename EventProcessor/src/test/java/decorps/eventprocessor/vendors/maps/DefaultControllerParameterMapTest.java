@@ -6,8 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameterTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
 import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.ControllerTest;
 
@@ -15,7 +15,7 @@ public class DefaultControllerParameterMapTest {
 	@Test
 	public void DefaultMap_IsOneProgramParameterToOneController()
 			throws Exception {
-		AbstractProgramParameter oneParam = AbstractProgramParameterTest
+		ProgramParameter oneParam = ProgramParameterTest
 				.newSampleAbsoluteParameter();
 		Controller oneController = ControllerTest
 				.newAbsoluteEncoderController();
@@ -24,7 +24,7 @@ public class DefaultControllerParameterMapTest {
 		EventProcessorMap defaultMap = new DefaultControllerParameterMap(
 				oneParam, oneController, anotherController);
 
-		final byte newValue = AbstractProgramParameterTest
+		final byte newValue = ProgramParameterTest
 				.getRandomByteOtherThan(oneController.getRebasedValue());
 		oneParam.setValue(newValue);
 		assertThat(oneController.getRebasedValue(), not(newValue));
@@ -37,10 +37,10 @@ public class DefaultControllerParameterMapTest {
 	@Test
 	public void newMap_RegistersItselfWithTheRepository() throws Exception {
 		EventProcessorMap map = new Oscillator1Glide_to_E0B1(
-				AbstractProgramParameterTest.newSampleAbsoluteParameter(),
+				ProgramParameterTest.newSampleAbsoluteParameter(),
 				ControllerTest.newAbsoluteEncoderController());
 
-		assertThat(MapRepository.getMaps(), hasItem(map));
-
+		assertThat(MapRepository.maps, hasItem(map));
 	}
+
 }

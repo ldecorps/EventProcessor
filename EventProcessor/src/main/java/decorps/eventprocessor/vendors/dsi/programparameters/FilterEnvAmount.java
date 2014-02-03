@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class FilterEnvAmount extends AbstractProgramParameter implements
+public class FilterEnvAmount extends ProgramParameter implements
 		ZeroTo254Range {
 
 	public FilterEnvAmount(int number, byte b) {

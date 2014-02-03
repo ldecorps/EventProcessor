@@ -4,7 +4,6 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 
 public class Echo implements Rule {
 
-	@Override
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProvessorMidiMessage) {
 		return eventProvessorMidiMessage;

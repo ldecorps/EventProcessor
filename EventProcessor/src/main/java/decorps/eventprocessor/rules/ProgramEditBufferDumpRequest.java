@@ -8,7 +8,6 @@ public class ProgramEditBufferDumpRequest implements Rule {
 	public static final EventProcessorMidiMessage programEditBufferDumpRequest = DsiMessageFactory
 			.buildProgramEditBufferDumpRequest();
 
-	@Override
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProvessorMidiMessage) {
 		EventProcessorMidiMessage result = programEditBufferDumpRequest;

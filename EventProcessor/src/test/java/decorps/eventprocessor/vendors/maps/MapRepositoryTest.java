@@ -1,33 +1,84 @@
 package decorps.eventprocessor.vendors.maps;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameterTest;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
+import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.ControllerTest;
 
 public class MapRepositoryTest {
+	static {
+		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
+	}
+
+	MapRepository cut = new MapRepository();
+
+	@Before
+	public void initialiseBank() {
+		MapRepository.initialiseCurrentBank();
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void newRepository_contains32DefaultMaps() throws Exception {
-		final Iterator<EventProcessorMap> iterator = MapRepository.getMaps()
+		final Iterator<EventProcessorMap> iterator = MapRepository.maps
 				.iterator();
-		for (int i = 0; i < 32; i++) {
-			assertThat(iterator.next(),
-					instanceOf(DefaultControllerParameterMap.class));
-		}
+		int numberOfParametersMapped = Math.min(32,
+				ProgramParameterData.getProgramParameters().length);
+		assertEquals(numberOfParametersMapped, MapRepository.maps.size());
+		for (int i = 0; i < numberOfParametersMapped; i++)
+			assertEquals(DefaultControllerParameterMap.class, iterator.next()
+					.getClass());
 	}
 
 	@Test
 	public void canRegisterMaps() throws Exception {
 		EventProcessorMap map = new DefaultControllerParameterMap(
-				AbstractProgramParameterTest.newSampleRelativeParameter(),
+				ProgramParameterTest.newSampleRelativeParameter(),
 				ControllerTest.newAbsoluteEncoderController());
 		assertTrue(MapRepository.contains(map));
 	}
 
+	@Test
+	public void currentBankIsInitialiseWithRemainingProgramParametersInOrder()
+			throws Exception {
+		MapRepository.maps.clear();
+		ProgramParameter programParameter = MapRepository
+				.nextParameterNotMapped();
+		Controller controller = MapRepository.nextControllerNotMapped();
+
+		DefaultControllerParameterMap map = MapRepository
+				.createMapForNextAvailableParameterAndNextAvailableController();
+
+		assertSame(programParameter, map.getProgramParameter());
+		assertTrue(map.contains(controller));
+	}
+
+	@Test
+	public void test_nextParameterNotMapped() throws Exception {
+		MapRepository.maps.clear();
+		assertTrue(MapRepository.nextParameterNotMapped().getLayerANRPNNumber() > ProgramParameter.nullParameter
+				.getLayerANRPNNumber());
+	}
+
+	@Test
+	public void canFindNextParameterNotMapped() throws Exception {
+		MapRepository.maps.clear();
+		ProgramParameter parameterNotMapped = MapRepository
+				.nextParameterNotMapped();
+		for (EventProcessorMap map : MapRepository.maps) {
+			for (Controller controller : map.getControllers())
+				assertNotSame(parameterNotMapped,
+						controller.getProgramParameter());
+		}
+	}
 }

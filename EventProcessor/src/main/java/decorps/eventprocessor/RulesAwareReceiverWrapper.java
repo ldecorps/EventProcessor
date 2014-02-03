@@ -29,7 +29,6 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		return new RulesAwareReceiverWrapper(receiver, actions);
 	}
 
-	@Override
 	public void send(MidiMessage message, long timeStamp) {
 		System.out.println("Receiving " + BaseUtils.decodeMessage(message));
 		System.out.println("reseting timestamp to -1");
@@ -94,7 +93,6 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		actions.add(action);
 	}
 
-	@Override
 	public void close() {
 		receiver.close();
 		actions.clear();

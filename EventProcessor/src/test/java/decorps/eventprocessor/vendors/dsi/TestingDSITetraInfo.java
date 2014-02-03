@@ -7,5 +7,4 @@ public class TestingDSITetraInfo extends Info {
 	public TestingDSITetraInfo() {
 		super("DSI Tetra", "Dave Smith Instruments", "", "");
 	}
-
 }

@@ -14,7 +14,6 @@ public class Transpose implements Rule {
 		this.transposeBy = transposeBy;
 	}
 
-	@Override
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProvessorShortMessage) {
 		ShortMessage incomingMessage = ((EventProcessorShortMessage) eventProvessorShortMessage).shortMessage;

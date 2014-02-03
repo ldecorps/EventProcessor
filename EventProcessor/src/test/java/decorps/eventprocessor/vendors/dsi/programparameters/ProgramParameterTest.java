@@ -1,13 +1,13 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 import java.util.Random;
 
 import org.junit.Test;
 
-public class AbstractProgramParameterTest {
+public class ProgramParameterTest {
 
 	private static final Random random = new Random();
 
@@ -17,7 +17,7 @@ public class AbstractProgramParameterTest {
 		checkZeroTo120Range(ZeroTo120Range.class, 0, 0);
 	}
 
-	public static AbstractProgramParameter newSampleAbsoluteParameter() {
+	public static ProgramParameter newSampleAbsoluteParameter() {
 		return new Oscillator1Glide(0, getRandomByte());
 	}
 
@@ -51,7 +51,7 @@ public class AbstractProgramParameterTest {
 				is(forLividCode));
 	}
 
-	public static AbstractProgramParameter newSampleRelativeParameter() {
+	public static ProgramParameter newSampleRelativeParameter() {
 		return new Oscillator1Shape(0, getRandomByte());
 	}
 

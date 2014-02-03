@@ -2,7 +2,7 @@ package decorps.eventprocessor.vendors.livid.messages;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class LividMessageFactory {
 
@@ -35,13 +35,19 @@ public class LividMessageFactory {
 	}
 
 	public static EventProcessorMidiMessage buildEventProcessorNRPNMessage(
-			AbstractProgramParameter abstractProgramParameter) {
+			ProgramParameter programParameter) {
 		return EventProcessorNRPNMessage
-				.buildEventProcessorNRPNMessage(abstractProgramParameter);
+				.buildEventProcessorNRPNMessage(programParameter);
 	}
 
 	public static EventProcessorMidiMessage buildMap_Encosion_Mode(
 			int... payload) {
 		return new Set_Map_Encosion_Mode(payload, 0x10, 8);
 	}
+
+	public static EventProcessorMidiMessage build_Set_Encoder_Speed(
+			int... payload) {
+		return new Set_Encoder_Speed(payload, 0x1e, 2);
+	}
+
 }

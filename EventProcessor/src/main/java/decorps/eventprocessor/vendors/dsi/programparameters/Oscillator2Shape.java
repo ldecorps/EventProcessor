@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class Oscillator2Shape extends AbstractProgramParameter implements
+public class Oscillator2Shape extends ProgramParameter implements
 		FourTo103Range, Centered {
 
 	public Oscillator2Shape(int number, byte b) {

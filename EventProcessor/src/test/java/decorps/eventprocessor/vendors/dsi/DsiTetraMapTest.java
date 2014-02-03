@@ -21,7 +21,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class DsiTetraMapTest {
 
@@ -126,7 +126,7 @@ public class DsiTetraMapTest {
 				programEditBufferDataDump.unpacked);
 	}
 
-	public void assertData(int expected, AbstractProgramParameter actual,
+	public void assertData(int expected, ProgramParameter actual,
 			byte[] unpackedMessage) {
 		try {
 			assertEquals(expected, actual.getValue());

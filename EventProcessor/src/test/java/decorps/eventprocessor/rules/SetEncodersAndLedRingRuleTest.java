@@ -9,6 +9,9 @@ import org.junit.Test;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class SetEncodersAndLedRingRuleTest {
 	SetEncodersAndLedIndicatorsRule cut = new SetEncodersAndLedIndicatorsRule();
@@ -18,6 +21,10 @@ public class SetEncodersAndLedRingRuleTest {
 	@Test
 	public void itSpitsOut_OneSetAllIndicator_and_OneSetAllEncoderValues_sysex()
 			throws Exception {
+		BankLayout.programParameterData = ProgramParameterData
+				.build(DsiTetraMapTest.sampleEditbufferProgramDataDump
+						.getMessage());
+		MapRepository.initialiseCurrentBank();
 		EventProcessorMidiMessage result = cut
 				.transform(eventProcessorMidiMessage);
 		assertThat(result, instanceOf(EventProcessorMidiMessageComposite.class));
@@ -26,5 +33,4 @@ public class SetEncodersAndLedRingRuleTest {
 				((EventProcessorMidiMessageComposite) result).eventProcessorMidiMessages
 						.size());
 	}
-
 }

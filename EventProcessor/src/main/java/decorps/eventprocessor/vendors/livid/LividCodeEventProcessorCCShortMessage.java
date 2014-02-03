@@ -5,8 +5,7 @@ import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
-import decorps.eventprocessor.vendors.maps.DefaultMap;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class LividCodeEventProcessorCCShortMessage extends
 		EventProcessorShortMessage {
@@ -14,42 +13,40 @@ public class LividCodeEventProcessorCCShortMessage extends
 	public String toString() {
 		return "LividCodeEventProcessorCCShortMessage [type=" + type
 				+ ", value=" + value + ", channel=" + channel
-				+ ", abstractProgramParameter=" + abstractProgramParameter
-				+ "]";
+				+ ", programParameter=" + programParameter + "]";
 	}
 
 	final byte type;
 	final byte value;
 	final byte channel;
-	final DefaultMap map;
-	public final AbstractProgramParameter abstractProgramParameter;
+	public final ProgramParameter programParameter;
 
 	public LividCodeEventProcessorCCShortMessage(
-			AbstractProgramParameter abstractProgramParameter, DefaultMap map,
-			byte type, byte value) {
-		super(buildLividCodeShortMessage(abstractProgramParameter, type, value,
-				map));
-		this.type = type;
-		this.value = value;
-		this.channel = map.bank;
-		this.abstractProgramParameter = abstractProgramParameter;
-		this.map = map;
+			ProgramParameter programParameter, Controller controller,
+			byte rebasedValue) {
+		super(buildLividCodeShortMessage(programParameter, controller,
+				rebasedValue));
+		this.type = (byte) controller.getCCNumber();
+		this.value = rebasedValue;
+		this.channel = (byte) ((byte) BankLayout.CurrentBank.bankNumber - 1);
+		this.programParameter = programParameter;
 	}
 
 	private static ShortMessage buildLividCodeShortMessage(
-			AbstractProgramParameter abstractProgramParameter, byte type,
-			byte value, DefaultMap map) {
+			ProgramParameter programParameter, Controller controller, byte value) {
 		ShortMessage result;
 		try {
-			final int shortMessageType = EncoderMap.class.isAssignableFrom(map
-					.getClass()) ? ShortMessage.CONTROL_CHANGE
+			final int shortMessageType = Encoder.class
+					.isAssignableFrom(controller.getClass()) ? ShortMessage.CONTROL_CHANGE
 					: ShortMessage.NOTE_ON;
-			result = new ShortMessage(shortMessageType, map.bank, type, value);
+			result = new ShortMessage(shortMessageType,
+					(byte) ((byte) BankLayout.CurrentBank.bankNumber - 1),
+					controller.getCCNumber(), value);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(
 					"Invalid Midi Data Exception when trying to build CC for "
-							+ abstractProgramParameter, e);
+							+ programParameter, e);
 		}
 		return result;
 	}

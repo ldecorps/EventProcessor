@@ -7,7 +7,7 @@ import javax.sound.midi.ShortMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class EventProcessorNRPNMessage extends
 		EventProcessorMidiMessageComposite {
@@ -57,10 +57,10 @@ public class EventProcessorNRPNMessage extends
 	}
 
 	public static EventProcessorMidiMessage buildEventProcessorNRPNMessage(
-			AbstractProgramParameter abstractProgramParameter) {
+			ProgramParameter programParameter) {
 		return new EventProcessorNRPNMessage(
-				abstractProgramParameter.getLayerANRPNNumber(),
-				abstractProgramParameter.getValue());
+				programParameter.getLayerANRPNNumber(),
+				programParameter.getValue());
 	}
 
 	@Override

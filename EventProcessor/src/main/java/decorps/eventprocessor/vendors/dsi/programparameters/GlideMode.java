@@ -1,8 +1,8 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class GlideMode extends AbstractProgramParameter implements ZeroTo3Range {
+public class GlideMode extends ProgramParameter implements ZeroTo3Range {
 
-	protected GlideMode(int number, byte b) {
+	public GlideMode(int number, byte b) {
 		super(number, b);
 	}
 

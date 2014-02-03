@@ -2,9 +2,9 @@ package decorps.eventprocessor.vendors.dsi.programparameters;
 
 import decorps.eventprocessor.utils.BaseUtils;
 
-public abstract class AbstractProgramParameter implements HasCcValue {
-	public static final AbstractProgramParameter nullParameter = new AbstractProgramParameter(
-			-1, (byte) -1) {
+public abstract class ProgramParameter implements HasCcValue {
+	public static final ProgramParameter nullParameter = new ProgramParameter(
+			-1, (byte) 0xFF) {
 
 		@Override
 		public byte getLayerANRPNNumber() {
@@ -14,7 +14,7 @@ public abstract class AbstractProgramParameter implements HasCcValue {
 	private byte value;
 	public final int position;
 
-	protected AbstractProgramParameter(int number, byte b) {
+	protected ProgramParameter(int number, byte b) {
 		this.position = number;
 		this.value = b;
 	}
@@ -25,7 +25,6 @@ public abstract class AbstractProgramParameter implements HasCcValue {
 				+ BaseUtils.byteToHexa(value) + "]";
 	}
 
-	@Override
 	public byte getRebasedValue() {
 		byte result = value;
 		if (ZeroTo120Range.class.isAssignableFrom(getClass()))

@@ -91,11 +91,9 @@ public class DumpReceiver implements Receiver {
 		m_bPrintTimeStampAsTicks = bPrintTimeStampAsTicks;
 	}
 
-	@Override
 	public void close() {
 	}
 
-	@Override
 	public void send(MidiMessage message, long lTimeStamp) {
 		String strMessage = null;
 		if (message instanceof ShortMessage) {

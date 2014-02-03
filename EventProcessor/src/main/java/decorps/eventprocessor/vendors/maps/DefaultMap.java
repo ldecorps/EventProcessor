@@ -6,18 +6,18 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
-import decorps.eventprocessor.vendors.dsi.programparameters.AbstractProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.ZeroTo127Range;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 
 public class DefaultMap {
 
-	public final Class<? extends AbstractProgramParameter> abstractProgramParameterClass;
+	public final Class<? extends ProgramParameter> abstractProgramParameterClass;
 	public final byte bank;
 	public final byte controllerNumber;
 
 	public DefaultMap(
-			Class<? extends AbstractProgramParameter> abstractProgramParameterClass,
+			Class<? extends ProgramParameter> abstractProgramParameterClass,
 			int bank, int controllerNumber) {
 		this.abstractProgramParameterClass = abstractProgramParameterClass;
 		this.bank = (byte) bank;
@@ -25,7 +25,7 @@ public class DefaultMap {
 	}
 
 	public DefaultMap(
-			Class<? extends AbstractProgramParameter> abstractProgramParameterClass,
+			Class<? extends ProgramParameter> abstractProgramParameterClass,
 			int controllerNumber) {
 		this(abstractProgramParameterClass, BankLayout.CurrentBank.bankNumber,
 				controllerNumber);
@@ -39,11 +39,11 @@ public class DefaultMap {
 	public EventProcessorMidiMessage mapFromLividToTetra(
 			EventProcessorMidiMessage messageIn) {
 		EventProcessorShortMessage shortMessage = messageIn.getAsShortMessage();
-		AbstractProgramParameter programParameter = buildParameter(shortMessage);
+		ProgramParameter programParameter = buildParameter(shortMessage);
 		return DsiMessageFactory.buildNRPNForProgramParameter(programParameter);
 	}
 
-	public AbstractProgramParameter buildParameter(
+	public ProgramParameter buildParameter(
 			EventProcessorShortMessage shortMessage) {
 		if (!ZeroTo127Range.class
 				.isAssignableFrom(abstractProgramParameterClass))

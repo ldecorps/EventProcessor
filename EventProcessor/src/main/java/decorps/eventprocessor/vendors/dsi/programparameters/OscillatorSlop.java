@@ -1,9 +1,8 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class OscillatorSlop extends AbstractProgramParameter implements
-		ZeroTo5Range {
+public class OscillatorSlop extends ProgramParameter implements ZeroTo5Range {
 
-	protected OscillatorSlop(int number, byte b) {
+	public OscillatorSlop(int number, byte b) {
 		super(number, b);
 	}
 
