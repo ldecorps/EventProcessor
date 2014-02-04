@@ -16,7 +16,7 @@ public class InitialiseBankLayout {
 
 	public void initialise() throws InterruptedException {
 		setProgramMode();
-		Thread.sleep(200);
+		Thread.sleep(500);
 		requestCurrentEditBufferAndWaitForAnswer();
 		applyMapping();
 		setEncosionMode();
@@ -39,7 +39,7 @@ public class InitialiseBankLayout {
 	private void setLedRingStyles() {
 		System.out.println("set led ring style");
 		eventProcessor.sendToLivid(LividMessageFactory
-				.buildLED_Ring_Style(CurrentBank.getEncoderModes()));
+				.buildLED_Ring_Style(CurrentBank.getEncoderSyles()));
 	}
 
 	private void applyMapping() {
@@ -55,7 +55,7 @@ public class InitialiseBankLayout {
 		System.out.println("request current edit buffer");
 		eventProcessor.sendToTetra(DsiMessageFactory
 				.buildProgramEditBufferDumpRequest());
-		Thread.sleep(500);
+		Thread.sleep(800);
 
 	}
 

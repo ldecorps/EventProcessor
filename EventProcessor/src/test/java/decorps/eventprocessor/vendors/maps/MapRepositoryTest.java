@@ -24,10 +24,10 @@ public class MapRepositoryTest {
 
 	@Before
 	public void initialiseBank() {
+		BankLayout.CurrentBank.initialiseEncoders();
 		MapRepository.initialiseCurrentBank();
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void newRepository_contains32DefaultMaps() throws Exception {
 		final Iterator<EventProcessorMap> iterator = MapRepository.maps

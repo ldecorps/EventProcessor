@@ -33,12 +33,16 @@ public class Set_LED_Ring_Mode extends EventProcessorMidiMessageComposite {
 	}
 
 	private int getBankFor(int i) {
+		// they mess the numbers here
+		final int spread = 2;
+		final int eq = 33;
+
 		if (i > 96)
-			return 3;
+			return eq;
 		if (i > 64)
-			return 2;
+			return spread;
 		if (i > 32)
-			return 1;
-		return 0;
+			return FILL;
+		return WALK;
 	}
 }

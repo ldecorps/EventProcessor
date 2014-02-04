@@ -53,4 +53,8 @@ public class Button implements Controller {
 		throw new EventProcessorException("Not Implemented Yet");
 	}
 
+	public void setProgramParameter(ProgramParameter programParameter) {
+		throw new EventProcessorException("Not Implemented Yet");
+	}
+
 }

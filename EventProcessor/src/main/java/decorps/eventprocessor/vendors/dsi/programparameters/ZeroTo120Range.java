@@ -1,5 +1,5 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public interface ZeroTo120Range extends HasCcValue {
+public interface ZeroTo120Range extends ValueRange {
 
 }

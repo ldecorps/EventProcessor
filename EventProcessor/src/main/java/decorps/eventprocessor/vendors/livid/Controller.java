@@ -18,4 +18,6 @@ public interface Controller {
 
 	int getCCNumber();
 
+	void setProgramParameter(ProgramParameter programParameter);
+
 }

@@ -1,37 +1,26 @@
 package decorps.eventprocessor.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
-import decorps.eventprocessor.vendors.maps.DefaultMap;
-import decorps.eventprocessor.vendors.maps.OscillatorButton_to_OscillatorShapeMap;
+import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.livid.ControllerRepository;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class LividEncoderOrButtonValueNewValue_SentToTetra implements Rule {
-	final Map<Integer, DefaultMap> maps = new HashMap<Integer, DefaultMap>();
 
 	public LividEncoderOrButtonValueNewValue_SentToTetra() {
-		registerMap(new OscillatorButton_to_OscillatorShapeMap(
-				Oscillator1Shape.class, 33));
-		registerMap(new DefaultMap(OscillatorMix.class, 11));
-	}
-
-	public void registerMap(DefaultMap map) {
-		maps.put((int) map.controllerNumber, map);
 	}
 
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
-		final DefaultMap map = getMapFor(eventProcessorMidiMessage);
-		return map.mapFromLividToTetra(eventProcessorMidiMessage);
+		ProgramParameter programParameter = MapRepository
+				.getParameterForController(ControllerRepository
+						.getControllerForLividShortMessage(eventProcessorMidiMessage));
+		programParameter.setValue((byte) eventProcessorMidiMessage
+				.getAsShortMessage().getData2());
+		EventProcessorMidiMessage nrpn = DsiMessageFactory
+				.buildNRPNForProgramParameter(programParameter);
+		return nrpn;
 	}
 
-	private DefaultMap getMapFor(
-			EventProcessorMidiMessage eventProcessorMidiMessage) {
-		final int controllerNumber = eventProcessorMidiMessage
-				.getAsShortMessage().getData1();
-		return maps.get(controllerNumber);
-	}
 }

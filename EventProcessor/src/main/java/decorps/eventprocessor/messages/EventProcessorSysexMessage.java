@@ -1,9 +1,6 @@
 package decorps.eventprocessor.messages;
 
-import static decorps.eventprocessor.utils.BaseUtils.addAll;
-import static decorps.eventprocessor.utils.BaseUtils.byteToBinary;
-import static decorps.eventprocessor.utils.BaseUtils.bytesToHexa;
-import static decorps.eventprocessor.utils.BaseUtils.representationsToBytes;
+import static decorps.eventprocessor.utils.BaseUtils.*;
 
 import java.util.Arrays;
 
@@ -14,6 +11,12 @@ import javax.sound.midi.SysexMessage;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 
 public class EventProcessorSysexMessage extends EventProcessorMidiMessage {
+
+	@Override
+	public String toString() {
+		return "EventProcessorSysexMessage [sysexMessage="
+				+ decodeMessage(this) + "]";
+	}
 
 	private static final int bitsByPackets = 8;
 	final public SysexMessage sysexMessage;

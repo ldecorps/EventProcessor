@@ -26,6 +26,10 @@ public class BankLayout {
 
 	public BankLayout(int bankNumber) {
 		this.bankNumber = bankNumber;
+		initialiseEncoders();
+	}
+
+	public void initialiseEncoders() {
 		nextEncodeId = 1;
 		for (int i = 0; i < buttons.length; i++)
 			buttons[i] = new Button();
@@ -119,6 +123,14 @@ public class BankLayout {
 			final int index = i / 8;
 			result[index] = getNextSevenEncoderModes(i);
 			result[index + 1] = getNextEncoderMode(i + 7);
+		}
+		return result;
+	}
+
+	public int[] getEncoderSyles() {
+		int[] result = new int[32];
+		for (int i = 0; i < 32; i = i + 1) {
+			result[i] = encoders[i].getEncoderStyle();
 		}
 		return result;
 	}

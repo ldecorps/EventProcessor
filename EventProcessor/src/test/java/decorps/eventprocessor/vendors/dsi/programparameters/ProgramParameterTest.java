@@ -41,7 +41,7 @@ public class ProgramParameterTest {
 		assertThat((int) oneZeroOrOneParameter.getRebasedValue(), is(rebased));
 	}
 
-	private void checkZeroTo120Range(Class<? extends HasCcValue> class1,
+	private void checkZeroTo120Range(Class<? extends ValueRange> class1,
 			int fromTetra, int forLividCode) {
 		Osc1Frequency oneZeroTo120Parameter = new Osc1Frequency(0,
 				(byte) fromTetra);

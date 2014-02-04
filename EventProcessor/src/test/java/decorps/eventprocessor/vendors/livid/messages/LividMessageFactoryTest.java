@@ -53,6 +53,7 @@ public class LividMessageFactoryTest {
 	}
 
 	@Test
+	// FIXME fails in mvn clean test
 	public void shouldBuildMessageForSettingEncoderTypeAbsoluteOrRelative()
 			throws Exception {
 		final Encoder relativeParam = new Encoder();

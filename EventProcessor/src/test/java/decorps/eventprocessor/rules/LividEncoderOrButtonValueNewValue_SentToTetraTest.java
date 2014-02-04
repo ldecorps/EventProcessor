@@ -9,25 +9,34 @@ import org.junit.Test;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
+import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class LividEncoderOrButtonValueNewValue_SentToTetraTest {
 
 	Rule cut = new LividEncoderOrButtonValueNewValue_SentToTetra();
 
 	@Test
+	// FIXME fails individually
 	public void buttonPressedSendNewValue() throws Exception {
+		BankLayout.CurrentBank.initialiseEncoders();
+		BankLayout.programParameterData = ProgramParameterData
+				.build(DsiTetraMapTest.sampleEditbufferProgramDataDump
+						.getMessage());
+		MapRepository.initialiseCurrentBank();
 		BankLayout.CurrentBank.setButtonsOn(1, 2);
 
 		final EventProcessorMidiMessage switchOscillator1_Off = EventProcessorShortMessage
-				.buildShortMessage(ShortMessage.NOTE_OFF, 0, 33, 0);
+				.buildShortMessage(ShortMessage.NOTE_OFF, 0, 1, 0);
 		System.out.println(decodeMessage(switchOscillator1_Off));
 
 		EventProcessorNRPNMessage result = cut.transform(switchOscillator1_Off)
 				.getAsEventProcessorNRPNMessage();
 
-		assertEquals(2, result.NRPNControllerNumber);
-		assertEquals(0, result.NRPNControllerValue);
+		assertEquals("NRPN number", 2, result.NRPNControllerNumber);
+		assertEquals("NRPN value", 0, result.NRPNControllerValue);
 	}
 }

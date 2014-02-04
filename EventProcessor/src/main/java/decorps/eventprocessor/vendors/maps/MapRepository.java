@@ -94,13 +94,15 @@ public class MapRepository {
 	}
 
 	static Controller nextControllerNotMapped() {
-		Controller result = BankLayout.CurrentBank.encoders[0];
-		for (EventProcessorMap map : maps) {
-			for (Controller controller : map.getControllers())
-				if (controller.getId() > result.getId())
-					result = controller;
-		}
-		return result;
+		byte greaterMappedController = 0;
+		for (EventProcessorMap map : maps)
+			for (Controller controllerCandidate : map.getControllers())
+				if (controllerCandidate.getId() > greaterMappedController)
+					greaterMappedController = controllerCandidate.getId();
+		for (Controller controller : BankLayout.CurrentBank.encoders)
+			if (controller.getId() > greaterMappedController)
+				return controller;
+		throw new EventProcessorException("All Controllers are mapped: " + maps);
 	}
 
 	public static ProgramParameter getParameterForController(

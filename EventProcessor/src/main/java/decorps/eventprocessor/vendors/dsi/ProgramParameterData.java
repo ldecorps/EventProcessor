@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.dsi;
 
-import static decorps.eventprocessor.utils.BaseUtils.*;
+import static decorps.eventprocessor.utils.BaseUtils.bytesToText;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class ProgramParameterData {
 	ProgramParameterData(byte[] data) {
 		super();
 		this.data = data;
-		this.Name = bytesToText(Arrays.copyOfRange(data, 184, 199));
+		this.Name = bytesToText(Arrays.copyOfRange(data, 184, 200));
 		Class<? extends ProgramParameter>[] parameters = getProgramParameters();
 		A = buildA(parameters);
 		B = buildB(parameters);

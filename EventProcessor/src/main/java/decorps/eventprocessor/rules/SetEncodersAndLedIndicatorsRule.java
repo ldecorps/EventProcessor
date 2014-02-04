@@ -21,11 +21,11 @@ public class SetEncodersAndLedIndicatorsRule implements Rule {
 		final byte[] message = sysexMessage.getMessage();
 		final ProgramEditBufferDataDump programEditBufferDataDump = ProgramEditBufferDataDump
 				.buildProgramEditBufferDataDump(message);
-		final ProgramParameterData upacked = ProgramParameterData
+		final ProgramParameterData programParameterData = ProgramParameterData
 				.build(programEditBufferDataDump.unpacked);
-		printOutBytesAsHexa(upacked.data);
+		printOutBytesAsHexa(programParameterData.data);
 
-		final EventProcessorMidiMessage composite = buildMidiMessagesForProgramParameterData(upacked);
+		final EventProcessorMidiMessage composite = buildMidiMessagesForProgramParameterData(programParameterData);
 		synchronized (SetEncodersAndLedIndicatorsRule.class) {
 			SetEncodersAndLedIndicatorsRule.class.notifyAll();
 		}

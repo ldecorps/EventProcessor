@@ -3,6 +3,8 @@ package decorps.eventprocessor;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import javax.sound.midi.Receiver;
+
 import org.junit.Test;
 
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
@@ -14,10 +16,10 @@ public class InitialiseBankLayoutTest {
 
 	@Test
 	public void initialiseSetsTheCurrentProgramFromTetra() throws Exception {
-
-		RulesAwareReceiverWrapper receiver = spy(eventProcessor.fromLividToTetra.receiver);
+		Receiver toLivid = spy(eventProcessor.fromTetraToLivid.receiver
+				.getRawReceiver());
 		doReturn(ProgramParameterDataTest.sampleProgramParameterData.data)
-				.when(receiver);
+				.when(toLivid);
 
 		cut.initialise();
 		assertNotNull(BankLayout.programParameterData);

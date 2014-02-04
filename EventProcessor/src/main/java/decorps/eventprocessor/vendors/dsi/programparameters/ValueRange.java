@@ -1,5 +1,5 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public interface HasCcValue {
+public interface ValueRange {
 	public byte getRebasedValue();
 }

@@ -1,7 +1,11 @@
 package decorps.eventprocessor.vendors.livid;
 
+import decorps.eventprocessor.vendors.dsi.programparameters.Centered;
+import decorps.eventprocessor.vendors.dsi.programparameters.Power;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.Spread;
 import decorps.eventprocessor.vendors.dsi.programparameters.ZeroTo127Range;
+import decorps.eventprocessor.vendors.livid.messages.Set_LED_Ring_Style;
 
 public class Encoder implements Controller {
 	public final byte id;
@@ -51,5 +55,15 @@ public class Encoder implements Controller {
 
 	public int getCCNumber() {
 		return id - 1;
+	}
+
+	public int getEncoderStyle() {
+		if (this instanceof Power)
+			return Set_LED_Ring_Style.FILL;
+		if (this instanceof Centered)
+			return Set_LED_Ring_Style.EQ;
+		if (this instanceof Spread)
+			return Set_LED_Ring_Style.SPREAD;
+		return Set_LED_Ring_Style.WALK;
 	}
 }

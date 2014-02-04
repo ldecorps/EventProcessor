@@ -2,9 +2,9 @@ package decorps.eventprocessor.vendors.dsi.programparameters;
 
 import decorps.eventprocessor.utils.BaseUtils;
 
-public abstract class ProgramParameter implements HasCcValue {
+public abstract class ProgramParameter implements ValueRange {
 	public static final ProgramParameter nullParameter = new ProgramParameter(
-			-1, (byte) 0xFF) {
+			-1, (byte) 0x0) {
 
 		@Override
 		public byte getLayerANRPNNumber() {

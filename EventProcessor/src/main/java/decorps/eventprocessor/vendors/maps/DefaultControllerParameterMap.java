@@ -70,8 +70,7 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 
 	public void map(ProgramParameter programParameter) {
 		final Controller controller = controllers.get(0);
-		final byte value = programParameter.getValue();
-		controller.setValue(value);
+		controller.setProgramParameter(programParameter);
 	}
 
 	public void refreshControllers() {
