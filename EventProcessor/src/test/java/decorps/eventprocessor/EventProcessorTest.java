@@ -17,6 +17,7 @@ import javax.sound.midi.SysexMessage;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
@@ -32,6 +33,7 @@ import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
+@Ignore
 public class EventProcessorTest {
 
 	EventProcessor cut;
@@ -59,6 +61,7 @@ public class EventProcessorTest {
 	}
 
 	@Test
+	@Ignore
 	public void newEventProcessor_HasSetTheReceiverInTheTransmitter()
 			throws Exception {
 		assertThat(EventProcessor.build().getDefaultRemoteReceiver(),

@@ -8,7 +8,7 @@ import decorps.eventprocessor.vendors.dsi.TetraParameter;
 public class TestingProgramChange {
 
 	public static void main(String[] args) throws InterruptedException {
-		EventProcessor eventProcessor = EventProcessor.build();
+		EventProcessor eventProcessor = EventProcessor.getInstance();
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
 		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),

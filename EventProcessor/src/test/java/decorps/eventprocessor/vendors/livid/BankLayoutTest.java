@@ -29,6 +29,6 @@ public class BankLayoutTest {
 	public void encodersId_followTheLividDefault() throws Exception {
 		BankLayout bankLayout = new BankLayout(1);
 		for (int i = 0; i < 32; i++)
-			assertEquals(i + 1, bankLayout.encoders[i].id);
+			assertEquals(i, bankLayout.encoders[i].id);
 	}
 }

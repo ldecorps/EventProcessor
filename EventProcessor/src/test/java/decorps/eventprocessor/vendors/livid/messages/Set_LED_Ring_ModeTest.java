@@ -8,7 +8,7 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 public class Set_LED_Ring_ModeTest {
 	@Test
 	public void setLEDRingMode() throws Exception {
-		EventProcessor envProcessor = EventProcessor.build();
+		EventProcessor envProcessor = EventProcessor.getInstance();
 		final EventProcessorMidiMessageComposite buildLED_Ring_Mode = (EventProcessorMidiMessageComposite) LividMessageFactory
 				.buildSet_LED_Ring_Mode(Set_LED_Ring_Mode.WALK,
 						Set_LED_Ring_Mode.FILL, Set_LED_Ring_Mode.WALK,

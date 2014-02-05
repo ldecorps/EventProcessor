@@ -4,57 +4,63 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class Button implements Controller {
-	private boolean value;
+
+	private ProgramParameter programParameter = ProgramParameter.nullParameter;
+	public final byte id;
 
 	public boolean isSwitchedOn() {
-		return value;
+		return 0x7f == programParameter.getRebasedValue();
 	}
 
 	public void switchOn() {
-		value = true;
+		programParameter.setValue((byte) 0x7f);
 	}
 
 	public void switchOff() {
-		value = false;
+		programParameter.setValue((byte) 0);
 	}
 
 	public void flip() {
-		value = !value;
+		if (isSwitchedOn())
+			switchOff();
+		else
+			switchOn();
 	}
 
 	public Button() {
-	}
-
-	public void setValue(byte value) {
-		this.value = value == 0;
-	}
-
-	public byte getRebasedValue() {
-		return (byte) (value ? 1 : 0);
-	}
-
-	public byte getValue() {
-		return getRebasedValue();
+		id = BankLayout.nextButtonId++;
 	}
 
 	public byte getId() {
-		throw new EventProcessorException("Not Implemented Yet");
+		return id;
 	}
 
-	public ProgramParameter getProgramParameter() {
-		throw new EventProcessorException("Not Implemented Yet");
+	public void setValue(byte value) {
+		programParameter.setValue(value);
+	}
+
+	public byte getRebasedValue() {
+		return programParameter.getRebasedValue();
+	}
+
+	public byte getValue() {
+		return programParameter.getValue();
 	}
 
 	public Mode getMode() {
 		return Mode.Relative;
 	}
 
-	public int getCCNumber() {
+	public int getCCOrNoteNumber() {
 		throw new EventProcessorException("Not Implemented Yet");
 	}
 
+	public ProgramParameter getProgramParameter() {
+		return programParameter;
+	}
+
 	public void setProgramParameter(ProgramParameter programParameter) {
-		throw new EventProcessorException("Not Implemented Yet");
+		this.programParameter = programParameter;
 	}
 
 }

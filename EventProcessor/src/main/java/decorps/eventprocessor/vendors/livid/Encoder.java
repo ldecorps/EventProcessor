@@ -41,20 +41,26 @@ public class Encoder implements Controller {
 				+ "]";
 	}
 
-	public Encoder() {
-		id = BankLayout.nextEncodeId++;
-	}
-
 	public byte getValue() {
 		return programParameter.getValue();
+	}
+
+	public Encoder() {
+		id = BankLayout.nextEncoderId++;
 	}
 
 	public byte getId() {
 		return id;
 	}
 
-	public int getCCNumber() {
-		return id - 1;
+	public int getCCOrNoteNumber() {
+		if (id < 8)
+			return id * 4 + 1;
+		if (id < 16)
+			return id * 4 - 30;
+		if (id < 24)
+			return id * 4 - 61;
+		return id * 4 - 92;
 	}
 
 	public int getEncoderStyle() {

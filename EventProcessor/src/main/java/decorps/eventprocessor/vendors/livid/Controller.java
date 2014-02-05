@@ -16,7 +16,7 @@ public interface Controller {
 
 	public Mode getMode();
 
-	int getCCNumber();
+	int getCCOrNoteNumber();
 
 	void setProgramParameter(ProgramParameter programParameter);
 

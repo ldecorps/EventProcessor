@@ -13,7 +13,8 @@ public class BankLayout {
 	public static BankLayout Bank2 = AllBanks[1];
 	public static BankLayout Bank3 = AllBanks[2];
 	public static BankLayout Bank4 = AllBanks[3];
-	public static byte nextEncodeId;
+	public static byte nextEncoderId;
+	public static byte nextButtonId;
 	public static ProgramParameterData programParameterData;
 	public final int bankNumber;
 
@@ -30,11 +31,13 @@ public class BankLayout {
 	}
 
 	public void initialiseEncoders() {
-		nextEncodeId = 1;
+		nextEncoderId = 0;
+		nextButtonId = 0;
 		for (int i = 0; i < buttons.length; i++)
 			buttons[i] = new Button();
 		for (int i = 0; i < encoders.length; i++)
 			encoders[i] = new Encoder();
+
 	}
 
 	public byte[] getButtonsAsByteArrays() {

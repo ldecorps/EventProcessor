@@ -13,7 +13,7 @@ import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 public class EventProcessorSysexMessageTest {
 	@Test
 	public void canSendOneSysEx() throws Exception {
-		EventProcessor eventProcessor = EventProcessor.build();
+		EventProcessor eventProcessor = EventProcessor.getInstance();
 		final EventProcessorMidiMessage sysexMessage = DsiMessageFactory
 				.buildUniversal_System_Exclusive_Message_Device_Inquiry();
 		eventProcessor.fromTetraToLivid.receiver.send(sysexMessage, -1);

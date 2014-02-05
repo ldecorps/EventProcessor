@@ -90,7 +90,7 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 		return EventProcessorShortMessage.buildShortMessage(
 				ShortMessage.CONTROL_CHANGE,
 				BankLayout.CurrentBank.bankNumber - 1, getControllers().get(0)
-						.getCCNumber(), programParameter.getRebasedValue());
+						.getCCOrNoteNumber(), programParameter.getRebasedValue());
 
 	}
 }

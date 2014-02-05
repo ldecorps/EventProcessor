@@ -26,7 +26,7 @@ public class LividCodeEventProcessorCCShortMessage extends
 			byte rebasedValue) {
 		super(buildLividCodeShortMessage(programParameter, controller,
 				rebasedValue));
-		this.type = (byte) controller.getCCNumber();
+		this.type = (byte) controller.getCCOrNoteNumber();
 		this.value = rebasedValue;
 		this.channel = (byte) ((byte) BankLayout.CurrentBank.bankNumber - 1);
 		this.programParameter = programParameter;
@@ -41,7 +41,7 @@ public class LividCodeEventProcessorCCShortMessage extends
 					: ShortMessage.NOTE_ON;
 			result = new ShortMessage(shortMessageType,
 					(byte) ((byte) BankLayout.CurrentBank.bankNumber - 1),
-					controller.getCCNumber(), value);
+					controller.getCCOrNoteNumber(), value);
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 			throw new EventProcessorException(

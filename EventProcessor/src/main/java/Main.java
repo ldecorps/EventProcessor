@@ -13,7 +13,7 @@ public class Main {
 	}
 
 	public void run() throws InterruptedException {
-		EventProcessor eventProcessor = EventProcessor.build();
+		EventProcessor eventProcessor = EventProcessor.getInstance();
 
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);

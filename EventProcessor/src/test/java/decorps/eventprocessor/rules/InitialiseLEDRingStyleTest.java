@@ -11,7 +11,7 @@ import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 public class InitialiseLEDRingStyleTest {
 	@Test
 	public void initialiseFirstBankBasedOnMapping() throws Exception {
-		EventProcessor eventProcessor = EventProcessor.build();
+		EventProcessor eventProcessor = EventProcessor.getInstance();
 
 		EventProcessorMidiMessage initialiseLEDRingStyle = LividMessageFactory
 				.buildLED_Ring_Style(WALK, EQ, FILL, SPREAD);

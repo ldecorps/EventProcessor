@@ -9,12 +9,16 @@ import decorps.eventprocessor.vendors.maps.MapRepository;
 public class InitialiseBankLayout {
 
 	public final EventProcessor eventProcessor;
+	static boolean isInitialised = false;
 
 	public InitialiseBankLayout(EventProcessor eventProcessor) {
 		this.eventProcessor = eventProcessor;
 	}
 
 	public void initialise() throws InterruptedException {
+		if (isInitialised)
+			return;
+		isInitialised = true;
 		setProgramMode();
 		Thread.sleep(500);
 		requestCurrentEditBufferAndWaitForAnswer();

@@ -9,7 +9,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 public class TestingSendingNote {
 
 	public static void main(String[] args) {
-		EventProcessor eventProcessor = EventProcessor.build();
+		EventProcessor eventProcessor = EventProcessor.getInstance();
 
 		ShortMessage shortMessage = new ShortMessage();
 		try {

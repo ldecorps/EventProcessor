@@ -24,9 +24,16 @@ public class EventProcessor {
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 	public final List<Link> links = new ArrayList<Link>();
+	private static EventProcessor instance;
 
-	public static EventProcessor build() {
-		return new EventProcessor();
+	static EventProcessor build() {
+		if (null == instance)
+			instance = new EventProcessor();
+		return instance;
+	}
+
+	public static EventProcessor getInstance() {
+		return build();
 	}
 
 	private EventProcessor() {

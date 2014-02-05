@@ -30,7 +30,7 @@ public class LividMessageFactoryTest {
 
 	@Test
 	public void canLitAllLeds() throws Exception {
-		EventProcessor envProc = EventProcessor.build();
+		EventProcessor envProc = EventProcessor.getInstance();
 		for (int i = 0; i <= 0x7f; i++) {
 			byte[] Set_all_LED_indicators = LividMessageFactory
 					.buildSet_all_LED_indicators(i, i, i, i, i, i, i, 0)

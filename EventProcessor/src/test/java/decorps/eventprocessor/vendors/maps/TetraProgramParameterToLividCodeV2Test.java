@@ -36,7 +36,7 @@ public class TetraProgramParameterToLividCodeV2Test {
 			ProgramParameter newSampleAbsoluteParameter,
 			EventProcessorShortMessage eventProcessorShortMessage) {
 		assertEquals("channel", 0, eventProcessorShortMessage.getChannel());
-		assertEquals("ledring", newAbsoluteEncoderController.getCCNumber(),
+		assertEquals("ledring", newAbsoluteEncoderController.getCCOrNoteNumber(),
 				eventProcessorShortMessage.getData1());
 		assertEquals("value", newSampleAbsoluteParameter.getRebasedValue(),
 				eventProcessorShortMessage.getData2());

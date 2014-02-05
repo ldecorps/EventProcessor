@@ -6,21 +6,33 @@ import static org.junit.Assert.*;
 
 import javax.sound.midi.ShortMessage;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.InitialiseBankLayout;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
+import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.Mode;
 import decorps.eventprocessor.vendors.maps.EventProcessorMap;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
 @Ignore
-// TODO needs one relative parameter mapped
 public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 
 	RelativeEncoderChangeEchoesNewLEDRingValue cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
+	EventProcessor eventProcessor;
+
+	@Before
+	public void initialise() throws InterruptedException {
+		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
+		eventProcessor = EventProcessor.getInstance();
+		new InitialiseBankLayout(eventProcessor).initialise();
+	}
 
 	@Test
 	public void whenaNRPNMessageIsSentToTetra_ifIsRelative_SendCorrespondingCcToLivid()
@@ -46,7 +58,7 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 			for (Controller controller : map.getControllers()) {
 				if (Mode.Absolute == controller.getMode())
 					continue;
-				return controller.getCCNumber();
+				return controller.getCCOrNoteNumber();
 			}
 		}
 		return cc;
