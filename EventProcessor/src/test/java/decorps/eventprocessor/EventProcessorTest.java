@@ -28,7 +28,9 @@ import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class EventProcessorTest {
@@ -41,6 +43,7 @@ public class EventProcessorTest {
 	}
 
 	public static EventProcessor getInstanceWithoutActions() {
+		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 		EventProcessor result = EventProcessor.build();
 		result.actions.clear();
 		return result;

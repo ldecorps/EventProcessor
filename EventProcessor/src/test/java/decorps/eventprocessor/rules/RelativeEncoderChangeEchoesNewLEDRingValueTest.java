@@ -10,8 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.EventProcessorTest;
-import decorps.eventprocessor.InitialiseBankLayout;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
@@ -22,15 +20,13 @@ import decorps.eventprocessor.vendors.maps.EventProcessorMap;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
-
-	RelativeEncoderChangeEchoesNewLEDRingValue cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
-	EventProcessor eventProcessor;
+	RelativeEncoderChangeEchoesNewLEDRingValue cut = null;
 
 	@Before
-	public void initialise() throws InterruptedException {
+	public void initialise() {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		eventProcessor = EventProcessorTest.getInstanceWithoutActions();
-		new InitialiseBankLayout(eventProcessor).initialise();
+		EventProcessor.getInstance();
+		cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
 	}
 
 	@Test
@@ -54,11 +50,12 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 	}
 
 	private int getCcNumberAssociatedToaRelativeEncoder() {
-		int cc = 0;
+		int cc = 1;
 		for (EventProcessorMap map : MapRepository.maps) {
 			for (Controller controller : map.getControllers()) {
 				if (Mode.Absolute == controller.getMode())
 					continue;
+				System.out.println("has picked " + controller);
 				return controller.getCCOrNoteNumber();
 			}
 		}

@@ -15,6 +15,8 @@ public class DummyTransmitter implements Transmitter {
 	}
 
 	public void close() {
+		if (null != receiver)
+			receiver.close();
 		receiver = null;
 	}
 

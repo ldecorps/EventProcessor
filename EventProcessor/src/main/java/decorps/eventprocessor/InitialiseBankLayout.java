@@ -18,18 +18,18 @@ public class InitialiseBankLayout {
 		this.eventProcessor = eventProcessor;
 	}
 
-	public void initialise() throws InterruptedException {
+	public synchronized void initialise() throws InterruptedException {
 		if (!isInitialised) {
 			isInitialised = true;
 			setProgramMode();
 			Thread.sleep(500);
 			requestCurrentEditBufferAndWaitForAnswer();
+			setEncosionMode();
+			setLedRingStyles();
+			setEncoderSpeed();
 			return;
 		}
 		applyMapping();
-		setEncosionMode();
-		setLedRingStyles();
-		setEncoderSpeed();
 	}
 
 	private void setEncoderSpeed() {

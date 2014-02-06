@@ -4,24 +4,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessorTest;
-import decorps.eventprocessor.InitialiseBankLayout;
-import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
-import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.ControllerTest;
 
 public class DefaultControllerParameterMapTest {
 
+	@Before
+	public void initialise() {
+		EventProcessorTest.getInstanceWithoutActions().initialise();
+	}
+
 	@Test
 	public void defaultMap_IsOneProgramParameterToOneControllers()
 			throws Exception {
-		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		new InitialiseBankLayout(EventProcessorTest.getInstanceWithoutActions());
 		ProgramParameter oneParam = ProgramParameterTest
 				.newSampleAbsoluteParameter();
 		Controller oneController = ControllerTest

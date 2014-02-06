@@ -11,8 +11,8 @@ import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 
 public class InitialiseBankLayoutTest {
-	EventProcessor eventProcessor = EventProcessor.build();
-	InitialiseBankLayout cut = new InitialiseBankLayout(eventProcessor);
+	EventProcessor eventProcessor = EventProcessorTest
+			.getInstanceWithoutActions();
 
 	@Test
 	public void initialiseSetsTheCurrentProgramFromTetra() throws Exception {
@@ -21,7 +21,6 @@ public class InitialiseBankLayoutTest {
 		doReturn(ProgramParameterDataTest.sampleProgramParameterData.data)
 				.when(toLivid);
 
-		cut.initialise();
 		assertNotNull(BankLayout.programParameterData);
 		assertSame(ProgramParameterDataTest.sampleProgramParameterData,
 				BankLayout.programParameterData);

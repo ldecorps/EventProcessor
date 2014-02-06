@@ -16,6 +16,7 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.Rule;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class EventProcessor {
 	public final Link fromTetraToLivid;
@@ -27,8 +28,11 @@ public class EventProcessor {
 	private static EventProcessor instance;
 
 	static EventProcessor build() {
-		if (null == instance)
+		if (null == instance) {
 			instance = new EventProcessor();
+			instance.initialise();
+			MapRepository.initialiseCurrentBank();
+		}
 		return instance;
 	}
 
@@ -117,6 +121,10 @@ public class EventProcessor {
 
 	public void sendToLivid(EventProcessorMidiMessage message) {
 		fromTetraToLivid.receiver.getRawReceiver().send(message, -1);
+	}
+
+	public void initialise() {
+		new InitialiseBankLayout(this);
 	}
 
 }

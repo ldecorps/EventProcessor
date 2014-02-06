@@ -17,10 +17,6 @@ public class MapRepository {
 	public static final Set<EventProcessorMap> maps = new HashSet<EventProcessorMap>(
 			32);
 
-	static {
-		initialiseCurrentBank();
-	}
-
 	public static void initialiseCurrentBank() {
 		maps.clear();
 		for (int i = 0; i < 32; i++) {
@@ -38,6 +34,7 @@ public class MapRepository {
 	}
 
 	MapRepository() {
+		initialiseCurrentBank();
 	}
 
 	public static List<Controller> getControllersForParameter(
@@ -53,11 +50,6 @@ public class MapRepository {
 
 	public static void register(EventProcessorMap eventProcessorMap) {
 		System.out.println("registering map " + eventProcessorMap);
-		for (EventProcessorMap map : maps) {
-			if (map.getControllers().contains(
-					eventProcessorMap.getControllers()))
-				maps.remove(map);
-		}
 		maps.add(eventProcessorMap);
 		ProgramParameter programParameter = eventProcessorMap
 				.getProgramParameter();
@@ -118,11 +110,12 @@ public class MapRepository {
 			Controller controller) {
 		for (EventProcessorMap map : maps) {
 			for (Controller controllerCandidate : map.getControllers())
-				if (controllerCandidate.getId() == controller.getId())
+				if (controllerCandidate.equals(controller))
 					return controllerCandidate.getProgramParameter();
 		}
 		throw new EventProcessorException(
-				"could not find parameter for controller " + controller);
+				"could not find parameter for controller " + controller
+						+ ". Maps: " + maps);
 	}
 
 	public static void map(ProgramParameterData unpacked) {

@@ -55,7 +55,10 @@ public class Layer {
 				+ ", oscillator2FineTune=" + oscillator2FineTune
 				+ ", oscillator2Shape=" + oscillator2Shape
 				+ ", oscillator2Glide=" + oscillator2Glide
-				+ ", oscillator2Keyboard=" + oscillator2Keyboard + "]";
+				+ ", oscillator2Keyboard=" + oscillator2Keyboard
+				+ ", oscillatorHardSync=" + oscillatorHardSync + ", glideMode="
+				+ glideMode + ", oscillatorSlop=" + oscillatorSlop
+				+ ", oscillatorMix=" + oscillatorMix + "]";
 	}
 
 	public static Layer build(

@@ -21,11 +21,8 @@ import decorps.eventprocessor.vendors.livid.LividCodev2Map;
 public class LinkFactory {
 
 	public final Set<Action> actions;
-	public static final Info[] midiDeviceInfos;
-
-	static {
-		midiDeviceInfos = LinkFactory.getMidiDeviceInfo();
-	}
+	public static final Info[] midiDeviceInfos = LinkFactory
+			.getMidiDeviceInfo();
 
 	LinkFactory(Set<Action> actions) {
 		this.actions = actions;
