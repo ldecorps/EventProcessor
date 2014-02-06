@@ -37,7 +37,6 @@ public class BankLayout {
 			buttons[i] = new Button();
 		for (int i = 0; i < encoders.length; i++)
 			encoders[i] = new Encoder();
-
 	}
 
 	public byte[] getButtonsAsByteArrays() {
@@ -125,7 +124,7 @@ public class BankLayout {
 		for (int i = 0; i < 32; i = i + 8) {
 			final int index = i / 8;
 			result[index] = getNextSevenEncoderModes(i);
-			result[index + 1] = getNextEncoderMode(i + 7);
+			result[index + 1] = getEncoderMode(i + 7);
 		}
 		return result;
 	}
@@ -138,15 +137,16 @@ public class BankLayout {
 		return result;
 	}
 
-	private int getNextEncoderMode(int encoderIndex) {
-		return BankLayout.CurrentBank.encoders[encoderIndex].getMode() == Mode.Absolute ? 0
-				: 1;
+	private int getEncoderMode(int encoderIndex) {
+		final BankLayout currentBank = BankLayout.CurrentBank;
+		final Encoder encoder = currentBank.encoders[encoderIndex];
+		return encoder.getMode() == Mode.Absolute ? 0 : 1;
 	}
 
 	private int getNextSevenEncoderModes(int encoderIndex) {
 		String result = "";
 		for (int i = 0; i < 7; i++) {
-			result = getNextEncoderMode(encoderIndex + i) + result;
+			result = getEncoderMode(encoderIndex + i) + result;
 		}
 		return binaryToByte(result);
 	}

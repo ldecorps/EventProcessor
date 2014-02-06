@@ -16,7 +16,6 @@ import javax.sound.midi.SysexMessage;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
@@ -60,7 +59,6 @@ public class EventProcessorTest {
 	}
 
 	@Test
-	@Ignore
 	public void newEventProcessor_HasSetTheReceiverInTheTransmitter()
 			throws Exception {
 		assertThat(EventProcessor.build().getDefaultRemoteReceiver(),

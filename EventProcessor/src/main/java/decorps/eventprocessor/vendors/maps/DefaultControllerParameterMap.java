@@ -36,6 +36,7 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 	public DefaultControllerParameterMap(ProgramParameter programParameter,
 			Controller... controllers) {
 		for (Controller controller : controllers) {
+			controller.setProgramParameter(programParameter);
 			this.controllers.add(controller);
 		}
 		this.programParameter = programParameter;
@@ -90,7 +91,8 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 		return EventProcessorShortMessage.buildShortMessage(
 				ShortMessage.CONTROL_CHANGE,
 				BankLayout.CurrentBank.bankNumber - 1, getControllers().get(0)
-						.getCCOrNoteNumber(), programParameter.getRebasedValue());
+						.getCCOrNoteNumber(), programParameter
+						.getRebasedValue());
 
 	}
 }

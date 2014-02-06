@@ -24,13 +24,16 @@ public class MapRepository {
 	public static void initialiseCurrentBank() {
 		maps.clear();
 		for (int i = 0; i < 32; i++) {
+			ProgramParameter programParameter = ProgramParameter.nullParameter;
 			try {
-				register(createMapForNextAvailableParameterAndNextAvailableController());
+				final DefaultControllerParameterMap map = createMapForNextAvailableParameterAndNextAvailableController();
+				programParameter = map.getProgramParameter();
+				register(map);
 			} catch (NoMapLeftToDefaultException e) {
 				return;
 			}
 			BankLayout.CurrentBank.encoders[i]
-					.setProgramParameter(ProgramParameter.nullParameter);
+					.setProgramParameter(programParameter);
 		}
 	}
 
@@ -56,6 +59,12 @@ public class MapRepository {
 				maps.remove(map);
 		}
 		maps.add(eventProcessorMap);
+		ProgramParameter programParameter = eventProcessorMap
+				.getProgramParameter();
+		Controller controller = eventProcessorMap.getControllers().get(0);
+
+		BankLayout.CurrentBank.encoders[controller.getId()]
+				.setProgramParameter(programParameter);
 	}
 
 	public static boolean contains(EventProcessorMap map) {
@@ -109,7 +118,7 @@ public class MapRepository {
 			Controller controller) {
 		for (EventProcessorMap map : maps) {
 			for (Controller controllerCandidate : map.getControllers())
-				if (controllerCandidate.equals(controller))
+				if (controllerCandidate.getId() == controller.getId())
 					return controllerCandidate.getProgramParameter();
 		}
 		throw new EventProcessorException(

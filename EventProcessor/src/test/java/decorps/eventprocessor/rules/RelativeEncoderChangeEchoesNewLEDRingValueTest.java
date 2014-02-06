@@ -7,10 +7,10 @@ import static org.junit.Assert.*;
 import javax.sound.midi.ShortMessage;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.EventProcessorTest;
 import decorps.eventprocessor.InitialiseBankLayout;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
@@ -21,7 +21,6 @@ import decorps.eventprocessor.vendors.livid.Mode;
 import decorps.eventprocessor.vendors.maps.EventProcessorMap;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
-@Ignore
 public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 
 	RelativeEncoderChangeEchoesNewLEDRingValue cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
@@ -30,7 +29,7 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 	@Before
 	public void initialise() throws InterruptedException {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		eventProcessor = EventProcessor.getInstance();
+		eventProcessor = EventProcessorTest.getInstanceWithoutActions();
 		new InitialiseBankLayout(eventProcessor).initialise();
 	}
 
@@ -39,6 +38,8 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 			throws Exception {
 
 		int ccNumberAssociatedToARelativeEncoder = getCcNumberAssociatedToaRelativeEncoder();
+		assertThat("should find at least one relative encoder",
+				ccNumberAssociatedToARelativeEncoder, greaterThan(0));
 
 		final int relativeValue = getRandomByte();
 		EventProcessorMidiMessage ccComingOutOfLivid = EventProcessorShortMessage

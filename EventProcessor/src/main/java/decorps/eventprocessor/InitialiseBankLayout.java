@@ -1,7 +1,10 @@
 package decorps.eventprocessor;
 
 import static decorps.eventprocessor.vendors.livid.BankLayout.*;
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 import decorps.eventprocessor.vendors.maps.DefaultControllerParameterMap;
 import decorps.eventprocessor.vendors.maps.MapRepository;
@@ -16,12 +19,13 @@ public class InitialiseBankLayout {
 	}
 
 	public void initialise() throws InterruptedException {
-		if (isInitialised)
+		if (!isInitialised) {
+			isInitialised = true;
+			setProgramMode();
+			Thread.sleep(500);
+			requestCurrentEditBufferAndWaitForAnswer();
 			return;
-		isInitialised = true;
-		setProgramMode();
-		Thread.sleep(500);
-		requestCurrentEditBufferAndWaitForAnswer();
+		}
 		applyMapping();
 		setEncosionMode();
 		setLedRingStyles();
@@ -36,8 +40,10 @@ public class InitialiseBankLayout {
 
 	private void setEncosionMode() {
 		System.out.println("set encosion mode");
-		eventProcessor.sendToLivid(LividMessageFactory
-				.buildMap_Encosion_Mode(CurrentBank.getEncoderModes()));
+		final int[] encoderModes = CurrentBank.getEncoderModes();
+		final EventProcessorMidiMessage buildMap_Encosion_Mode = LividMessageFactory
+				.buildMap_Encosion_Mode(encoderModes);
+		eventProcessor.sendToLivid(buildMap_Encosion_Mode);
 	}
 
 	private void setLedRingStyles() {
@@ -48,10 +54,11 @@ public class InitialiseBankLayout {
 
 	private void applyMapping() {
 		System.out.println("applying mapping");
-		MapRepository
-				.register(new DefaultControllerParameterMap(
-						programParameterData.A.oscillator1Frequency,
-						Bank1.encoders[0]));
+		final Encoder encoder = Bank1.encoders[0];
+		final ProgramParameter oscillator1Frequency = programParameterData.A.oscillator1Frequency;
+		final DefaultControllerParameterMap eventProcessorMap = new DefaultControllerParameterMap(
+				oscillator1Frequency, encoder);
+		MapRepository.register(eventProcessorMap);
 	}
 
 	private void requestCurrentEditBufferAndWaitForAnswer()
