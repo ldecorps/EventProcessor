@@ -184,4 +184,5 @@ public class EventProcessorTest {
 		}
 		throw new EventProcessorException("Did not find any messages");
 	}
+
 }

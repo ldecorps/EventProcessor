@@ -40,7 +40,7 @@ public class EventProcessor {
 		return build();
 	}
 
-	private EventProcessor() {
+	EventProcessor() {
 		actions = new HashSet<Action>();
 		linkFactory = new LinkFactory(actions);
 		fromTetraToLivid = linkFactory.buildFromTetraToLivid();
