@@ -94,7 +94,7 @@ public class MapRepository {
 	}
 
 	static Controller nextControllerNotMapped() {
-		byte greaterMappedController = 0;
+		byte greaterMappedController = -1;
 		for (EventProcessorMap map : maps)
 			for (Controller controllerCandidate : map.getControllers())
 				if (controllerCandidate.getId() > greaterMappedController)

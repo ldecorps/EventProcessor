@@ -14,7 +14,6 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,19 +32,19 @@ import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
-@Ignore
 public class EventProcessorTest {
 
 	EventProcessor cut;
 
 	@Before
 	public void buildEventProcessor() {
-		cut = EventProcessor.build();
+		cut = getInstanceWithoutActions();
 	}
 
-	@After
-	public void close() {
-		cut.close();
+	public static EventProcessor getInstanceWithoutActions() {
+		EventProcessor result = EventProcessor.build();
+		result.actions.clear();
+		return result;
 	}
 
 	@Test

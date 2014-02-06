@@ -7,13 +7,15 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
+import decorps.eventprocessor.EventProcessorTest;
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 
 public class EventProcessorSysexMessageTest {
 	@Test
 	public void canSendOneSysEx() throws Exception {
-		EventProcessor eventProcessor = EventProcessor.getInstance();
+		EventProcessor eventProcessor = EventProcessorTest
+				.getInstanceWithoutActions();
 		final EventProcessorMidiMessage sysexMessage = DsiMessageFactory
 				.buildUniversal_System_Exclusive_Message_Device_Inquiry();
 		eventProcessor.fromTetraToLivid.receiver.send(sysexMessage, -1);
