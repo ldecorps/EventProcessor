@@ -1,14 +1,14 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class FilterResonance extends ProgramParameter implements ZeroTo127Range {
+public class NoiseLevel extends ProgramParameter implements ZeroTo127Range {
 
-	public FilterResonance(int number, byte b) {
+	public NoiseLevel(int number, byte b) {
 		super(number, b);
 	}
 
 	@Override
 	public byte getLayerANRPNNumber() {
-		return 16;
+		return 14;
 	}
 
 }

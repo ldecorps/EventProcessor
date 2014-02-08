@@ -21,6 +21,29 @@ public class Layer {
 	public final ProgramParameter glideMode;
 	public final ProgramParameter oscillatorSlop;
 	public final ProgramParameter oscillatorMix;
+	public final ProgramParameter noiseLevel;
+	public final ProgramParameter filterCutoffFreq;
+	public final ProgramParameter filterResonance;
+	public final ProgramParameter filterKeyboardAmt;
+	public final ProgramParameter filterAudioMod;
+	public final ProgramParameter filterConfigMode;
+	public final ProgramParameter filterEnvAmount;
+	public final ProgramParameter filterEnvVelocity;
+	public final ProgramParameter filterEnvDelay;
+	public final ProgramParameter filterEnvAttack;
+	public final ProgramParameter filterEnvDecay;
+	public final ProgramParameter filterEnvSustain;
+	public final ProgramParameter filterEnvRelease;
+	public final ProgramParameter vcaLevel;
+	public final ProgramParameter panSpread;
+	public final ProgramParameter programVolume;
+	public final ProgramParameter vcaEnvAmount;
+	public final ProgramParameter vcaEnvVelocity;
+	public final ProgramParameter vcaEnvDelay;
+	public final ProgramParameter vcaEnvAttack;
+	public final ProgramParameter vcaEnvDecay;
+	public final ProgramParameter vcaEnvSustain;
+	public final ProgramParameter vcaEnvRelease;
 
 	Layer(Class<? extends ProgramParameter>[] parametersClasses, byte[] data,
 			int offset) throws InstantiationException, IllegalAccessException,
@@ -42,6 +65,30 @@ public class Layer {
 		glideMode = factory.buildNextParameter();
 		oscillatorSlop = factory.buildNextParameter();
 		oscillatorMix = factory.buildNextParameter();
+		noiseLevel = factory.buildNextParameter();
+		filterCutoffFreq = factory.buildNextParameter();
+		filterResonance = factory.buildNextParameter();
+		filterKeyboardAmt = factory.buildNextParameter();
+		filterAudioMod = factory.buildNextParameter();
+		filterConfigMode = factory.buildNextParameter();
+		filterEnvAmount = factory.buildNextParameter();
+		filterEnvVelocity = factory.buildNextParameter();
+		filterEnvDelay = factory.buildNextParameter();
+		filterEnvAttack = factory.buildNextParameter();
+		filterEnvDecay = factory.buildNextParameter();
+		filterEnvSustain = factory.buildNextParameter();
+		filterEnvRelease = factory.buildNextParameter();
+		vcaLevel = factory.buildNextParameter();
+		panSpread = factory.buildNextParameter();
+		programVolume = factory.buildNextParameter();
+		vcaEnvAmount = factory.buildNextParameter();
+		vcaEnvVelocity = factory.buildNextParameter();
+		vcaEnvDelay = factory.buildNextParameter();
+		vcaEnvAttack = factory.buildNextParameter();
+		vcaEnvDecay = factory.buildNextParameter();
+		vcaEnvSustain = factory.buildNextParameter();
+		vcaEnvRelease = factory.buildNextParameter();
+
 	}
 
 	@Override

@@ -24,7 +24,6 @@ public class MapRepository {
 			try {
 				final DefaultControllerParameterMap map = createMapForNextAvailableParameterAndNextAvailableController();
 				programParameter = map.getProgramParameter();
-				// register(map);
 			} catch (NoMapLeftToDefaultException e) {
 				return;
 			}

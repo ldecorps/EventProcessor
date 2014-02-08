@@ -27,9 +27,16 @@ public class InitialiseBankLayout {
 			setEncosionMode();
 			setLedRingStyles();
 			setEncoderSpeed();
+			setLocalControl();
 			return;
 		}
 		applyMapping();
+	}
+
+	private void setLocalControl() {
+		System.out.println("set encoder speed");
+		eventProcessor.sendToLivid(LividMessageFactory
+				.build_Switch_Relative_Local_Control_Off());
 	}
 
 	private void setEncoderSpeed() {

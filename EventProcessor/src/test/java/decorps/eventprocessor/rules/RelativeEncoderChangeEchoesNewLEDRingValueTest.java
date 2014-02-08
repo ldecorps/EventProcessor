@@ -9,12 +9,12 @@ import javax.sound.midi.ShortMessage;
 import org.junit.Before;
 import org.junit.Test;
 
-import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.Mode;
 import decorps.eventprocessor.vendors.maps.EventProcessorMap;
 import decorps.eventprocessor.vendors.maps.MapRepository;
@@ -25,8 +25,8 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 	@Before
 	public void initialise() {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		EventProcessor.getInstance();
 		cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
+		MapRepository.initialiseCurrentBank();
 	}
 
 	@Test
@@ -53,7 +53,8 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 		int cc = 1;
 		for (EventProcessorMap map : MapRepository.maps) {
 			for (Controller controller : map.getControllers()) {
-				if (Mode.Absolute == controller.getMode())
+				if (Mode.Absolute == controller.getMode()
+						|| !(controller instanceof Encoder))
 					continue;
 				System.out.println("has picked " + controller);
 				return controller.getCCOrNoteNumber();

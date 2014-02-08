@@ -38,7 +38,7 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		throw e;
 	}
 
-	public void send(Receiver receiver, long timestamp) {
+	public synchronized void send(Receiver receiver, long timestamp) {
 		receiver.send(getMidiMessage(), timestamp);
 	}
 

@@ -6,7 +6,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterAudioMod;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterConfigMode;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterCutoffFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvAmount;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvAttack;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvDecay;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvDelay;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvRelease;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvSustain;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvVelocity;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterKeyboardAmt;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterResonance;
 import decorps.eventprocessor.vendors.dsi.programparameters.GlideMode;
+import decorps.eventprocessor.vendors.dsi.programparameters.NoiseLevel;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1KeyTrack;
@@ -20,7 +33,9 @@ import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Glide;
 import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Shape;
 import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
 import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorSlop;
+import decorps.eventprocessor.vendors.dsi.programparameters.PanSpread;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramVolume;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 
 public class ProgramParameterData {
@@ -63,7 +78,16 @@ public class ProgramParameterData {
 				Osc1KeyTrack.class, Osc2Frequency.class, Osc2FineFreq.class,
 				Oscillator2Shape.class, Oscillator2Glide.class,
 				Osc2KeyTrack.class, OscHardSync.class, GlideMode.class,
-				OscillatorSlop.class, OscillatorMix.class };
+				OscillatorSlop.class, OscillatorMix.class, NoiseLevel.class,
+				FilterCutoffFreq.class, FilterResonance.class,
+				FilterKeyboardAmt.class, FilterAudioMod.class,
+				FilterConfigMode.class, FilterEnvAmount.class,
+				FilterEnvVelocity.class, FilterEnvDelay.class,
+				FilterEnvAttack.class, FilterEnvDecay.class,
+				FilterEnvSustain.class, FilterEnvRelease.class, VCALevel.class,
+				PanSpread.class, ProgramVolume.class, VCAEnvAmount.class,
+				VCAEnvVelocity.class, VCAEnvDelay.class, VCAEnvAttack.class,
+				VCAEnvDecay.class, VCAEnvSustain.class, VCAEnvRelease.class };
 		return parameters;
 	}
 
@@ -110,6 +134,30 @@ public class ProgramParameterData {
 		result.add(layers[i].glideMode);
 		result.add(layers[i].oscillatorSlop);
 		result.add(layers[i].oscillatorMix);
+		result.add(layers[i].noiseLevel);
+		result.add(layers[i].filterCutoffFreq);
+		result.add(layers[i].filterResonance);
+		result.add(layers[i].filterKeyboardAmt);
+		result.add(layers[i].filterAudioMod);
+		result.add(layers[i].filterConfigMode);
+		result.add(layers[i].filterEnvAmount);
+		result.add(layers[i].filterEnvVelocity);
+		result.add(layers[i].filterEnvDelay);
+		result.add(layers[i].filterEnvAttack);
+		result.add(layers[i].filterEnvDecay);
+		result.add(layers[i].filterEnvSustain);
+		result.add(layers[i].filterEnvRelease);
+		result.add(layers[i].vcaLevel);
+		result.add(layers[i].panSpread);
+		result.add(layers[i].programVolume);
+		result.add(layers[i].vcaEnvAmount);
+		result.add(layers[i].vcaEnvVelocity);
+		result.add(layers[i].vcaEnvDelay);
+		result.add(layers[i].vcaEnvAttack);
+		result.add(layers[i].vcaEnvDecay);
+		result.add(layers[i].vcaEnvSustain);
+		result.add(layers[i].vcaEnvRelease);
+
 	}
 
 	public Layer currentLayer() {

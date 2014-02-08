@@ -50,4 +50,8 @@ public class LividMessageFactory {
 		return new Set_Encoder_Speed(payload, 0x1e, 2);
 	}
 
+	public static EventProcessorMidiMessage build_Switch_Relative_Local_Control_Off() {
+		return new LocalControl(122);
+	}
+
 }
