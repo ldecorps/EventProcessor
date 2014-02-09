@@ -19,6 +19,26 @@ import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvVelocity;
 import decorps.eventprocessor.vendors.dsi.programparameters.FilterKeyboardAmt;
 import decorps.eventprocessor.vendors.dsi.programparameters.FilterResonance;
 import decorps.eventprocessor.vendors.dsi.programparameters.GlideMode;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1KeySync;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO2KeySync;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO3KeySync;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO4KeySync;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Shape;
 import decorps.eventprocessor.vendors.dsi.programparameters.NoiseLevel;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
@@ -36,6 +56,14 @@ import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorSlop;
 import decorps.eventprocessor.vendors.dsi.programparameters.PanSpread;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramVolume;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvAmount;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvAttack;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvDecay;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvDelay;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvRelease;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvSustain;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvVelocity;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCALevel;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 
 public class ProgramParameterData {
@@ -87,7 +115,14 @@ public class ProgramParameterData {
 				FilterEnvSustain.class, FilterEnvRelease.class, VCALevel.class,
 				PanSpread.class, ProgramVolume.class, VCAEnvAmount.class,
 				VCAEnvVelocity.class, VCAEnvDelay.class, VCAEnvAttack.class,
-				VCAEnvDecay.class, VCAEnvSustain.class, VCAEnvRelease.class };
+				VCAEnvDecay.class, VCAEnvSustain.class, VCAEnvRelease.class,
+				LFO1Frequency.class, LFO1Shape.class, LFO1Amount.class,
+				LFO1Destination.class, LFO1KeySync.class, LFO2Frequency.class,
+				LFO2Shape.class, LFO2Amount.class, LFO2Destination.class,
+				LFO2KeySync.class, LFO3Frequency.class, LFO3Shape.class,
+				LFO3Amount.class, LFO3Destination.class, LFO3KeySync.class,
+				LFO4Frequency.class, LFO4Shape.class, LFO4Amount.class,
+				LFO4Destination.class, LFO4KeySync.class };
 		return parameters;
 	}
 
@@ -157,7 +192,26 @@ public class ProgramParameterData {
 		result.add(layers[i].vcaEnvDecay);
 		result.add(layers[i].vcaEnvSustain);
 		result.add(layers[i].vcaEnvRelease);
-
+		result.add(layers[i].lfo1frequency);
+		result.add(layers[i].lfo1Shape);
+		result.add(layers[i].lfo1Amount);
+		result.add(layers[i].lfo1Destination);
+		result.add(layers[i].lfo1KeySync);
+		result.add(layers[i].lfo2frequency);
+		result.add(layers[i].lfo2Shape);
+		result.add(layers[i].lfo2Amount);
+		result.add(layers[i].lfo2Destination);
+		result.add(layers[i].lfo2KeySync);
+		result.add(layers[i].lfo3frequency);
+		result.add(layers[i].lfo3Shape);
+		result.add(layers[i].lfo3Amount);
+		result.add(layers[i].lfo3Destination);
+		result.add(layers[i].lfo3KeySync);
+		result.add(layers[i].lfo4frequency);
+		result.add(layers[i].lfo4Shape);
+		result.add(layers[i].lfo4Amount);
+		result.add(layers[i].lfo4Destination);
+		result.add(layers[i].lfo4KeySync);
 	}
 
 	public Layer currentLayer() {

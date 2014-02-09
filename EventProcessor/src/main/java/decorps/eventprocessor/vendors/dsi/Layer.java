@@ -44,6 +44,26 @@ public class Layer {
 	public final ProgramParameter vcaEnvDecay;
 	public final ProgramParameter vcaEnvSustain;
 	public final ProgramParameter vcaEnvRelease;
+	public final ProgramParameter lfo1frequency;
+	public final ProgramParameter lfo1Shape;
+	public final ProgramParameter lfo1Amount;
+	public final ProgramParameter lfo1Destination;
+	public final ProgramParameter lfo1KeySync;
+	public final ProgramParameter lfo2frequency;
+	public final ProgramParameter lfo2Shape;
+	public final ProgramParameter lfo2Amount;
+	public final ProgramParameter lfo2Destination;
+	public final ProgramParameter lfo2KeySync;
+	public final ProgramParameter lfo3frequency;
+	public final ProgramParameter lfo3Shape;
+	public final ProgramParameter lfo3Amount;
+	public final ProgramParameter lfo3Destination;
+	public final ProgramParameter lfo3KeySync;
+	public final ProgramParameter lfo4frequency;
+	public final ProgramParameter lfo4Shape;
+	public final ProgramParameter lfo4Amount;
+	public final ProgramParameter lfo4Destination;
+	public final ProgramParameter lfo4KeySync;
 
 	Layer(Class<? extends ProgramParameter>[] parametersClasses, byte[] data,
 			int offset) throws InstantiationException, IllegalAccessException,
@@ -88,6 +108,26 @@ public class Layer {
 		vcaEnvDecay = factory.buildNextParameter();
 		vcaEnvSustain = factory.buildNextParameter();
 		vcaEnvRelease = factory.buildNextParameter();
+		lfo1frequency = factory.buildNextParameter();
+		lfo1Shape = factory.buildNextParameter();
+		lfo1Amount = factory.buildNextParameter();
+		lfo1Destination = factory.buildNextParameter();
+		lfo1KeySync = factory.buildNextParameter();
+		lfo2frequency = factory.buildNextParameter();
+		lfo2Shape = factory.buildNextParameter();
+		lfo2Amount = factory.buildNextParameter();
+		lfo2Destination = factory.buildNextParameter();
+		lfo2KeySync = factory.buildNextParameter();
+		lfo3frequency = factory.buildNextParameter();
+		lfo3Shape = factory.buildNextParameter();
+		lfo3Amount = factory.buildNextParameter();
+		lfo3Destination = factory.buildNextParameter();
+		lfo3KeySync = factory.buildNextParameter();
+		lfo4frequency = factory.buildNextParameter();
+		lfo4Shape = factory.buildNextParameter();
+		lfo4Amount = factory.buildNextParameter();
+		lfo4Destination = factory.buildNextParameter();
+		lfo4KeySync = factory.buildNextParameter();
 
 	}
 
@@ -105,7 +145,36 @@ public class Layer {
 				+ ", oscillator2Keyboard=" + oscillator2Keyboard
 				+ ", oscillatorHardSync=" + oscillatorHardSync + ", glideMode="
 				+ glideMode + ", oscillatorSlop=" + oscillatorSlop
-				+ ", oscillatorMix=" + oscillatorMix + "]";
+				+ ", oscillatorMix=" + oscillatorMix + ", noiseLevel="
+				+ noiseLevel + ", filterCutoffFreq=" + filterCutoffFreq
+				+ ", filterResonance=" + filterResonance
+				+ ", filterKeyboardAmt=" + filterKeyboardAmt
+				+ ", filterAudioMod=" + filterAudioMod + ", filterConfigMode="
+				+ filterConfigMode + ", filterEnvAmount=" + filterEnvAmount
+				+ ", filterEnvVelocity=" + filterEnvVelocity
+				+ ", filterEnvDelay=" + filterEnvDelay + ", filterEnvAttack="
+				+ filterEnvAttack + ", filterEnvDecay=" + filterEnvDecay
+				+ ", filterEnvSustain=" + filterEnvSustain
+				+ ", filterEnvRelease=" + filterEnvRelease + ", vcaLevel="
+				+ vcaLevel + ", panSpread=" + panSpread + ", programVolume="
+				+ programVolume + ", vcaEnvAmount=" + vcaEnvAmount
+				+ ", vcaEnvVelocity=" + vcaEnvVelocity + ", vcaEnvDelay="
+				+ vcaEnvDelay + ", vcaEnvAttack=" + vcaEnvAttack
+				+ ", vcaEnvDecay=" + vcaEnvDecay + ", vcaEnvSustain="
+				+ vcaEnvSustain + ", vcaEnvRelease=" + vcaEnvRelease
+				+ ", lfo1frequency=" + lfo1frequency + ", lfo1Shape="
+				+ lfo1Shape + ", lfo1Amount=" + lfo1Amount
+				+ ", lfo1Destination=" + lfo1Destination + ", lfo1KeySync="
+				+ lfo1KeySync + ", lfo2frequency=" + lfo2frequency
+				+ ", lfo2Shape=" + lfo2Shape + ", lfo2Amount=" + lfo2Amount
+				+ ", lfo2Destination=" + lfo2Destination + ", lfo2KeySync="
+				+ lfo2KeySync + ", lfo3frequency=" + lfo3frequency
+				+ ", lfo3Shape=" + lfo3Shape + ", lfo3Amount=" + lfo3Amount
+				+ ", lfo3Destination=" + lfo3Destination + ", lfo3KeySync="
+				+ lfo3KeySync + ", lfo4frequency=" + lfo4frequency
+				+ ", lfo4Shape=" + lfo4Shape + ", lfo4Amount=" + lfo4Amount
+				+ ", lfo4Destination=" + lfo4Destination + ", lfo4KeySync="
+				+ lfo4KeySync + "]";
 	}
 
 	public static Layer build(

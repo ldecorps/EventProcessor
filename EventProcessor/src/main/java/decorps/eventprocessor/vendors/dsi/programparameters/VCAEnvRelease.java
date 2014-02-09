@@ -1,7 +1,5 @@
-package decorps.eventprocessor.vendors.dsi;
+package decorps.eventprocessor.vendors.dsi.programparameters;
 
-import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.ZeroTo127Range;
 
 public class VCAEnvRelease extends ProgramParameter implements ZeroTo127Range {
 
