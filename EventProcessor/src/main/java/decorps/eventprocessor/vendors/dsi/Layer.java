@@ -84,6 +84,20 @@ public class Layer {
 	public final ProgramParameter mod4Source;
 	public final ProgramParameter mod4Amount;
 	public final ProgramParameter mod4Destination;
+	public final ProgramParameter seq1Destination;
+	public final ProgramParameter seq2Destination;
+	public final ProgramParameter seq3Destination;
+	public final ProgramParameter seq4Destination;
+	public final ProgramParameter modWheelAmount;
+	public final ProgramParameter modWheelDest;
+	public final ProgramParameter pressureAmount;
+	public final ProgramParameter pressureDestination;
+	public final ProgramParameter breathAmount;
+	public final ProgramParameter breathDestination;
+	public final ProgramParameter velocityAmount;
+	public final ProgramParameter velocityDestination;
+	public final ProgramParameter footControlAmt;
+	public final ProgramParameter footControlDest;
 
 	Layer(Class<? extends ProgramParameter>[] parametersClasses, byte[] data,
 			int offset) throws InstantiationException, IllegalAccessException,
@@ -168,6 +182,20 @@ public class Layer {
 		mod4Source = factory.buildNextParameter();
 		mod4Amount = factory.buildNextParameter();
 		mod4Destination = factory.buildNextParameter();
+		seq1Destination = factory.buildNextParameter();
+		seq2Destination = factory.buildNextParameter();
+		seq3Destination = factory.buildNextParameter();
+		seq4Destination = factory.buildNextParameter();
+		modWheelAmount = factory.buildNextParameter();
+		modWheelDest = factory.buildNextParameter();
+		pressureAmount = factory.buildNextParameter();
+		pressureDestination = factory.buildNextParameter();
+		breathAmount = factory.buildNextParameter();
+		breathDestination = factory.buildNextParameter();
+		velocityAmount = factory.buildNextParameter();
+		velocityDestination = factory.buildNextParameter();
+		footControlAmt = factory.buildNextParameter();
+		footControlDest = factory.buildNextParameter();
 	}
 
 	@Override
@@ -213,7 +241,32 @@ public class Layer {
 				+ lfo3KeySync + ", lfo4frequency=" + lfo4frequency
 				+ ", lfo4Shape=" + lfo4Shape + ", lfo4Amount=" + lfo4Amount
 				+ ", lfo4Destination=" + lfo4Destination + ", lfo4KeySync="
-				+ lfo4KeySync + "]";
+				+ lfo4KeySync + ", env3Destination=" + env3Destination
+				+ ", envelope3Amount=" + envelope3Amount
+				+ ", envelope3Velocity=" + envelope3Velocity
+				+ ", envelope3Delay=" + envelope3Delay + ", envelope3Attack="
+				+ envelope3Attack + ", envelope3Decay=" + envelope3Decay
+				+ ", envelope3Sustain=" + envelope3Sustain
+				+ ", envelope3Release=" + envelope3Release + ", mod1Source="
+				+ mod1Source + ", mod1Amount=" + mod1Amount
+				+ ", mod1Destination=" + mod1Destination + ", mod2Source="
+				+ mod2Source + ", mod2Amount=" + mod2Amount
+				+ ", mod2Destination=" + mod2Destination + ", mod3Source="
+				+ mod3Source + ", mod3Amount=" + mod3Amount
+				+ ", mod3Destination=" + mod3Destination + ", mod4Source="
+				+ mod4Source + ", mod4Amount=" + mod4Amount
+				+ ", mod4Destination=" + mod4Destination + ", seq1Destination="
+				+ seq1Destination + ", seq2Destination=" + seq2Destination
+				+ ", seq3Destination=" + seq3Destination + ", seq4Destination="
+				+ seq4Destination + ", modWheelAmount=" + modWheelAmount
+				+ ", modWheelDest=" + modWheelDest + ", pressureAmount="
+				+ pressureAmount + ", pressureDestination="
+				+ pressureDestination + ", breathAmount=" + breathAmount
+				+ ", breathDestination=" + breathDestination
+				+ ", velocityAmount=" + velocityAmount
+				+ ", velocityDestination=" + velocityDestination
+				+ ", footControlAmt=" + footControlAmt + ", footControlDest="
+				+ footControlDest + "]";
 	}
 
 	public static Layer build(
