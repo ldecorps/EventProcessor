@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import decorps.eventprocessor.vendors.dsi.programparameters.Env3Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Attack;
+import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Decay;
+import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Delay;
+import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Release;
+import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Sustain;
+import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Velocity;
 import decorps.eventprocessor.vendors.dsi.programparameters.FilterAudioMod;
 import decorps.eventprocessor.vendors.dsi.programparameters.FilterConfigMode;
 import decorps.eventprocessor.vendors.dsi.programparameters.FilterCutoffFreq;
@@ -39,6 +47,18 @@ import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Destination;
 import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Frequency;
 import decorps.eventprocessor.vendors.dsi.programparameters.LFO4KeySync;
 import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod1Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod1Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod1Source;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod2Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod2Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod2Source;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod3Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod3Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod3Source;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod4Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod4Destination;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod4Source;
 import decorps.eventprocessor.vendors.dsi.programparameters.NoiseLevel;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
@@ -122,7 +142,15 @@ public class ProgramParameterData {
 				LFO2KeySync.class, LFO3Frequency.class, LFO3Shape.class,
 				LFO3Amount.class, LFO3Destination.class, LFO3KeySync.class,
 				LFO4Frequency.class, LFO4Shape.class, LFO4Amount.class,
-				LFO4Destination.class, LFO4KeySync.class };
+				LFO4Destination.class, LFO4KeySync.class,
+				Env3Destination.class, Envelope3Amount.class,
+				Envelope3Velocity.class, Envelope3Delay.class,
+				Envelope3Attack.class, Envelope3Decay.class,
+				Envelope3Sustain.class, Envelope3Release.class,
+				Mod1Source.class, Mod1Amount.class, Mod1Destination.class,
+				Mod2Source.class, Mod2Amount.class, Mod2Destination.class,
+				Mod3Source.class, Mod3Amount.class, Mod3Destination.class,
+				Mod4Source.class, Mod4Amount.class, Mod4Destination.class };
 		return parameters;
 	}
 
@@ -212,6 +240,27 @@ public class ProgramParameterData {
 		result.add(layers[i].lfo4Amount);
 		result.add(layers[i].lfo4Destination);
 		result.add(layers[i].lfo4KeySync);
+		result.add(layers[i].env3Destination);
+		result.add(layers[i].envelope3Amount);
+		result.add(layers[i].envelope3Velocity);
+		result.add(layers[i].envelope3Delay);
+		result.add(layers[i].envelope3Attack);
+		result.add(layers[i].envelope3Decay);
+		result.add(layers[i].envelope3Sustain);
+		result.add(layers[i].envelope3Release);
+		result.add(layers[i].mod1Source);
+		result.add(layers[i].mod1Amount);
+		result.add(layers[i].mod1Destination);
+		result.add(layers[i].mod2Source);
+		result.add(layers[i].mod2Amount);
+		result.add(layers[i].mod2Destination);
+		result.add(layers[i].mod3Source);
+		result.add(layers[i].mod3Amount);
+		result.add(layers[i].mod3Destination);
+		result.add(layers[i].mod4Source);
+		result.add(layers[i].mod4Amount);
+		result.add(layers[i].mod4Destination);
+
 	}
 
 	public Layer currentLayer() {

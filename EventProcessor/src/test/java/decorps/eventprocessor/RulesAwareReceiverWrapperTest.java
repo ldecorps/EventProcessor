@@ -13,7 +13,7 @@ public class RulesAwareReceiverWrapperTest {
 	RulesAwareReceiverWrapper cut = new RulesAwareReceiverWrapper(null, null);
 
 	@Test
-	// FIXEME
+	// FIXME filter time clock
 	@Ignore
 	public void shouldPassOnSystemMessages() throws Exception {
 		EventProcessorShortMessage systemMessage = (EventProcessorShortMessage) EventProcessorShortMessage

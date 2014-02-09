@@ -39,8 +39,12 @@ public abstract class ProgramParameter implements ValueRange {
 			result = (byte) (value * (127d / 4d));
 		else if (ZeroTo5Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 5d));
+		else if (ZeroTo20Range.class.isAssignableFrom(getClass()))
+			result = (byte) (value * (127d / 20d));
 		else if (ZeroTo43Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 43d));
+		else if (ZeroTo47Range.class.isAssignableFrom(getClass()))
+			result = (byte) (value * (127d / 47d));
 		else if (ZeroTo100Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 100d));
 		else if (ZeroTo164Range.class.isAssignableFrom(getClass()))

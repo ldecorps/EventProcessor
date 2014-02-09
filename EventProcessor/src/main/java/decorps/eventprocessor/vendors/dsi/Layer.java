@@ -64,6 +64,26 @@ public class Layer {
 	public final ProgramParameter lfo4Amount;
 	public final ProgramParameter lfo4Destination;
 	public final ProgramParameter lfo4KeySync;
+	public final ProgramParameter env3Destination;
+	public final ProgramParameter envelope3Amount;
+	public final ProgramParameter envelope3Velocity;
+	public final ProgramParameter envelope3Delay;
+	public final ProgramParameter envelope3Attack;
+	public final ProgramParameter envelope3Decay;
+	public final ProgramParameter envelope3Sustain;
+	public final ProgramParameter envelope3Release;
+	public final ProgramParameter mod1Source;
+	public final ProgramParameter mod1Amount;
+	public final ProgramParameter mod1Destination;
+	public final ProgramParameter mod2Source;
+	public final ProgramParameter mod2Amount;
+	public final ProgramParameter mod2Destination;
+	public final ProgramParameter mod3Source;
+	public final ProgramParameter mod3Amount;
+	public final ProgramParameter mod3Destination;
+	public final ProgramParameter mod4Source;
+	public final ProgramParameter mod4Amount;
+	public final ProgramParameter mod4Destination;
 
 	Layer(Class<? extends ProgramParameter>[] parametersClasses, byte[] data,
 			int offset) throws InstantiationException, IllegalAccessException,
@@ -128,7 +148,26 @@ public class Layer {
 		lfo4Amount = factory.buildNextParameter();
 		lfo4Destination = factory.buildNextParameter();
 		lfo4KeySync = factory.buildNextParameter();
-
+		env3Destination = factory.buildNextParameter();
+		envelope3Amount = factory.buildNextParameter();
+		envelope3Velocity = factory.buildNextParameter();
+		envelope3Delay = factory.buildNextParameter();
+		envelope3Attack = factory.buildNextParameter();
+		envelope3Decay = factory.buildNextParameter();
+		envelope3Sustain = factory.buildNextParameter();
+		envelope3Release = factory.buildNextParameter();
+		mod1Source = factory.buildNextParameter();
+		mod1Amount = factory.buildNextParameter();
+		mod1Destination = factory.buildNextParameter();
+		mod2Source = factory.buildNextParameter();
+		mod2Amount = factory.buildNextParameter();
+		mod2Destination = factory.buildNextParameter();
+		mod3Source = factory.buildNextParameter();
+		mod3Amount = factory.buildNextParameter();
+		mod3Destination = factory.buildNextParameter();
+		mod4Source = factory.buildNextParameter();
+		mod4Amount = factory.buildNextParameter();
+		mod4Destination = factory.buildNextParameter();
 	}
 
 	@Override
