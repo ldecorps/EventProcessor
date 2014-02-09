@@ -15,7 +15,7 @@ import decorps.eventprocessor.vendors.livid.Controller;
 public class MapRepository {
 
 	public static final Set<EventProcessorMap> maps = new HashSet<EventProcessorMap>(
-			32);
+			128);
 
 	public static void initialiseCurrentBank() {
 		maps.clear();
@@ -23,6 +23,8 @@ public class MapRepository {
 			ProgramParameter programParameter = ProgramParameter.nullParameter;
 			try {
 				final DefaultControllerParameterMap map = createMapForNextAvailableParameterAndNextAvailableController();
+				if (null == map)
+					throw new EventProcessorException("Map not initialised");
 				programParameter = map.getProgramParameter();
 			} catch (NoMapLeftToDefaultException e) {
 				return;
@@ -75,6 +77,8 @@ public class MapRepository {
 		}
 		ProgramParameterData currentProgramParameterData = BankLayout
 				.getCurrentProgramParameterData();
+		if (null == currentProgramParameterData)
+			return ProgramParameter.nullParameter;
 		for (ProgramParameter nextProgramParameter : currentProgramParameterData
 				.getAll400AbstractProgramParameters()) {
 			if (nextProgramParameter.getLayerANRPNNumber() > programParameter
@@ -88,13 +92,17 @@ public class MapRepository {
 
 	static DefaultControllerParameterMap createMapForNextAvailableParameterAndNextAvailableController()
 			throws NoMapLeftToDefaultException {
+		final ProgramParameter nextParameterNotMapped = nextParameterNotMapped();
+		if (ProgramParameter.nullParameter.equals(nextParameterNotMapped))
+			return null;
+		final Controller nextControllerNotMapped = nextControllerNotMapped();
 		DefaultControllerParameterMap map = new DefaultControllerParameterMap(
-				nextParameterNotMapped(), nextControllerNotMapped());
+				nextParameterNotMapped, nextControllerNotMapped);
 		return map;
 	}
 
 	static Controller nextControllerNotMapped() {
-		byte greaterMappedController = -1;
+		int greaterMappedController = -1;
 		for (EventProcessorMap map : maps)
 			for (Controller controllerCandidate : map.getControllers())
 				if (controllerCandidate.getId() > greaterMappedController)
@@ -117,24 +125,33 @@ public class MapRepository {
 						+ ". Maps: " + maps);
 	}
 
-	public static void map(ProgramParameterData unpacked) {
-		for (ProgramParameter programParameter : unpacked
+	public static void map(ProgramParameterData programParameterData) {
+		for (ProgramParameter programParameter : programParameterData
 				.getFirst200AbstractProgramParameters()) {
-			EventProcessorMap mapsForThisParameter = getMapForProgramParameter(programParameter);
+			EventProcessorMap mapsForThisParameter;
+			try {
+				mapsForThisParameter = getMapForProgramParameter(programParameter);
+			} catch (NoMapLeftToDefaultException e) {
+				System.out.println("32 maps done");
+				return;
+			}
 			mapsForThisParameter.map(programParameter);
 		}
-		System.out.println(unpacked.Name + " mapped");
+		System.out.println(programParameterData.Name + " mapped");
 	}
 
 	private static EventProcessorMap getMapForProgramParameter(
-			ProgramParameter programParameter) {
+			ProgramParameter programParameter)
+			throws NoMapLeftToDefaultException {
 		for (EventProcessorMap map : maps) {
 			if (map.getProgramParameter().getClass()
 					.equals(programParameter.getClass())) {
 				return map;
 			}
 		}
-		throw new EventProcessorException("could not find map for parameter: "
-				+ programParameter + ". Maps: " + maps);
+		throw new NoMapLeftToDefaultException(
+				"could not find map for parameter: " + programParameter
+						+ " NRPN: " + programParameter.getLayerANRPNNumber()
+						+ " in " + maps.size() + " maps: " + maps);
 	}
 }

@@ -30,14 +30,14 @@ public class RulesAwareReceiverWrapper implements Receiver {
 	}
 
 	public void send(MidiMessage message, long timeStamp) {
-		System.out.print("Receiving " + BaseUtils.decodeMessage(message));
-		System.out.println(". Reseting timestamp to -1");
-		timeStamp = -1;
-		midiMessages.clear();
 		EventProcessorMidiMessage eventProcessorMidiMessage = EventProcessorMidiMessage
 				.build(message);
 		if (shouldFilter(eventProcessorMidiMessage))
 			return;
+		System.out.print("Receiving " + BaseUtils.decodeMessage(message));
+		System.out.println(". Reseting timestamp to -1");
+		timeStamp = -1;
+		midiMessages.clear();
 		if (actions.isEmpty()) {
 			eventProcessorMidiMessage.send(receiver, timeStamp);
 			this.midiMessages.add(eventProcessorMidiMessage);

@@ -26,7 +26,7 @@ public class LividMessageFactory {
 	}
 
 	public static EventProcessorMidiMessage buildLED_Ring_Style(int... payload) {
-		return new Set_LED_Ring_Style(payload, 0x32, 32);
+		return new Set_LED_Ring_Style(payload, 0x09, 0x32, 32);
 	}
 
 	public static EventProcessorMidiMessage buildSet_LED_Ring_Mode(
@@ -52,6 +52,12 @@ public class LividMessageFactory {
 
 	public static EventProcessorMidiMessage build_Switch_Relative_Local_Control_Off() {
 		return new LocalControl(122);
+	}
+
+	public static EventProcessorMidiMessage build_Button_Toggle_Mode_Enable(
+			int... payload) {
+		return new Button_Toggle_Mode_Enable(payload, (byte) 0x09, (byte) 0x36,
+				32);
 	}
 
 }

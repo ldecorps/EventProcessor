@@ -1,6 +1,6 @@
 package decorps.eventprocessor.vendors.maps;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItems;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -36,7 +36,8 @@ public class TetraProgramParameterToLividCodeV2Test {
 			ProgramParameter newSampleAbsoluteParameter,
 			EventProcessorShortMessage eventProcessorShortMessage) {
 		assertEquals("channel", 0, eventProcessorShortMessage.getChannel());
-		assertEquals("ledring", newAbsoluteEncoderController.getCCOrNoteNumber(),
+		assertEquals("ledring",
+				newAbsoluteEncoderController.getCCOrNoteNumber(),
 				eventProcessorShortMessage.getData1());
 		assertEquals("value", newSampleAbsoluteParameter.getRebasedValue(),
 				eventProcessorShortMessage.getData2());

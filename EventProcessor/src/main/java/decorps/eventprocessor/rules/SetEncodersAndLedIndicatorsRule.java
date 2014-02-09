@@ -8,6 +8,7 @@ import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 import decorps.eventprocessor.vendors.maps.TetraProgramParameterToLividCodeV2;
 
 public class SetEncodersAndLedIndicatorsRule implements Rule {
@@ -33,6 +34,8 @@ public class SetEncodersAndLedIndicatorsRule implements Rule {
 
 	public EventProcessorMidiMessage buildMidiMessagesForProgramParameterData(
 			final ProgramParameterData programParameterData) {
+
+		MapRepository.map(programParameterData);
 
 		final int[] buttonsAsArrayOfInts = BankLayout.CurrentBank
 				.getButtonsAsArrayOfInts();

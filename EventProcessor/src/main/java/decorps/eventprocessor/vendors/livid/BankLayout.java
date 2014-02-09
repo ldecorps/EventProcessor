@@ -165,4 +165,8 @@ public class BankLayout {
 			result[i] = encoders[i].getRebasedValue();
 		return result;
 	}
+
+	public static void selectBank(int i) {
+		CurrentBank = BankLayout.AllBanks[i];
+	}
 }

@@ -6,8 +6,9 @@ public class Set_LED_Ring_Style extends AbstractLividCode2SysexMessage {
 	public static final int EQ = 2;
 	public static final int SPREAD = 3;
 
-	public Set_LED_Ring_Style(int[] data, int specificByte, int maximumLength) {
-		super(data, specificByte, maximumLength);
+	public Set_LED_Ring_Style(int[] data, int specificByte1, int specificByte2,
+			int maximumLength) {
+		super(data, specificByte1, specificByte2, maximumLength);
 	}
 
 }

@@ -4,10 +4,10 @@ import static decorps.eventprocessor.vendors.livid.BankLayout.*;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 import decorps.eventprocessor.vendors.maps.DefaultControllerParameterMap;
-import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class InitialiseBankLayout {
 
@@ -22,15 +22,25 @@ public class InitialiseBankLayout {
 		if (!isInitialised) {
 			isInitialised = true;
 			setProgramMode();
-			Thread.sleep(500);
 			requestCurrentEditBufferAndWaitForAnswer();
+			applyMapping();
 			setEncosionMode();
 			setLedRingStyles();
 			setEncoderSpeed();
 			setLocalControl();
-			return;
+			setButtonToggleModeEnable();
 		}
-		applyMapping();
+	}
+
+	private void setButtonToggleModeEnable() {
+		System.out.println("enabling toggle mode");
+		int[] allToggles = new int[32];
+		for (int i = 0; i < 32; i++)
+			allToggles[i] = 1;
+		final EventProcessorMidiMessage build_Button_Toggle_Mode_Enable = LividMessageFactory
+				.build_Button_Toggle_Mode_Enable(allToggles);
+		eventProcessor.sendToLivid(build_Button_Toggle_Mode_Enable);
+
 	}
 
 	private void setLocalControl() {
@@ -63,9 +73,7 @@ public class InitialiseBankLayout {
 		System.out.println("applying mapping");
 		final Encoder encoder = Bank1.encoders[0];
 		final ProgramParameter oscillator1Frequency = programParameterData.A.oscillator1Frequency;
-		final DefaultControllerParameterMap eventProcessorMap = new DefaultControllerParameterMap(
-				oscillator1Frequency, encoder);
-		MapRepository.register(eventProcessorMap);
+		new DefaultControllerParameterMap(oscillator1Frequency, encoder);
 	}
 
 	private void requestCurrentEditBufferAndWaitForAnswer()
@@ -73,7 +81,13 @@ public class InitialiseBankLayout {
 		System.out.println("request current edit buffer");
 		eventProcessor.sendToTetra(DsiMessageFactory
 				.buildProgramEditBufferDumpRequest());
-		Thread.sleep(800);
+		while (ProgramParameter.nullParameter.equals(BankLayout
+				.getCurrentProgramParameterData())
+				|| (null == BankLayout.getCurrentProgramParameterData())) {
+			Thread.sleep(1000);
+			eventProcessor.sendToTetra(DsiMessageFactory
+					.buildProgramEditBufferDumpRequest());
+		}
 
 	}
 

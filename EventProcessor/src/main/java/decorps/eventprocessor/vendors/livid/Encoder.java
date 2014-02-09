@@ -1,5 +1,6 @@
 package decorps.eventprocessor.vendors.livid;
 
+import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
 import decorps.eventprocessor.vendors.dsi.programparameters.Centered;
 import decorps.eventprocessor.vendors.dsi.programparameters.Power;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
@@ -10,6 +11,7 @@ import decorps.eventprocessor.vendors.livid.messages.Set_LED_Ring_Style;
 public class Encoder implements Controller {
 	public final byte id;
 	private ProgramParameter programParameter = ProgramParameter.nullParameter;
+	public final BankLayout bankLayout;
 
 	public ProgramParameter getProgramParameter() {
 		return programParameter;
@@ -47,6 +49,7 @@ public class Encoder implements Controller {
 
 	public Encoder() {
 		id = BankLayout.nextEncoderId++;
+		bankLayout = CurrentBank;
 	}
 
 	public byte getId() {
