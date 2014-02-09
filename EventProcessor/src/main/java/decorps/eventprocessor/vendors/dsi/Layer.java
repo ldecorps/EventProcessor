@@ -98,6 +98,31 @@ public class Layer {
 	public final ProgramParameter velocityDestination;
 	public final ProgramParameter footControlAmt;
 	public final ProgramParameter footControlDest;
+	public final ProgramParameter clockBPM;
+	public final ProgramParameter clockDivide;
+	public final ProgramParameter pitchWheelRange;
+	public final ProgramParameter sequencerTrigger;
+	public final ProgramParameter keyMode;
+	public final ProgramParameter unissonMode;
+	public final ProgramParameter arpeggiatorMode;
+	public final ProgramParameter envelope3Repeat;
+	public final ProgramParameter unissonOnOff;
+	public final ProgramParameter arpeggiatorOnOff;
+	public final ProgramParameter sequencerOnOff;
+	public final ProgramParameter assignableParameter1;
+	public final ProgramParameter assignableParameter2;
+	public final ProgramParameter assignableParameter3;
+	public final ProgramParameter assignableParameter4;
+	public final ProgramParameter feedbackGain;
+	public final ProgramParameter pushItNote;
+	public final ProgramParameter pushItVelocity;
+	public final ProgramParameter pushItMode;
+	public final ProgramParameter subOsc1Level;
+	public final ProgramParameter subOsc2Level;
+	public final ProgramParameter feedbackVolume;
+	public final ProgramParameter editorByte;
+	public final ProgramParameter splitPoint;
+	public final ProgramParameter keyboardMode;
 
 	Layer(Class<? extends ProgramParameter>[] parametersClasses, byte[] data,
 			int offset) throws InstantiationException, IllegalAccessException,
@@ -196,6 +221,31 @@ public class Layer {
 		velocityDestination = factory.buildNextParameter();
 		footControlAmt = factory.buildNextParameter();
 		footControlDest = factory.buildNextParameter();
+		clockBPM = factory.buildNextParameter();
+		clockDivide = factory.buildNextParameter();
+		pitchWheelRange = factory.buildNextParameter();
+		sequencerTrigger = factory.buildNextParameter();
+		keyMode = factory.buildNextParameter();
+		unissonMode = factory.buildNextParameter();
+		arpeggiatorMode = factory.buildNextParameter();
+		envelope3Repeat = factory.buildNextParameter();
+		unissonOnOff = factory.buildNextParameter();
+		arpeggiatorOnOff = factory.buildNextParameter();
+		sequencerOnOff = factory.buildNextParameter();
+		assignableParameter1 = factory.buildNextParameter();
+		assignableParameter2 = factory.buildNextParameter();
+		assignableParameter3 = factory.buildNextParameter();
+		assignableParameter4 = factory.buildNextParameter();
+		feedbackGain = factory.buildNextParameter();
+		pushItNote = factory.buildNextParameter();
+		pushItVelocity = factory.buildNextParameter();
+		pushItMode = factory.buildNextParameter();
+		subOsc1Level = factory.buildNextParameter();
+		subOsc2Level = factory.buildNextParameter();
+		feedbackVolume = factory.buildNextParameter();
+		editorByte = factory.buildNextParameter();
+		splitPoint = factory.buildNextParameter();
+		keyboardMode = factory.buildNextParameter();
 	}
 
 	@Override

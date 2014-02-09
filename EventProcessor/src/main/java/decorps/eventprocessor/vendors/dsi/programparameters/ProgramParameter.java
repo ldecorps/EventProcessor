@@ -33,12 +33,18 @@ public abstract class ProgramParameter implements ValueRange {
 			result = (byte) ((byte) 0x7f & (value * 127));
 		else if (FourTo103Range.class.isAssignableFrom(getClass()))
 			result = (byte) ((value - 4) * (127d / 100d));
+		else if (ZeroTo2Range.class.isAssignableFrom(getClass()))
+			result = (byte) (value * (127d / 2d));
 		else if (ZeroTo3Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 3d));
 		else if (ZeroTo4Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 4d));
 		else if (ZeroTo5Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 5d));
+		else if (ZeroTo12Range.class.isAssignableFrom(getClass()))
+			result = (byte) (value * (127d / 12d));
+		else if (ZeroTo14Range.class.isAssignableFrom(getClass()))
+			result = (byte) (value * (127d / 14d));
 		else if (ZeroTo20Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 20d));
 		else if (ZeroTo43Range.class.isAssignableFrom(getClass()))
@@ -51,8 +57,12 @@ public abstract class ProgramParameter implements ValueRange {
 			result = (byte) (value * (127d / 164d));
 		else if (ZeroTo166Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 166d));
+		else if (ZeroTo183Range.class.isAssignableFrom(getClass()))
+			result = (byte) (value * (127d / 183d));
 		else if (ZeroTo254Range.class.isAssignableFrom(getClass()))
 			result = (byte) (value * (127d / 254d));
+		else if (ThirtyTo250Range.class.isAssignableFrom(getClass()))
+			result = (byte) ((value - 30) * (127d / 221d));
 
 		result = (byte) (result & 0x7F);
 		return result;

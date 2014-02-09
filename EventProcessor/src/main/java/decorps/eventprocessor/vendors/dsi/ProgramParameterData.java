@@ -6,98 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import decorps.eventprocessor.vendors.dsi.programparameters.BreathAmount;
-import decorps.eventprocessor.vendors.dsi.programparameters.BreathDestination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Env3Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Attack;
-import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Decay;
-import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Delay;
-import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Release;
-import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Sustain;
-import decorps.eventprocessor.vendors.dsi.programparameters.Envelope3Velocity;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterAudioMod;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterConfigMode;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterCutoffFreq;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvAmount;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvAttack;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvDecay;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvDelay;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvRelease;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvSustain;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvVelocity;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterKeyboardAmt;
-import decorps.eventprocessor.vendors.dsi.programparameters.FilterResonance;
-import decorps.eventprocessor.vendors.dsi.programparameters.FootControlAmt;
-import decorps.eventprocessor.vendors.dsi.programparameters.FootControlDest;
-import decorps.eventprocessor.vendors.dsi.programparameters.GlideMode;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO1KeySync;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO2KeySync;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO3KeySync;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO3Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO4KeySync;
-import decorps.eventprocessor.vendors.dsi.programparameters.LFO4Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod1Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod1Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod1Source;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod2Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod2Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod2Source;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod3Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod3Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod3Source;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod4Amount;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod4Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Mod4Source;
-import decorps.eventprocessor.vendors.dsi.programparameters.ModWheelAmount;
-import decorps.eventprocessor.vendors.dsi.programparameters.ModWheelDest;
-import decorps.eventprocessor.vendors.dsi.programparameters.NoiseLevel;
-import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
-import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.Osc1KeyTrack;
-import decorps.eventprocessor.vendors.dsi.programparameters.Osc2FineFreq;
-import decorps.eventprocessor.vendors.dsi.programparameters.Osc2Frequency;
-import decorps.eventprocessor.vendors.dsi.programparameters.Osc2KeyTrack;
-import decorps.eventprocessor.vendors.dsi.programparameters.OscHardSync;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Glide;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Glide;
-import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Shape;
-import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
-import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorSlop;
-import decorps.eventprocessor.vendors.dsi.programparameters.PanSpread;
-import decorps.eventprocessor.vendors.dsi.programparameters.PressureAmount;
-import decorps.eventprocessor.vendors.dsi.programparameters.PressureDestination;
-import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
-import decorps.eventprocessor.vendors.dsi.programparameters.ProgramVolume;
-import decorps.eventprocessor.vendors.dsi.programparameters.Seq1Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Seq2Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Seq3Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.Seq4Destination;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvAmount;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvAttack;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvDecay;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvDelay;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvRelease;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvSustain;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvVelocity;
-import decorps.eventprocessor.vendors.dsi.programparameters.VCALevel;
-import decorps.eventprocessor.vendors.dsi.programparameters.VelocityAmount;
-import decorps.eventprocessor.vendors.dsi.programparameters.VelocityDestination;
+import decorps.eventprocessor.vendors.dsi.programparameters.*;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 
 public class ProgramParameterData {
@@ -171,7 +80,17 @@ public class ProgramParameterData {
 				PressureDestination.class, BreathAmount.class,
 				BreathDestination.class, VelocityAmount.class,
 				VelocityDestination.class, FootControlAmt.class,
-				FootControlDest.class };
+				FootControlDest.class, ClockBPM.class, ClockDivide.class,
+				PitchWheelRange.class, SequencerTrigger.class, KeyMode.class,
+				UnissonMode.class, ArpeggiatorMode.class,
+				Envelope3Repeat.class, UnissonOnOff.class,
+				ArpeggiatorOnOff.class, SequenceurOnOff.class,
+				AssignableParameter1.class, AssignableParameter2.class,
+				AssignableParameter3.class, AssignableParameter4.class,
+				FeedbackGain.class, PushItNote.class, PushItVelocity.class,
+				PushItMode.class, SubOsc1Level.class, SubOsc2Level.class,
+				FeedbackVolume.class, EditorByte.class, SplitPoint.class,
+				KeyboardMode.class };
 
 		return parameters;
 	}
@@ -296,6 +215,30 @@ public class ProgramParameterData {
 		result.add(layers[i].velocityDestination);
 		result.add(layers[i].footControlAmt);
 		result.add(layers[i].footControlDest);
+		result.add(layers[i].clockBPM);
+		result.add(layers[i].pitchWheelRange);
+		result.add(layers[i].sequencerTrigger);
+		result.add(layers[i].keyMode);
+		result.add(layers[i].unissonMode);
+		result.add(layers[i].arpeggiatorMode);
+		result.add(layers[i].envelope3Repeat);
+		result.add(layers[i].unissonOnOff);
+		result.add(layers[i].arpeggiatorOnOff);
+		result.add(layers[i].sequencerOnOff);
+		result.add(layers[i].assignableParameter1);
+		result.add(layers[i].assignableParameter2);
+		result.add(layers[i].assignableParameter3);
+		result.add(layers[i].assignableParameter4);
+		result.add(layers[i].feedbackGain);
+		result.add(layers[i].pushItNote);
+		result.add(layers[i].pushItVelocity);
+		result.add(layers[i].pushItMode);
+		result.add(layers[i].subOsc1Level);
+		result.add(layers[i].subOsc2Level);
+		result.add(layers[i].feedbackVolume);
+		result.add(layers[i].editorByte);
+		result.add(layers[i].splitPoint);
+		result.add(layers[i].keyboardMode);
 
 	}
 
