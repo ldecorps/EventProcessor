@@ -56,7 +56,7 @@ public class MapRepository {
 				.getProgramParameter();
 		Controller controller = eventProcessorMap.getControllers().get(0);
 
-		BankLayout.CurrentBank.encoders[controller.getId()]
+		BankLayout.getCurrentBank().encoders[controller.getId()]
 				.setProgramParameter(programParameter);
 	}
 
@@ -154,4 +154,5 @@ public class MapRepository {
 						+ " NRPN: " + programParameter.getLayerANRPNNumber()
 						+ " in " + maps.size() + " maps: " + maps);
 	}
+
 }

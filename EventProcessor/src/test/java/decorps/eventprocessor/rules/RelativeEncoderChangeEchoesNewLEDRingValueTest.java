@@ -12,6 +12,7 @@ import org.junit.Test;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.Encoder;
@@ -47,6 +48,22 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 		assertEquals(ccNumberAssociatedToARelativeEncoder, result
 				.getAsShortMessage().getData1());
 		assertFalse(relativeValue == result.getAsShortMessage().getData2());
+	}
+
+	@Test
+	public void whenOsc1FineTune_whenTurnedToMax_echoesRebasedCcToLivid()
+			throws Exception {
+
+		Encoder oscFineTuneEncoder = BankLayout
+				.getEncoderForParameterClass(Osc1FineFreq.class);
+		assertNotNull(oscFineTuneEncoder);
+
+		oscFineTuneEncoder.setValue((byte) 100);
+
+		EventProcessorShortMessage result = EventProcessorShortMessage
+				.buildShortMessage(oscFineTuneEncoder).getAsShortMessage();
+
+		assertEquals(127, result.getData2());
 	}
 
 	private int getCcNumberAssociatedToaRelativeEncoder() {

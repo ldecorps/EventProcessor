@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import javax.sound.midi.ShortMessage;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
@@ -31,8 +30,6 @@ public class LividEncoderOrButtonValueNewValue_SentToTetraTest {
 	}
 
 	@Test
-	@Ignore
-	// TODO when there is support for buttons
 	public void buttonPressedSendNewValue() throws Exception {
 		BankLayout.CurrentBank.setButtonsOn(1, 2);
 

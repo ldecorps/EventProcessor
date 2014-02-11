@@ -15,6 +15,15 @@ public class Main {
 	public void run() throws InterruptedException {
 		EventProcessor eventProcessor = EventProcessor.getInstance();
 
+		registerActions(eventProcessor);
+
+		new InitialiseBankLayout(eventProcessor).initialise();
+		synchronized (this) {
+			this.wait();
+		}
+	}
+
+	private void registerActions(EventProcessor eventProcessor) {
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
 		eventProcessor.registerAction(
@@ -23,11 +32,6 @@ public class Main {
 		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
 				TetraParameter.ProgramEditBufferDataDump,
 				eventProcessor.fromTetraToLivid);
-
-		new InitialiseBankLayout(eventProcessor).initialise();
-		synchronized (this) {
-			this.wait();
-		}
 	}
 
 }

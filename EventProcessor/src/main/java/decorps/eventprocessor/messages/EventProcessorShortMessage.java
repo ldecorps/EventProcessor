@@ -7,6 +7,7 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
+import decorps.eventprocessor.vendors.livid.Controller;
 
 public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static ShortMessage NullShortMessage = new ShortMessage();
@@ -157,5 +158,14 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 
 	public void setData2(byte newValue) {
 		throw new EventProcessorException("Not Implemented Yet");
+	}
+
+	public static EventProcessorMidiMessage buildShortMessage(
+			Controller controller) {
+		final byte id = controller.getId();
+		final byte rebasedValue = controller.getRebasedValue();
+		return EventProcessorShortMessage.buildShortMessage(
+				ShortMessage.CONTROL_CHANGE, id,
+				rebasedValue);
 	}
 }

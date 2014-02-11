@@ -23,8 +23,9 @@ public class RelativeEncoderChangeEchoesNewLEDRingValue implements Rule {
 	}
 
 	private int getRebasedValue(EventProcessorShortMessage shortMessage) {
-		Encoder encoder = BankLayout.CurrentBank.getEncoderForCc(shortMessage
-				.getData1());
+		final int data1 = shortMessage
+				.getData1();
+		Encoder encoder = BankLayout.CurrentBank.getEncoderForCc(data1);
 		ProgramParameter programParameter = MapRepository
 				.getParameterForController(encoder);
 		return programParameter.getRebasedValue();

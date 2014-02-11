@@ -21,7 +21,7 @@ public abstract class ProgramParameter implements ValueRange {
 
 	@Override
 	public String toString() {
-		return "[parameter=" + getClass().getSimpleName() + ", byte="
+		return "[parameter=" + getClass().getSimpleName() + ", byte=0x"
 				+ BaseUtils.byteToHexa(value) + "]";
 	}
 

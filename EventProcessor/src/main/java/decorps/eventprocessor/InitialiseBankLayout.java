@@ -74,6 +74,7 @@ public class InitialiseBankLayout {
 		final Encoder encoder = Bank1.encoders[0];
 		final ProgramParameter oscillator1Frequency = programParameterData.A.oscillator1Frequency;
 		new DefaultControllerParameterMap(oscillator1Frequency, encoder);
+
 	}
 
 	private void requestCurrentEditBufferAndWaitForAnswer()

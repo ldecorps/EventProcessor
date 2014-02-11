@@ -1,8 +1,10 @@
 package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.utils.BaseUtils.*;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class BankLayout {
 	public final Button[] buttons = new Button[45];
@@ -77,6 +79,8 @@ public class BankLayout {
 	}
 
 	public void setEncoderValue(int encoderNumber, byte value) {
+		if (1 > encoderNumber)
+			throw new EventProcessorException("Encoder index starts at 1");
 		encoders[encoderNumber - 1].setValue(value);
 	}
 
@@ -168,5 +172,21 @@ public class BankLayout {
 
 	public static void selectBank(int i) {
 		CurrentBank = BankLayout.AllBanks[i];
+	}
+
+	public static BankLayout getCurrentBank() {
+		return CurrentBank;
+	}
+
+	public static Encoder getEncoderForParameterClass(
+			Class<? extends ProgramParameter> programParameterClass) {
+		for (Encoder encoder : CurrentBank.encoders) {
+			if (encoder.getProgramParameter().getClass()
+					.equals(programParameterClass))
+				return encoder;
+		}
+		throw new EventProcessorException(
+				"Could not find encoder for parameter class: "
+						+ programParameterClass.getSimpleName());
 	}
 }

@@ -1,8 +1,9 @@
 package decorps.eventprocessor.vendors.livid;
 
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ValueRange;
 
-public interface Controller {
+public interface Controller extends ValueRange {
 
 	void setValue(byte value);
 
