@@ -10,15 +10,18 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.Button;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class DefaultControllerParameterMap implements EventProcessorMap {
 	@Override
 	public String toString() {
-		return "DefaultControllerParameterMap [controllers=" + controllers
+		return getClass().getSimpleName() + " [controllers=" + controllers
 				+ ", programParameter=" + programParameter + "]";
 	}
 
@@ -31,6 +34,40 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 
 	public ProgramParameter getProgramParameter() {
 		return programParameter;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((controllers == null) ? 0 : controllers.hashCode());
+		result = prime
+				* result
+				+ ((programParameter == null) ? 0 : programParameter.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DefaultControllerParameterMap other = (DefaultControllerParameterMap) obj;
+		if (controllers == null) {
+			if (other.controllers != null)
+				return false;
+		} else if (!controllers.equals(other.controllers))
+			return false;
+		if (programParameter == null) {
+			if (other.programParameter != null)
+				return false;
+		} else if (!programParameter.equals(other.programParameter))
+			return false;
+		return true;
 	}
 
 	public DefaultControllerParameterMap(ProgramParameter programParameter,
@@ -58,9 +95,17 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 				.buildMidiMessagesForProgramParameterData(programParameterData);
 	}
 
-	public EventProcessorMidiMessage map(
+	public EventProcessorMidiMessage mapLividCcToTetraNrpn(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
-		throw new EventProcessorException("Not Implemented Yet");
+		int newCcValue = eventProcessorMidiMessage.getAsShortMessage()
+				.getData2();
+		programParameter.setValue(getController(), (byte) newCcValue);
+		return EventProcessorNRPNMessage
+				.buildEventProcessorNRPNMessage(programParameter);
+	}
+
+	private Controller getController() {
+		return controllers.get(0);
 	}
 
 	public void applyMapping() {
@@ -68,7 +113,7 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 	}
 
 	public void map(Controller controller) {
-		programParameter.setValue(controller.getRebasedValue());
+		programParameter.setValue(controller, controller.getRebasedValue());
 	}
 
 	public void map(ProgramParameter programParameter) {
@@ -82,19 +127,32 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 	}
 
 	public void refreshProgramParameter() {
-		programParameter.setValue(controllers.get(0).getValue());
+		final Controller controller = controllers.get(0);
+		programParameter.setValue(controller, controller.getValue());
 	}
 
 	public boolean contains(Controller controller) {
 		return controllers.contains(controller);
 	}
 
-	public EventProcessorMidiMessage mapToLividCc() {
-		return EventProcessorShortMessage.buildShortMessage(
-				ShortMessage.CONTROL_CHANGE,
-				BankLayout.CurrentBank.bankNumber - 1, getControllers().get(0)
-						.getCCOrNoteNumber(), programParameter
-						.getRebasedValue());
+	public EventProcessorMidiMessage mapToLividCcOrNote() {
+		final byte rebasedValue = programParameter.getRebasedValue();
+		final Controller controller = getControllers().get(0);
+		final int ccOrNoteNumber = controller.getCCOrNoteNumber();
+		final int channel = BankLayout.CurrentBank.bankNumber - 1;
+		final int type = controller instanceof Button ? ShortMessage.NOTE_ON
+				: ShortMessage.CONTROL_CHANGE;
+		return EventProcessorShortMessage.buildShortMessage(type, channel,
+				ccOrNoteNumber, rebasedValue);
 
+	}
+
+	public static void mapToEncoder(
+			Class<? extends ProgramParameter> programParameterClass,
+			int encoderId) {
+		ProgramParameter programParameter = BankLayout
+				.getCurrentProgramParameter(programParameterClass);
+		new DefaultControllerParameterMap(programParameter,
+				new Encoder[] { BankLayout.CurrentBank.encoders[encoderId] });
 	}
 }

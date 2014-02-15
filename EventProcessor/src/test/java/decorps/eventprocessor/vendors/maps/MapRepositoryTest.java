@@ -1,5 +1,6 @@
 package decorps.eventprocessor.vendors.maps;
 
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
@@ -24,17 +25,21 @@ public class MapRepositoryTest {
 
 	@Before
 	public void initialiseBank() {
-		BankLayout.CurrentBank.initialiseEncoders();
-		MapRepository.initialiseCurrentBank();
+		BankLayout.CurrentBank.initialiseControllers();
+		MapRepository.completeInitialisationWithDefaultMaps();
 	}
 
 	@Test
 	public void newRepository_contains32DefaultMaps() throws Exception {
+		MapRepository.maps.clear();
+
+		MapRepository.completeInitialisationWithDefaultMaps();
 		final Iterator<EventProcessorMap> iterator = MapRepository.maps
 				.iterator();
 		int numberOfParametersMapped = Math.min(32,
 				ProgramParameterData.getProgramParameters().length);
 		assertEquals(numberOfParametersMapped, MapRepository.maps.size());
+
 		for (int i = 0; i < numberOfParametersMapped; i++)
 			assertEquals(DefaultControllerParameterMap.class, iterator.next()
 					.getClass());
@@ -80,5 +85,23 @@ public class MapRepositoryTest {
 				assertNotSame(parameterNotMapped,
 						controller.getProgramParameter());
 		}
+	}
+
+	@Test
+	public void givenControllerAssignedToParameter_WhenReassignedToNewParameter_IsReRegistered()
+			throws Exception {
+		new DefaultControllerParameterMap(
+				BankLayout.getCurrentProgramParameterData().A.oscillator1Shape,
+				BankLayout.CurrentBank.buttons[0]);
+
+		new DefaultControllerParameterMap(
+				BankLayout.getCurrentProgramParameterData().A.oscillator2Shape,
+				BankLayout.CurrentBank.buttons[0]);
+
+		assertThat(
+				MapRepository
+						.getParameterForController(BankLayout.CurrentBank.buttons[0]),
+				sameInstance(BankLayout.getCurrentProgramParameterData().A.oscillator2Shape));
+
 	}
 }

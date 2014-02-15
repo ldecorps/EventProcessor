@@ -12,6 +12,13 @@ import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 public class EventProcessorNRPNMessage extends
 		EventProcessorMidiMessageComposite {
 
+	@Override
+	public String toString() {
+		return "EventProcessorNRPNMessage [NRPNControllerNumber="
+				+ NRPNControllerNumber + ", NRPNControllerValue="
+				+ NRPNControllerValue + "]";
+	}
+
 	public final int NRPNControllerNumber;
 	public final byte NRPNControllerValue;
 	public static final byte NRPN_parameter_number_MSB_CC = binaryToByte("0110 0011");

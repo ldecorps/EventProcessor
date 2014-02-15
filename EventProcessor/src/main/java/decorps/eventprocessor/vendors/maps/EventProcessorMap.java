@@ -12,7 +12,7 @@ public interface EventProcessorMap {
 	EventProcessorMidiMessage mapToLividSysex(
 			ProgramParameterData programParameterData);
 
-	EventProcessorMidiMessage map(
+	EventProcessorMidiMessage mapLividCcToTetraNrpn(
 			EventProcessorMidiMessage eventProcessorMidiMessage);
 
 	void applyMapping();
@@ -32,6 +32,6 @@ public interface EventProcessorMap {
 
 	void refreshProgramParameter();
 
-	EventProcessorMidiMessage mapToLividCc();
+	EventProcessorMidiMessage mapToLividCcOrNote();
 
 }

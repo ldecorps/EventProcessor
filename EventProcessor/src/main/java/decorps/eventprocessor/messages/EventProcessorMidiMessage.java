@@ -1,5 +1,6 @@
 package decorps.eventprocessor.messages;
 
+import static decorps.eventprocessor.utils.BaseUtils.decodeMessage;
 import static decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory.System_Exclusive;
 
 import javax.sound.midi.MidiMessage;
@@ -114,5 +115,14 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		if (!isShortMessage())
 			return false;
 		return getAsShortMessage().getCommand() == ShortMessage.CONTROL_CHANGE;
+	}
+
+	@Override
+	public String toString() {
+		return decodeMessage(this);
+	}
+
+	public EventProcessorMidiMessage getMessageFromComposite(int i) {
+		return getAsComposite().getMessages().get(i);
 	}
 }

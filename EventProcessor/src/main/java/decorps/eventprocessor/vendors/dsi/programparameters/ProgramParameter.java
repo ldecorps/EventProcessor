@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
 import decorps.eventprocessor.utils.BaseUtils;
+import decorps.eventprocessor.vendors.livid.Controller;
 
 public abstract class ProgramParameter implements ValueRange {
 	public static final ProgramParameter nullParameter = new ProgramParameter(
@@ -70,12 +71,36 @@ public abstract class ProgramParameter implements ValueRange {
 
 	public abstract byte getLayerANRPNNumber();
 
-	public void setValue(byte value) {
-		this.value = value;
+	public void setValue(Controller controller, byte value) {
+		if (controller.isButton())
+			this.value = (byte) (value == 0 ? 0 : 64);
+		else if (controller.isAbsolute())
+			this.value = value;
+		else {
+			if (127 == value)
+				incrementValue();
+			else
+				decrementValue();
+		}
 	}
 
 	public byte getValue() {
 		return value;
+	}
+
+	public boolean isAbsolute() {
+		boolean absolute = this instanceof ZeroTo127Range;
+		return absolute;
+	}
+
+	public void incrementValue() {
+		if (getRebasedValue() < 127)
+			value++;
+	}
+
+	public void decrementValue() {
+		if (getRebasedValue() > 0)
+			value--;
 	}
 
 }

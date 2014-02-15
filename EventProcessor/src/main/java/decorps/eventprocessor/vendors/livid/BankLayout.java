@@ -3,6 +3,7 @@ package decorps.eventprocessor.vendors.livid;
 import static decorps.eventprocessor.utils.BaseUtils.*;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.BaseUtils;
+import decorps.eventprocessor.vendors.dsi.ParameterFactory;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
@@ -29,10 +30,10 @@ public class BankLayout {
 
 	public BankLayout(int bankNumber) {
 		this.bankNumber = bankNumber;
-		initialiseEncoders();
+		initialiseControllers();
 	}
 
-	public void initialiseEncoders() {
+	public void initialiseControllers() {
 		nextEncoderId = 0;
 		nextButtonId = 0;
 		for (int i = 0; i < buttons.length; i++)
@@ -99,7 +100,7 @@ public class BankLayout {
 		return encoders[encoderNumber].getRebasedValue();
 	}
 
-	public void setButtonOn(int i) {
+	public void switchButtonOn(int i) {
 		buttons[i - 1].switchOn();
 	}
 
@@ -118,9 +119,9 @@ public class BankLayout {
 		return true;
 	}
 
-	public void setButtonsOn(int... i) {
+	public void switchButtonsOn(int... i) {
 		for (int j : i)
-			setButtonOn(j);
+			switchButtonOn(j);
 	}
 
 	public int[] getEncoderModes() {
@@ -178,15 +179,10 @@ public class BankLayout {
 		return CurrentBank;
 	}
 
-	public static Encoder getEncoderForParameterClass(
+	public static ProgramParameter getCurrentProgramParameter(
 			Class<? extends ProgramParameter> programParameterClass) {
-		for (Encoder encoder : CurrentBank.encoders) {
-			if (encoder.getProgramParameter().getClass()
-					.equals(programParameterClass))
-				return encoder;
-		}
-		throw new EventProcessorException(
-				"Could not find encoder for parameter class: "
-						+ programParameterClass.getSimpleName());
+		return ParameterFactory
+				.getCurrentProgramParameterForClass(programParameterClass);
 	}
+
 }

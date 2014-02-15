@@ -34,7 +34,7 @@ public class Encoder implements Controller {
 	}
 
 	public void setValue(byte value) {
-		programParameter.setValue(value);
+		programParameter.setValue(this, value);
 	}
 
 	@Override
@@ -74,5 +74,34 @@ public class Encoder implements Controller {
 		if (this instanceof Spread)
 			return Set_LED_Ring_Style.SPREAD;
 		return Set_LED_Ring_Style.WALK;
+	}
+
+	public int getCc() {
+		return id + 1;
+	}
+
+	public boolean isAbsolute() {
+		return programParameter.isAbsolute();
+	}
+
+	public boolean isButton() {
+		return false;
+	}
+
+	public static int getIdForCc(int ccNumberOrNote) {
+		int multipleOfFour = (ccNumberOrNote - 1) / 4;
+
+		return (ccNumberOrNote - 1 - 4 * multipleOfFour) * 8 + 1
+				* multipleOfFour;
+	}
+
+	public void incrementUntil(byte upperLimit) {
+		while (programParameter.getValue() != upperLimit)
+			programParameter.incrementValue();
+	}
+
+	public void decrementUntil(int lowerLimit) {
+		while (programParameter.getValue() != lowerLimit)
+			programParameter.decrementValue();
 	}
 }

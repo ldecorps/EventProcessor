@@ -21,4 +21,8 @@ public interface Controller extends ValueRange {
 
 	void setProgramParameter(ProgramParameter programParameter);
 
+	boolean isAbsolute();
+
+	boolean isButton();
+
 }

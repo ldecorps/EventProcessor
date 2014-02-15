@@ -50,4 +50,16 @@ public class ParameterFactory {
 			throw new EventProcessorException("missing parameter class", e);
 		}
 	}
+
+	public static ProgramParameter getCurrentProgramParameterForClass(
+			Class<? extends ProgramParameter> programParameterClass) {
+		for (ProgramParameter programParameter : layerAParameters) {
+			if (programParameterClass.isAssignableFrom(programParameter
+					.getClass()))
+				return programParameter;
+		}
+		throw new EventProcessorException(
+				"Could not find program parameter for class "
+						+ programParameterClass);
+	}
 }

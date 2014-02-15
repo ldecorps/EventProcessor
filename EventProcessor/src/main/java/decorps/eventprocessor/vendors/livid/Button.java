@@ -1,23 +1,26 @@
 package decorps.eventprocessor.vendors.livid;
 
-import decorps.eventprocessor.exceptions.EventProcessorException;
+import javax.sound.midi.ShortMessage;
+
+import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class Button implements Controller {
 
-	private ProgramParameter programParameter = ProgramParameter.nullParameter;
 	public final byte id;
+	private ProgramParameter programParameter = ProgramParameter.nullParameter;
 
 	public boolean isSwitchedOn() {
 		return 0x7f == programParameter.getRebasedValue();
 	}
 
 	public void switchOn() {
-		programParameter.setValue((byte) 0x7f);
+		programParameter.setValue(this, (byte) 0x7f);
 	}
 
 	public void switchOff() {
-		programParameter.setValue((byte) 0);
+		programParameter.setValue(this, (byte) 0);
 	}
 
 	public void flip() {
@@ -36,11 +39,11 @@ public class Button implements Controller {
 	}
 
 	public void setValue(byte value) {
-		programParameter.setValue(value);
+		programParameter.setValue(this, value);
 	}
 
 	public byte getRebasedValue() {
-		return programParameter.getRebasedValue();
+		return (byte) (0 == programParameter.getValue() ? 0 : 64);
 	}
 
 	public byte getValue() {
@@ -48,11 +51,17 @@ public class Button implements Controller {
 	}
 
 	public Mode getMode() {
-		return Mode.Relative;
+		return Mode.Absolute;
 	}
 
 	public int getCCOrNoteNumber() {
-		throw new EventProcessorException("Not Implemented Yet");
+		if (id < 8)
+			return id * 4 + 1;
+		if (id < 16)
+			return id * 4 - 30;
+		if (id < 24)
+			return id * 4 - 61;
+		return id * 4 - 92;
 	}
 
 	public ProgramParameter getProgramParameter() {
@@ -63,4 +72,31 @@ public class Button implements Controller {
 		this.programParameter = programParameter;
 	}
 
+	public static EventProcessorMidiMessage switchButtonOff(Button button) {
+		final int ccOrNoteNumber = button.getCCOrNoteNumber();
+		final EventProcessorMidiMessage buildShortMessage = EventProcessorShortMessage
+				.buildShortMessage(ShortMessage.NOTE_OFF, 0, ccOrNoteNumber, 0);
+		return buildShortMessage;
+	}
+
+	@Override
+	public String toString() {
+		return "Button [id=" + id + ", programParameter=" + programParameter
+				+ "]";
+	}
+
+	public boolean isAbsolute() {
+		return true;
+	}
+
+	public boolean isButton() {
+		return true;
+	}
+
+	public static int getIdForCc(int ccNumberOrNote) {
+		int multipleOfFour = (ccNumberOrNote - 1) / 4;
+
+		return (ccNumberOrNote - 1 - 4 * multipleOfFour) * 8 + 1
+				* multipleOfFour;
+	}
 }

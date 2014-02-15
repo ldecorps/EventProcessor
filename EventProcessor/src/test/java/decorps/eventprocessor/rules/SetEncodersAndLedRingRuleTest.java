@@ -24,7 +24,7 @@ public class SetEncodersAndLedRingRuleTest {
 		BankLayout.programParameterData = ProgramParameterData
 				.build(DsiTetraMapTest.sampleEditbufferProgramDataDump
 						.getMessage());
-		MapRepository.initialiseCurrentBank();
+		MapRepository.initialise();
 		EventProcessorMidiMessage result = cut
 				.transform(eventProcessorMidiMessage);
 		assertThat(result, instanceOf(EventProcessorMidiMessageComposite.class));

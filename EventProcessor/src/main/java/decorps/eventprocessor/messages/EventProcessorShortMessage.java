@@ -130,7 +130,7 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 
 	@Override
 	public String toString() {
-		return shortMessage.toString();
+		return super.toString();
 	}
 
 	@Override
@@ -165,7 +165,7 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 		final byte id = controller.getId();
 		final byte rebasedValue = controller.getRebasedValue();
 		return EventProcessorShortMessage.buildShortMessage(
-				ShortMessage.CONTROL_CHANGE, id,
-				rebasedValue);
+				ShortMessage.CONTROL_CHANGE, id, rebasedValue);
 	}
+
 }

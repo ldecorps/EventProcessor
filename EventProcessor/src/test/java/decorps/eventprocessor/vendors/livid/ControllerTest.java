@@ -41,6 +41,14 @@ public class ControllerTest {
 		public void setProgramParameter(ProgramParameter programParameter) {
 			throw new EventProcessorException("Not Implemented Yet");
 		}
+
+		public boolean isAbsolute() {
+			throw new EventProcessorException("Not Implemented Yet");
+		}
+
+		public boolean isButton() {
+			throw new EventProcessorException("Not Implemented Yet");
+		}
 	};
 	static int testEncoderNextId = 0;
 

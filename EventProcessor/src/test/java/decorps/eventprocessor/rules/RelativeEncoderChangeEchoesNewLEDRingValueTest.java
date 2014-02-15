@@ -15,6 +15,7 @@ import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.ControllerRepository;
 import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.Mode;
 import decorps.eventprocessor.vendors.maps.EventProcessorMap;
@@ -27,7 +28,7 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 	public void initialise() {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 		cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
-		MapRepository.initialiseCurrentBank();
+		MapRepository.initialise();
 	}
 
 	@Test
@@ -51,15 +52,13 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 	}
 
 	@Test
-	public void whenOsc1FineTune_whenTurnedToMax_echoesRebasedCcToLivid()
+	public void givenOsc1FineTune_whenTurnedToMax_echoesRebasedCcToLivid()
 			throws Exception {
-
-		Encoder oscFineTuneEncoder = BankLayout
+		Encoder oscFineTuneEncoder = ControllerRepository
 				.getEncoderForParameterClass(Osc1FineFreq.class);
 		assertNotNull(oscFineTuneEncoder);
 
-		oscFineTuneEncoder.setValue((byte) 100);
-
+		oscFineTuneEncoder.incrementUntil((byte) 100);
 		EventProcessorShortMessage result = EventProcessorShortMessage
 				.buildShortMessage(oscFineTuneEncoder).getAsShortMessage();
 

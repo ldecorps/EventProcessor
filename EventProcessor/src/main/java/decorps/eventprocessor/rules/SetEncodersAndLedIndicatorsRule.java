@@ -9,10 +9,8 @@ import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 import decorps.eventprocessor.vendors.maps.MapRepository;
-import decorps.eventprocessor.vendors.maps.TetraProgramParameterToLividCodeV2;
 
 public class SetEncodersAndLedIndicatorsRule implements Rule {
-	static final TetraProgramParameterToLividCodeV2 map = new TetraProgramParameterToLividCodeV2();
 
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProvessorMidiMessage) {

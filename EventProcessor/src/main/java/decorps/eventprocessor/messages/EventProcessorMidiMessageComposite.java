@@ -60,4 +60,13 @@ public class EventProcessorMidiMessageComposite extends
 			currentMessage.send(receiver, timestamp);
 	}
 
+	public static EventProcessorMidiMessage buildComposite(
+			List<EventProcessorMidiMessage> messages) {
+		EventProcessorMidiMessage[] array = new EventProcessorMidiMessage[messages
+				.size()];
+		for (int i = 0; i < messages.size(); i++)
+			array[i] = messages.get(i);
+		return buildComposite(array);
+	}
+
 }

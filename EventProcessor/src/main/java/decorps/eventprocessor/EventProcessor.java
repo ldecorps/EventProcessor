@@ -31,7 +31,7 @@ public class EventProcessor {
 		if (null == instance) {
 			instance = new EventProcessor();
 			instance.initialise();
-			MapRepository.initialiseCurrentBank();
+			MapRepository.initialise();
 		}
 		return instance;
 	}
