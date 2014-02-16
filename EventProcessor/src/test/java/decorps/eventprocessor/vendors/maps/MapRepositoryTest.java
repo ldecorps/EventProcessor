@@ -8,7 +8,6 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 
-import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
@@ -17,30 +16,25 @@ import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.ControllerTest;
 
 public class MapRepositoryTest {
-	static {
-		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-	}
 
-	MapRepository cut = new MapRepository();
+	MapRepository cut;
 
 	@Before
 	public void initialiseBank() {
+		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 		BankLayout.CurrentBank.initialiseControllers();
+		cut = new MapRepository();
 		MapRepository.completeInitialisationWithDefaultMaps();
 	}
 
 	@Test
 	public void newRepository_contains32DefaultMaps() throws Exception {
 		MapRepository.maps.clear();
-
 		MapRepository.completeInitialisationWithDefaultMaps();
 		final Iterator<EventProcessorMap> iterator = MapRepository.maps
 				.iterator();
-		int numberOfParametersMapped = Math.min(32,
-				ProgramParameterData.getProgramParameters().length);
-		assertEquals(numberOfParametersMapped, MapRepository.maps.size());
 
-		for (int i = 0; i < numberOfParametersMapped; i++)
+		for (int i = 0; i < MapRepository.maps.size(); i++)
 			assertEquals(DefaultControllerParameterMap.class, iterator.next()
 					.getClass());
 	}

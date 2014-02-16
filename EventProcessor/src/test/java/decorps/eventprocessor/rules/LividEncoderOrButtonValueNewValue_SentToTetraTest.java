@@ -10,8 +10,7 @@ import org.junit.Test;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
-import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
-import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.livid.BankLayout;
@@ -27,12 +26,8 @@ public class LividEncoderOrButtonValueNewValue_SentToTetraTest {
 
 	@Before
 	public void initialise() {
-		BankLayout.programParameterData = ProgramParameterData
-				.build(DsiTetraMapTest.sampleEditbufferProgramDataDump
-						.getMessage());
+		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 		MapRepository.initialise();
-		// BankLayout.CurrentBank.initialiseEncoders();
-		// MapRepository.initialiseCurrentBank();
 	}
 
 	@Test

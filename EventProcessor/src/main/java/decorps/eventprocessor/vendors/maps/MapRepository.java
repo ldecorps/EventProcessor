@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.exceptions.NoMapLeftToDefaultException;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
@@ -27,7 +26,7 @@ public class MapRepository {
 			try {
 				final DefaultControllerParameterMap map = createMapForNextAvailableParameterAndNextAvailableController();
 				if (null == map)
-					throw new EventProcessorException("Map not initialised");
+					continue;
 				programParameter = map.getProgramParameter();
 				map.getControllers().get(0)
 						.setProgramParameter(programParameter);
@@ -120,6 +119,8 @@ public class MapRepository {
 		if (ProgramParameter.nullParameter.equals(nextParameterNotMapped))
 			return null;
 		final Controller nextControllerNotMapped = nextControllerNotMapped();
+		if (null == nextControllerNotMapped)
+			return null;
 		DefaultControllerParameterMap map = new DefaultControllerParameterMap(
 				nextParameterNotMapped, nextControllerNotMapped);
 		return map;
@@ -130,7 +131,7 @@ public class MapRepository {
 			if (controller.getProgramParameter().equals(
 					ProgramParameter.nullParameter))
 				return controller;
-		throw new EventProcessorException("All Controllers are mapped: " + maps);
+		return null;
 	}
 
 	public static void map(ProgramParameterData programParameterData) {

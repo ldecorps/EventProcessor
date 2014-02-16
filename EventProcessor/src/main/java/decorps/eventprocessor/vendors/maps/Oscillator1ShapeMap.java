@@ -18,7 +18,7 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 
 	public Oscillator1ShapeMap() {
 		this(registerParameter(), new Controller[] { getOnOffButton(),
-				getSawtoothButton() });
+				getSawtoothButton(), getTriangleButton() });
 	}
 
 	static Button getOnOffButton() {
@@ -60,18 +60,17 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 	}
 
 	private EventProcessorMidiMessage switchSawtoothOn() {
-		final ProgramParameter oscillator1Shape = BankLayout
-				.getCurrentProgramParameterData().A.oscillator1Shape;
-		oscillator1Shape.setValue(getSawtoothButton(), (byte) 1);
-		EventProcessorMidiMessage result = EventProcessorNRPNMessage
-				.buildEventProcessorNRPNMessage(oscillator1Shape);
-		return result;
+		programParameter.setValue(getSawtoothButton(), (byte) 1);
+		return buildNRPN(programParameter);
 	}
 
 	private EventProcessorMidiMessage switchOscillatorOff() {
-		final ProgramParameter oscillator1Shape = BankLayout
-				.getCurrentProgramParameterData().A.oscillator1Shape;
-		oscillator1Shape.setValue(getOnOffButton(), (byte) 0);
+		programParameter.setValue(getOnOffButton(), (byte) 0);
+		return buildNRPN(programParameter);
+	}
+
+	private EventProcessorMidiMessage buildNRPN(
+			final ProgramParameter oscillator1Shape) {
 		EventProcessorMidiMessage result = EventProcessorNRPNMessage
 				.buildEventProcessorNRPNMessage(oscillator1Shape);
 		return result;
@@ -83,12 +82,14 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 		return isSawtooth;
 	}
 
-	public void switchSawtoothButtonOn() {
+	public EventProcessorMidiMessage switchSawtoothButtonOn() {
 		programParameter.setAbsoluteValue((byte) 1);
+		return buildNRPN(programParameter);
 	}
 
-	public void switchTriangleButtonOn() {
+	public EventProcessorMidiMessage switchTriangleButtonOn() {
 		programParameter.setAbsoluteValue((byte) 2);
+		return buildNRPN(programParameter);
 	}
 
 	public boolean isTriangle() {
