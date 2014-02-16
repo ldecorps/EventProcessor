@@ -8,6 +8,7 @@ import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 import decorps.eventprocessor.vendors.maps.DefaultControllerParameterMap;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class InitialiseBankLayout {
 
@@ -29,6 +30,7 @@ public class InitialiseBankLayout {
 			setEncoderSpeed();
 			setLocalControl();
 			setButtonToggleModeEnable();
+			MapRepository.initialise();
 		}
 	}
 

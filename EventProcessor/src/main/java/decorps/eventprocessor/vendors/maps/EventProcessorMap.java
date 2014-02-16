@@ -17,6 +17,4 @@ public interface EventProcessorMap {
 
 	public abstract void map(ProgramParameter programParameter);
 
-	void refreshControllers();
-
 }

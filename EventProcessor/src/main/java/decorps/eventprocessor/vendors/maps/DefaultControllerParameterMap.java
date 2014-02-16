@@ -92,11 +92,6 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 		controller.setProgramParameter(programParameter);
 	}
 
-	public void refreshControllers() {
-		final byte newValue = programParameter.getRebasedValue();
-		controllers.get(0).setValue(newValue);
-	}
-
 	public boolean contains(Controller controller) {
 		return controllers.contains(controller);
 	}
@@ -109,4 +104,5 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 		new DefaultControllerParameterMap(programParameter,
 				new Encoder[] { BankLayout.CurrentBank.encoders[encoderId] });
 	}
+
 }

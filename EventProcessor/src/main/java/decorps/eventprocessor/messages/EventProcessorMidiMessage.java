@@ -18,6 +18,19 @@ import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 
 public abstract class EventProcessorMidiMessage extends MidiMessage {
 
+	public static final EventProcessorMidiMessage nullEventProcessorMidiMessage = new EventProcessorMidiMessage(
+			new byte[] {}) {
+
+		@Override
+		protected MidiMessage getMidiMessage() {
+			throw new EventProcessorException("Not Implemented Yet");
+		}
+
+		@Override
+		public Object clone() {
+			throw new EventProcessorException("Not Implemented Yet");
+		}
+	};
 	protected static DsiTetraMap dsiTetraMap = new DsiTetraMap();
 	public static Object wait = new Object();
 
@@ -125,4 +138,5 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 	public EventProcessorMidiMessage getMessageFromComposite(int i) {
 		return getAsComposite().getMessages().get(i);
 	}
+
 }

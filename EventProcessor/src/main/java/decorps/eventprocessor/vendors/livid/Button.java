@@ -12,11 +12,11 @@ public class Button implements Controller {
 	private ProgramParameter programParameter = ProgramParameter.nullParameter;
 
 	public boolean isSwitchedOn() {
-		return 0x7f == programParameter.getRebasedValue();
+		return 64 == programParameter.getValue();
 	}
 
 	public void switchOn() {
-		programParameter.setValue(this, (byte) 0x7f);
+		programParameter.setValue(this, (byte) 64);
 	}
 
 	public void switchOff() {

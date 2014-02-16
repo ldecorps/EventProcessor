@@ -72,16 +72,15 @@ public class Oscillator1ShapeMapTest {
 	}
 
 	@Test
-	public void whenSquareButtonIsPressed_SquareIsOn_and_OtherShapesButtonAreOff()
-			throws Exception {
+	public void whenSquareButtonIsPressed_SquareIsOn() throws Exception {
 
 		EventProcessorMidiMessage lividCc = EventProcessorShortMessage
 				.buildShortMessage(ShortMessage.CONTROL_CHANGE, 0,
-						Oscillator1ShapeMap.getSquareButton().id, (byte) 50 + 4);
+						Oscillator1ShapeMap.getSquareButton().id, (byte) 4);
 
 		EventProcessorMidiMessage nrpn = cut.mapLividCcToTetraNrpn(lividCc);
 
-		assertEquals(64,
+		assertEquals(4,
 				nrpn.getAsEventProcessorNRPNMessage().NRPNControllerValue);
 
 	}

@@ -66,17 +66,17 @@ public class BankLayout {
 
 	public void switchFirstColumnOff() {
 		buttons[0].switchOff();
-		buttons[1].switchOff();
-		buttons[2].switchOff();
-		buttons[3].switchOff();
+		buttons[8].switchOff();
+		buttons[16].switchOff();
+		buttons[24].switchOff();
 	}
 
-	public void turnOn(int buttonNumber) {
-		buttons[buttonNumber - 1].switchOn();
+	public void turnOn(int buttonId) {
+		buttons[buttonId].switchOn();
 	}
 
-	public void turnOff(int buttonNumber) {
-		buttons[buttonNumber - 1].switchOff();
+	public void turnOff(int buttonId) {
+		buttons[buttonId].switchOff();
 	}
 
 	public void setEncoderValue(int encoderNumber, byte value) {
@@ -108,8 +108,8 @@ public class BankLayout {
 		return false == buttons[i - 1].isSwitchedOn();
 	}
 
-	public void setButtonOff(int i) {
-		buttons[i - 1].switchOff();
+	public void setButtonOff(int id) {
+		buttons[id].switchOff();
 	}
 
 	public boolean areSwitchedOn(int... i) {

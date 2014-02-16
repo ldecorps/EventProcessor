@@ -1,6 +1,5 @@
 package decorps.eventprocessor.vendors.maps;
 
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.Layer;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
@@ -58,20 +57,20 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
 		int newCcValue = eventProcessorMidiMessage.getAsShortMessage()
 				.getData2();
+		EventProcessorMidiMessage forTetra = null;
 		if (0 == newCcValue)
-			return switchOscillatorOff();
+			forTetra = switchOscillatorOff();
 		else if (1 == newCcValue)
-			return buttonSawtoothPressed();
+			forTetra = buttonSawtoothPressed();
 		else if (2 == newCcValue)
-			return buttonTrianglePressed();
+			forTetra = buttonTrianglePressed();
 		else if (3 == newCcValue)
-			return buttonSawtoothTriangleMixPressed();
+			forTetra = buttonSawtoothTriangleMixPressed();
 		else if (4 == newCcValue)
-			return buttonSquarePressed();
+			forTetra = buttonSquarePressed();
 		else if (newCcValue > 4)
-			return setPulseWidth(newCcValue);
-		throw new EventProcessorException("Not implemented yet cc: "
-				+ newCcValue);
+			forTetra = setPulseWidth(newCcValue);
+		return forTetra;
 	}
 
 	private EventProcessorMidiMessage setPulseWidth(int newCcValue) {
@@ -103,7 +102,7 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 	private EventProcessorMidiMessage buttonSquarePressed() {
 		if (programParameter.getValue() == 4)
 			return switchOscillatorOff();
-		programParameter.setValue(getTriangleButton(), (byte) 4);
+		programParameter.setAbsoluteValue((byte) 4);
 		return buildNRPN(programParameter);
 	}
 
@@ -146,4 +145,5 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 		final boolean isSquare = 3 == value;
 		return isSquare;
 	}
+
 }
