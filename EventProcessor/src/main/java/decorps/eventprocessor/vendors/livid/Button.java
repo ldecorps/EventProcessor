@@ -32,6 +32,7 @@ public class Button implements Controller {
 
 	public Button() {
 		id = BankLayout.nextButtonId++;
+		programParameter = ProgramParameter.nullParameter;
 	}
 
 	public byte getId() {

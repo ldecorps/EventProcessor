@@ -133,18 +133,6 @@ public class MapRepository {
 		throw new EventProcessorException("All Controllers are mapped: " + maps);
 	}
 
-	public static ProgramParameter getParameterForController(
-			Controller controller) {
-		for (EventProcessorMap map : maps) {
-			for (Controller controllerCandidate : map.getControllers())
-				if (controllerCandidate.equals(controller))
-					return controllerCandidate.getProgramParameter();
-		}
-		throw new EventProcessorException(
-				"could not find parameter for controller " + controller
-						+ ". Maps: " + maps);
-	}
-
 	public static void map(ProgramParameterData programParameterData) {
 		for (ProgramParameter programParameter : programParameterData
 				.getFirst200AbstractProgramParameters()) {

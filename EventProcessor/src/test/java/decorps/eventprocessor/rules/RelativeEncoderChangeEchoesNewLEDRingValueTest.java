@@ -26,9 +26,10 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 
 	@Before
 	public void initialise() {
+		BankLayout.createFourBanks();
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
 		MapRepository.initialise();
+		cut = new RelativeEncoderChangeEchoesNewLEDRingValue();
 	}
 
 	@Test

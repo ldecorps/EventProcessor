@@ -99,8 +99,7 @@ public class MapRepositoryTest {
 				BankLayout.CurrentBank.buttons[0]);
 
 		assertThat(
-				MapRepository
-						.getParameterForController(BankLayout.CurrentBank.buttons[0]),
+				BankLayout.CurrentBank.buttons[0].getProgramParameter(),
 				sameInstance(BankLayout.getCurrentProgramParameterData().A.oscillator2Shape));
 
 	}

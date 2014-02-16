@@ -17,11 +17,27 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 	}
 
 	public Oscillator1ShapeMap() {
-		this(registerParameter(), new Controller[] { getButton() });
+		this(registerParameter(), new Controller[] { getOnOffButton(),
+				getSawtoothButton() });
 	}
 
-	private static Controller getButton() {
+	static Button getOnOffButton() {
 		final Button button = BankLayout.Bank1.buttons[0];
+		return button;
+	}
+
+	static Button getSawtoothButton() {
+		final Button button = BankLayout.Bank1.buttons[8];
+		return button;
+	}
+
+	static Button getTriangleButton() {
+		final Button button = BankLayout.Bank1.buttons[16];
+		return button;
+	}
+
+	static Button getSquareButton() {
+		final Button button = BankLayout.Bank1.buttons[24];
 		return button;
 	}
 
@@ -38,15 +54,52 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 				.getData2();
 		if (0 == newCcValue)
 			return switchOscillatorOff();
+		else if (1 == newCcValue)
+			return switchSawtoothOn();
 		throw new EventProcessorException("Not implemented yet");
+	}
+
+	private EventProcessorMidiMessage switchSawtoothOn() {
+		final ProgramParameter oscillator1Shape = BankLayout
+				.getCurrentProgramParameterData().A.oscillator1Shape;
+		oscillator1Shape.setValue(getSawtoothButton(), (byte) 1);
+		EventProcessorMidiMessage result = EventProcessorNRPNMessage
+				.buildEventProcessorNRPNMessage(oscillator1Shape);
+		return result;
 	}
 
 	private EventProcessorMidiMessage switchOscillatorOff() {
 		final ProgramParameter oscillator1Shape = BankLayout
 				.getCurrentProgramParameterData().A.oscillator1Shape;
-		oscillator1Shape.setValue(getButton(), (byte) 0);
+		oscillator1Shape.setValue(getOnOffButton(), (byte) 0);
 		EventProcessorMidiMessage result = EventProcessorNRPNMessage
 				.buildEventProcessorNRPNMessage(oscillator1Shape);
 		return result;
+	}
+
+	public boolean isSawtooth() {
+		final byte value = programParameter.getValue();
+		final boolean isSawtooth = 1 == value;
+		return isSawtooth;
+	}
+
+	public void switchSawtoothButtonOn() {
+		programParameter.setAbsoluteValue((byte) 1);
+	}
+
+	public void switchTriangleButtonOn() {
+		programParameter.setAbsoluteValue((byte) 2);
+	}
+
+	public boolean isTriangle() {
+		final byte value = programParameter.getValue();
+		final boolean isTriangle = 2 == value;
+		return isTriangle;
+	}
+
+	public boolean isSquare() {
+		final byte value = programParameter.getValue();
+		final boolean isSquare = 3 == value;
+		return isSquare;
 	}
 }

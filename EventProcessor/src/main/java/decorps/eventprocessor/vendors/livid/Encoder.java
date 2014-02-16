@@ -50,6 +50,7 @@ public class Encoder implements Controller {
 	public Encoder() {
 		id = BankLayout.nextEncoderId++;
 		bankLayout = CurrentBank;
+		programParameter = ProgramParameter.nullParameter;
 	}
 
 	public byte getId() {

@@ -157,7 +157,7 @@ public class BankLayout {
 	}
 
 	public Encoder getEncoderForCc(int ccNumber) {
-		return encoders[ccNumber - 1];
+		return encoders[Encoder.getIdForCc(ccNumber)];
 	}
 
 	public static ProgramParameterData getCurrentProgramParameterData() {

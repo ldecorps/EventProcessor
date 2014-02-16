@@ -72,9 +72,9 @@ public abstract class ProgramParameter implements ValueRange {
 	public abstract byte getLayerANRPNNumber();
 
 	public void setValue(Controller controller, byte value) {
-		if (controller.isButton())
-			this.value = (byte) (value == 0 ? 0 : 64);
-		else if (controller.isAbsolute())
+		if (controller.isButton()) {
+			this.value = (byte) newValue(value);
+		} else if (controller.isAbsolute())
 			this.value = value;
 		else {
 			if (127 == value)
@@ -82,6 +82,12 @@ public abstract class ProgramParameter implements ValueRange {
 			else
 				decrementValue();
 		}
+	}
+
+	private int newValue(byte value) {
+		final boolean isSwitchOff = value == 0;
+		final int newValue = isSwitchOff ? 0 : 64;
+		return newValue;
 	}
 
 	public byte getValue() {
@@ -101,6 +107,10 @@ public abstract class ProgramParameter implements ValueRange {
 	public void decrementValue() {
 		if (getRebasedValue() > 0)
 			value--;
+	}
+
+	public void setAbsoluteValue(byte value) {
+		this.value = value;
 	}
 
 }
