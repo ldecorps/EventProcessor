@@ -8,6 +8,7 @@ import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Button;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 
@@ -17,21 +18,26 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 	}
 
 	public Oscillator1ShapeMap() {
-		this(registerParameter(), new Controller[] { getOnOffButton(),
-				getSawtoothButton(), getTriangleButton() });
+		this(registerParameter(), new Controller[] { getSawtoothButton(),
+				getTriangleButton(), getSawtoothTriangleMixButton(),
+				getSquareButton(), getPulseWidthEncoder() });
 	}
 
-	static Button getOnOffButton() {
+	private static Encoder getPulseWidthEncoder() {
+		return BankLayout.Bank1.encoders[24];
+	}
+
+	static Button getSawtoothButton() {
 		final Button button = BankLayout.Bank1.buttons[0];
 		return button;
 	}
 
-	static Button getSawtoothButton() {
+	static Button getTriangleButton() {
 		final Button button = BankLayout.Bank1.buttons[8];
 		return button;
 	}
 
-	static Button getTriangleButton() {
+	static Button getSawtoothTriangleMixButton() {
 		final Button button = BankLayout.Bank1.buttons[16];
 		return button;
 	}
@@ -55,17 +61,54 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 		if (0 == newCcValue)
 			return switchOscillatorOff();
 		else if (1 == newCcValue)
-			return switchSawtoothOn();
-		throw new EventProcessorException("Not implemented yet");
+			return buttonSawtoothPressed();
+		else if (2 == newCcValue)
+			return buttonTrianglePressed();
+		else if (3 == newCcValue)
+			return buttonSawtoothTriangleMixPressed();
+		else if (4 == newCcValue)
+			return buttonSquarePressed();
+		else if (newCcValue > 4)
+			return setPulseWidth(newCcValue);
+		throw new EventProcessorException("Not implemented yet cc: "
+				+ newCcValue);
 	}
 
-	private EventProcessorMidiMessage switchSawtoothOn() {
+	private EventProcessorMidiMessage setPulseWidth(int newCcValue) {
+		programParameter.setValue(getSquareButton(), (byte) newCcValue);
+		return buildNRPN(programParameter);
+	}
+
+	private EventProcessorMidiMessage buttonSawtoothTriangleMixPressed() {
+		if (programParameter.getValue() == 3)
+			return switchOscillatorOff();
+		programParameter.setValue(getSawtoothTriangleMixButton(), (byte) 3);
+		return buildNRPN(programParameter);
+	}
+
+	private EventProcessorMidiMessage buttonSawtoothPressed() {
+		if (programParameter.getValue() == 1)
+			return switchOscillatorOff();
 		programParameter.setValue(getSawtoothButton(), (byte) 1);
 		return buildNRPN(programParameter);
 	}
 
+	private EventProcessorMidiMessage buttonTrianglePressed() {
+		if (programParameter.getValue() == 2)
+			return switchOscillatorOff();
+		programParameter.setValue(getTriangleButton(), (byte) 2);
+		return buildNRPN(programParameter);
+	}
+
+	private EventProcessorMidiMessage buttonSquarePressed() {
+		if (programParameter.getValue() == 4)
+			return switchOscillatorOff();
+		programParameter.setValue(getTriangleButton(), (byte) 4);
+		return buildNRPN(programParameter);
+	}
+
 	private EventProcessorMidiMessage switchOscillatorOff() {
-		programParameter.setValue(getOnOffButton(), (byte) 0);
+		programParameter.setAbsoluteValue((byte) 0);
 		return buildNRPN(programParameter);
 	}
 

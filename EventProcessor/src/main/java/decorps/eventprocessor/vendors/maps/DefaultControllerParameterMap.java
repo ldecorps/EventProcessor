@@ -3,20 +3,12 @@ package decorps.eventprocessor.vendors.maps;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.midi.ShortMessage;
-
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
-import decorps.eventprocessor.messages.EventProcessorShortMessage;
-import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
-import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.BankLayout;
-import decorps.eventprocessor.vendors.livid.Button;
 import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.Encoder;
-import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 
 public class DefaultControllerParameterMap implements EventProcessorMap {
 	@Override
@@ -82,19 +74,6 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 		}
 	}
 
-	public EventProcessorMidiMessage mapToTetraNRPN(
-			ProgramParameterData programParameterData) {
-		EventProcessorMidiMessage messageForLivid = LividMessageFactory
-				.buildEventProcessorNRPNMessage(programParameter);
-		return messageForLivid;
-	}
-
-	public EventProcessorMidiMessage mapToLividSysex(
-			ProgramParameterData programParameterData) {
-		return new SetEncodersAndLedIndicatorsRule()
-				.buildMidiMessagesForProgramParameterData(programParameterData);
-	}
-
 	public EventProcessorMidiMessage mapLividCcToTetraNrpn(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
 		int newCcValue = eventProcessorMidiMessage.getAsShortMessage()
@@ -108,14 +87,6 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 		return controllers.get(0);
 	}
 
-	public void applyMapping() {
-		throw new EventProcessorException("Not Implemented Yet");
-	}
-
-	public void map(Controller controller) {
-		programParameter.setValue(controller, controller.getRebasedValue());
-	}
-
 	public void map(ProgramParameter programParameter) {
 		final Controller controller = controllers.get(0);
 		controller.setProgramParameter(programParameter);
@@ -126,25 +97,8 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 		controllers.get(0).setValue(newValue);
 	}
 
-	public void refreshProgramParameter() {
-		final Controller controller = controllers.get(0);
-		programParameter.setValue(controller, controller.getValue());
-	}
-
 	public boolean contains(Controller controller) {
 		return controllers.contains(controller);
-	}
-
-	public EventProcessorMidiMessage mapToLividCcOrNote() {
-		final byte rebasedValue = programParameter.getRebasedValue();
-		final Controller controller = getControllers().get(0);
-		final int ccOrNoteNumber = controller.getCCOrNoteNumber();
-		final int channel = BankLayout.CurrentBank.bankNumber - 1;
-		final int type = controller instanceof Button ? ShortMessage.NOTE_ON
-				: ShortMessage.CONTROL_CHANGE;
-		return EventProcessorShortMessage.buildShortMessage(type, channel,
-				ccOrNoteNumber, rebasedValue);
-
 	}
 
 	public static void mapToEncoder(

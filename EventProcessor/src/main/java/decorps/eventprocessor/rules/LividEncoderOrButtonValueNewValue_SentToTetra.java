@@ -26,8 +26,7 @@ public class LividEncoderOrButtonValueNewValue_SentToTetra implements Rule {
 		List<EventProcessorMidiMessage> messages = new ArrayList<EventProcessorMidiMessage>();
 		for (EventProcessorMap map : maps) {
 			System.out.println("using map: " + map);
-			final EventProcessorMidiMessage mapLividCcToTetraNrpn = map.mapLividCcToTetraNrpn(eventProcessorMidiMessage);
-			messages.add(mapLividCcToTetraNrpn);
+			messages.add(map.mapLividCcToTetraNrpn(eventProcessorMidiMessage));
 		}
 		EventProcessorMidiMessage result = EventProcessorMidiMessageComposite
 				.buildComposite(messages);
