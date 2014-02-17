@@ -2,6 +2,7 @@ import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.InitialiseBankLayout;
 import decorps.eventprocessor.rules.LividEncoderOrButtonValueNewValue_SentToTetra;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
+import decorps.eventprocessor.rules.RelativeEncoderChangeEchoesNewLEDRingValue;
 import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.vendors.dsi.TetraParameter;
 
@@ -32,6 +33,10 @@ public class Main {
 		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
 				TetraParameter.ProgramEditBufferDataDump,
 				eventProcessor.fromTetraToLivid);
+		eventProcessor.registerAction(
+				new RelativeEncoderChangeEchoesNewLEDRingValue(),
+				TetraParameter.RELATIVE_ONLY, eventProcessor.fromTetraToLivid);
+
 	}
 
 }

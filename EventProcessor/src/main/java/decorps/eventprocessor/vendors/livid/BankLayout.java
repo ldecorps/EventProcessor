@@ -1,7 +1,6 @@
 package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.utils.BaseUtils.*;
-import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.ParameterFactory;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
@@ -79,12 +78,6 @@ public class BankLayout {
 		buttons[buttonId].switchOff();
 	}
 
-	public void setEncoderValue(int encoderNumber, byte value) {
-		if (1 > encoderNumber)
-			throw new EventProcessorException("Encoder index starts at 1");
-		encoders[encoderNumber - 1].setValue(value);
-	}
-
 	public int[] getEncodersAsArrayOfInts() {
 		int[] result = new int[64];
 		for (int i = 0; i < encoders.length; i++) {
@@ -126,8 +119,8 @@ public class BankLayout {
 
 	public int[] getEncoderModes() {
 		int[] result = new int[8];
-		for (int i = 0; i < 32; i = i + 8) {
-			final int index = i / 8;
+		int index = 0;
+		for (int i = 1; i < 33; i += 8, index += 2) {
 			result[index] = getNextSevenEncoderModes(i);
 			result[index + 1] = getEncoderMode(i + 7);
 		}
@@ -142,16 +135,20 @@ public class BankLayout {
 		return result;
 	}
 
-	private int getEncoderMode(int encoderIndex) {
+	private int getEncoderMode(int ccNumber) {
 		final BankLayout currentBank = BankLayout.CurrentBank;
-		final Encoder encoder = currentBank.encoders[encoderIndex];
-		return encoder.getMode() == Mode.Absolute ? 0 : 1;
+		final int encoderId = Encoder.getIdForCc(ccNumber);
+		final Encoder encoder = currentBank.encoders[encoderId];
+		final boolean isEncoderAbsolute = encoder.getMode() == Mode.Absolute;
+		System.out.println(encoder + " is "
+				+ (isEncoderAbsolute ? "absolute" : "relative"));
+		return isEncoderAbsolute ? 0 : 1;
 	}
 
-	private int getNextSevenEncoderModes(int encoderIndex) {
+	private int getNextSevenEncoderModes(int ccNumber) {
 		String result = "";
 		for (int i = 0; i < 7; i++) {
-			result = getEncoderMode(encoderIndex + i) + result;
+			result = getEncoderMode(ccNumber + i) + result;
 		}
 		return binaryToByte(result);
 	}

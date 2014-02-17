@@ -42,7 +42,7 @@ public class LividMessageFactory {
 
 	public static EventProcessorMidiMessage buildMap_Encosion_Mode(
 			int... payload) {
-		return new Set_Map_Encosion_Mode(payload, 0x10, 8);
+		return new Set_Map_Encosion_Mode(payload, 0x11, 8);
 	}
 
 	public static EventProcessorMidiMessage build_Set_Encoder_Speed(

@@ -1,7 +1,7 @@
 package decorps.eventprocessor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class EventProcessor {
 	}
 
 	EventProcessor() {
-		actions = new HashSet<Action>();
+		actions = new LinkedHashSet<Action>();
 		linkFactory = new LinkFactory(actions);
 		fromTetraToLivid = linkFactory.buildFromTetraToLivid();
 		fromLividToTetra = linkFactory.buildFromLividToTetra();

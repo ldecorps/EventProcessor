@@ -13,9 +13,6 @@ import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class LividEncoderOrButtonValueNewValue_SentToTetra implements Rule {
 
-	public LividEncoderOrButtonValueNewValue_SentToTetra() {
-	}
-
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
 		final Controller controllerForLividShortMessage = ControllerRepository
@@ -36,7 +33,7 @@ public class LividEncoderOrButtonValueNewValue_SentToTetra implements Rule {
 
 	void setNewRelativeValue(Controller controller,
 			ProgramParameter programParameter, final byte valueReceived) {
-		boolean increment = 127 == valueReceived;
+		boolean increment = 1 == valueReceived;
 		final byte currentValue = programParameter.getValue();
 		byte newValue = 0;
 		if (increment)

@@ -1,13 +1,11 @@
 package decorps.eventprocessor;
 
-import static decorps.eventprocessor.vendors.livid.BankLayout.*;
+import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.BankLayout;
-import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
-import decorps.eventprocessor.vendors.maps.DefaultControllerParameterMap;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class InitialiseBankLayout {
@@ -26,11 +24,10 @@ public class InitialiseBankLayout {
 			requestCurrentEditBufferAndWaitForAnswer();
 			applyMapping();
 			setEncosionMode();
+			setLocalControl();
 			setLedRingStyles();
 			setEncoderSpeed();
-			setLocalControl();
 			setButtonToggleModeEnable();
-			MapRepository.initialise();
 		}
 	}
 
@@ -73,10 +70,7 @@ public class InitialiseBankLayout {
 
 	private void applyMapping() {
 		System.out.println("applying mapping");
-		final Encoder encoder = Bank1.encoders[0];
-		final ProgramParameter oscillator1Frequency = programParameterData.A.oscillator1Frequency;
-		new DefaultControllerParameterMap(oscillator1Frequency, encoder);
-
+		MapRepository.initialise();
 	}
 
 	private void requestCurrentEditBufferAndWaitForAnswer()

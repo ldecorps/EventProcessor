@@ -15,9 +15,10 @@ public class RelativeEncoderChangeEchoesNewLEDRingValue implements Rule {
 
 		int newValue = getRebasedValue(shortMessage);
 
-		return EventProcessorShortMessage.buildShortMessage(
+		final EventProcessorMidiMessage buildShortMessage = EventProcessorShortMessage.buildShortMessage(
 				shortMessage.getCommand(), shortMessage.getChannel(),
 				shortMessage.getData1(), newValue);
+		return buildShortMessage;
 
 	}
 

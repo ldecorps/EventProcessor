@@ -74,7 +74,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 				+ action.tetraParameter.name());
 		EventProcessorMidiMessage newEventProcessorMidiMessage = action.rule
 				.transform(eventProcessorMidiMessage);
-		System.out.println(" by sending "
+		System.out.println(" by sending to " + this.getClass().getSimpleName()
 				+ BaseUtils.decodeMessage(newEventProcessorMidiMessage));
 		if (action.rule instanceof PauseBeforeSend)
 			try {

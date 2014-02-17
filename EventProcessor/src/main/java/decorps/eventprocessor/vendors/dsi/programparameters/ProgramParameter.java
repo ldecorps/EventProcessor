@@ -77,7 +77,7 @@ public abstract class ProgramParameter implements ValueRange {
 		} else if (controller.isAbsolute())
 			this.value = value;
 		else {
-			if (127 == value)
+			if (1 == value)
 				incrementValue();
 			else
 				decrementValue();

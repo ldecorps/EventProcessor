@@ -58,7 +58,7 @@ public class LividEncoderOrButtonValueNewValue_SentToTetraTest {
 		assertEquals(2, lividCcOutputted);
 		final EventProcessorMidiMessage lividCc_turnOscFineTuneFromZeroTo1 = EventProcessorShortMessage
 				.buildShortMessage(ShortMessage.CONTROL_CHANGE, 0,
-						lividCcOutputted, 127);
+						lividCcOutputted, 1);
 
 		final EventProcessorMidiMessage transformedMessage = cut
 				.transform(lividCc_turnOscFineTuneFromZeroTo1);

@@ -3,6 +3,8 @@ package decorps.eventprocessor.vendors.dsi;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.utils.BaseUtils;
+import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.ControllerRepository;
 
 public enum TetraParameter {
 	Oscillator1Frequency {
@@ -60,6 +62,17 @@ public enum TetraParameter {
 		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
 			return eventProcessorMidiMessage.isNote()
 					|| eventProcessorMidiMessage.isCC();
+		}
+	},
+	RELATIVE_ONLY {
+		@Override
+		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
+			if (!eventProcessorMidiMessage.isCC())
+				return false;
+			final Controller controller = ControllerRepository
+					.getControllerForLividShortMessage(eventProcessorMidiMessage);
+			final boolean isAbsolute = controller.isAbsolute();
+			return !isAbsolute;
 		}
 	};
 
