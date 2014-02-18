@@ -9,8 +9,38 @@ import java.util.Set;
 
 import decorps.eventprocessor.exceptions.NoMapLeftToDefaultException;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.dsi.programparameters.ArpeggiatorMode;
+import decorps.eventprocessor.vendors.dsi.programparameters.ClockBPM;
+import decorps.eventprocessor.vendors.dsi.programparameters.ClockDivide;
+import decorps.eventprocessor.vendors.dsi.programparameters.FeedbackGain;
+import decorps.eventprocessor.vendors.dsi.programparameters.FeedbackVolume;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterAudioMod;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterCutoffFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvAmount;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterEnvVelocity;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterKeyboardAmt;
+import decorps.eventprocessor.vendors.dsi.programparameters.FilterResonance;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO1Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.LFO2Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Mod1Amount;
+import decorps.eventprocessor.vendors.dsi.programparameters.NoiseLevel;
 import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc2FineFreq;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc2Frequency;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator1Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.Oscillator2Shape;
+import decorps.eventprocessor.vendors.dsi.programparameters.OscillatorMix;
+import decorps.eventprocessor.vendors.dsi.programparameters.PanSpread;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.ProgramVolume;
+import decorps.eventprocessor.vendors.dsi.programparameters.SubOsc1Level;
+import decorps.eventprocessor.vendors.dsi.programparameters.SubOsc2Level;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvAmount;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCAEnvVelocity;
+import decorps.eventprocessor.vendors.dsi.programparameters.VCALevel;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Controller;
 
@@ -20,6 +50,7 @@ public class MapRepository {
 			128);
 
 	static void completeInitialisationWithDefaultMaps() {
+		System.out.println("Completing with default maps...");
 		final int size = MapRepository.maps.size();
 		for (int i = size; i < 32; i++) {
 			ProgramParameter programParameter = ProgramParameter.nullParameter;
@@ -46,9 +77,46 @@ public class MapRepository {
 	}
 
 	private static void registerSpecificMaps() {
-		new Oscillator1ShapeMap();
+		mapToEncoder(Osc1Frequency.class, 0);
 		mapToEncoder(Osc1FineFreq.class, 8);
+		mapToEncoder(SubOsc1Level.class, 16);
+		// new Oscillator1ShapeMap();
+		mapToEncoder(Oscillator1Shape.class, 24);
 
+		mapToEncoder(Osc2Frequency.class, 1);
+		mapToEncoder(Osc2FineFreq.class, 9);
+		mapToEncoder(SubOsc2Level.class, 17);
+		mapToEncoder(Oscillator2Shape.class, 25);
+		// new Oscillator2ShapeMap();
+
+		mapToEncoder(FilterCutoffFreq.class, 2);
+		mapToEncoder(FilterResonance.class, 10);
+		mapToEncoder(OscillatorMix.class, 18);
+		mapToEncoder(NoiseLevel.class, 26);
+
+		mapToEncoder(FeedbackVolume.class, 3);
+		mapToEncoder(FeedbackGain.class, 11);
+		mapToEncoder(FilterKeyboardAmt.class, 19);
+		mapToEncoder(FilterAudioMod.class, 27);
+
+		mapToEncoder(ProgramVolume.class, 4);
+		mapToEncoder(FilterEnvAmount.class, 12);
+		mapToEncoder(FilterEnvVelocity.class, 20);
+
+		mapToEncoder(VCALevel.class, 5);
+		mapToEncoder(VCAEnvAmount.class, 13);
+		mapToEncoder(VCAEnvVelocity.class, 21);
+		mapToEncoder(PanSpread.class, 29);
+
+		mapToEncoder(LFO1Frequency.class, 6);
+		mapToEncoder(LFO1Amount.class, 14);
+		mapToEncoder(LFO1Shape.class, 22);
+		mapToEncoder(LFO2Frequency.class, 30);
+
+		mapToEncoder(ClockBPM.class, 7);
+		mapToEncoder(ClockDivide.class, 15);
+		mapToEncoder(Mod1Amount.class, 23);
+		mapToEncoder(ArpeggiatorMode.class, 31);
 	}
 
 	public static List<Controller> getControllersForParameter(

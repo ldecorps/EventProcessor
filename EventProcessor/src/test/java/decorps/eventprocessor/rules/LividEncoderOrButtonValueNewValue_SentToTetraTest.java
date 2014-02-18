@@ -48,7 +48,7 @@ public class LividEncoderOrButtonValueNewValue_SentToTetraTest {
 	}
 
 	@Test
-	public void givenOsc1FineTuneIsAtZero_whenTurnedOneTick_SendsCorrectValueToTetra()
+	public void givenOsc1FineTuneIsAtZero_whenTurnedOneTick_SendsCorrectValueTsoTetra()
 			throws Exception {
 		Encoder oscFineTuneEncoder = ControllerRepository
 				.getEncoderForParameterClass(Osc1FineFreq.class);

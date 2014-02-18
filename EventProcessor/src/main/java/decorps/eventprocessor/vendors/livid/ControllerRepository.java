@@ -33,7 +33,8 @@ public class ControllerRepository {
 	public static Encoder getEncoderForParameterClass(
 			Class<? extends ProgramParameter> programParameterClass) {
 		for (Encoder encoder : BankLayout.CurrentBank.encoders) {
-			if (encoder.getProgramParameter().getClass()
+			final Class<? extends ProgramParameter> classCandidate = encoder.getProgramParameter().getClass();
+			if (classCandidate
 					.equals(programParameterClass))
 				return encoder;
 		}
