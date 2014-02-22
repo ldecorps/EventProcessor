@@ -22,16 +22,22 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
+import decorps.eventprocessor.rules.LividEncoderOrButtonValue_NewValue_SendToTetra;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
+import decorps.eventprocessor.rules.RelativeEncoderChangeEchoesNewLEDRingValue;
 import decorps.eventprocessor.rules.Rule;
 import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
 import decorps.eventprocessor.rules.Transpose;
 import decorps.eventprocessor.utils.DumpReceiver;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
+import decorps.eventprocessor.vendors.dsi.MessageType;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
-import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.dsi.programparameters.Osc1FineFreq;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.ControllerRepository;
+import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
+import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class EventProcessorTest {
 
@@ -128,7 +134,7 @@ public class EventProcessorTest {
 	public void registersRule_ProgramEditBufferDataDumpRequest_to_ProgramChange()
 			throws Exception {
 		cut.registerAction(new ProgramEditBufferDumpRequest(),
-				TetraParameter.ProgramChange, cut.fromTetraToTetra);
+				MessageType.ProgramChange, cut.fromTetraToTetra);
 		MidiMessage sampleProgramChange = DsiTetraMapTest.sendProgramChange();
 		assertThat(cut.fromTetraToTetra.receiver.getSentMidiMessages(), empty());
 
@@ -141,6 +147,41 @@ public class EventProcessorTest {
 						.getMessage(),
 				cut.fromTetraToTetra.receiver.getSentMidiMessages().get(0)
 						.getMessage());
+	}
+
+	@Test
+	public void turningRelativeEncoder_sendsCcBackToLivid() throws Exception {
+		MapRepository.initialise();
+		registerRuleThatUpdatesValue();
+		cut.registerAction(new RelativeEncoderChangeEchoesNewLEDRingValue(),
+				MessageType.RELATIVE_ONLY, cut.fromLividToLivid);
+		EventProcessorMidiMessage lividRelativeEncoderTurned = buildLividEncoderForFineFreqTurnedClockwise();
+		int initialParameterValue = ControllerRepository
+				.getControllerForLividShortMessage(lividRelativeEncoderTurned)
+				.getRebasedValue();
+
+		cut.fromLividToLivid.receiver.send(lividRelativeEncoderTurned);
+		assertThat(cut.fromLividToLivid.receiver.getSentMidiMessages(),
+				hasSize(2));
+		assertThat(cut.fromLividToLivid.receiver.getSentMidiMessages().get(1)
+				.getAsShortMessage().getData2(),
+				greaterThan(initialParameterValue));
+	}
+
+	private void registerRuleThatUpdatesValue() {
+		cut.registerAction(
+				new LividEncoderOrButtonValue_NewValue_SendToTetra(),
+				MessageType.ANY_NOTE_OR_CC, cut.fromLividToTetra);
+	}
+
+	private EventProcessorMidiMessage buildLividEncoderForFineFreqTurnedClockwise() {
+		final Encoder osc1FineFreqController = ControllerRepository
+				.getEncoderForParameterClass(Osc1FineFreq.class);
+		final int ccNumberOfaRelativeEncoder = osc1FineFreqController
+				.getCCOrNoteNumber();
+		EventProcessorMidiMessage result = EventProcessorShortMessage
+				.buildLividIncrementCC(ccNumberOfaRelativeEncoder);
+		return result;
 	}
 
 	@Test
@@ -166,7 +207,7 @@ public class EventProcessorTest {
 	}
 
 	private void registering(Rule rule) {
-		cut.registerAction(rule, TetraParameter.ProgramEditBufferDataDump,
+		cut.registerAction(rule, MessageType.ProgramEditBufferDataDump,
 				cut.fromTetraToLivid);
 	}
 

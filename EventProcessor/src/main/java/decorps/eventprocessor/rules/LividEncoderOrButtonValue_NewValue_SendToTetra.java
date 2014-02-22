@@ -11,7 +11,7 @@ import decorps.eventprocessor.vendors.livid.ControllerRepository;
 import decorps.eventprocessor.vendors.maps.EventProcessorMap;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
-public class LividEncoderOrButtonValueNewValue_SentToTetra implements Rule {
+public class LividEncoderOrButtonValue_NewValue_SendToTetra implements Rule {
 
 	public EventProcessorMidiMessage transform(
 			EventProcessorMidiMessage eventProcessorMidiMessage) {

@@ -168,4 +168,18 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 				ShortMessage.CONTROL_CHANGE, id, rebasedValue);
 	}
 
+	public static EventProcessorMidiMessage buildLividIncrementCC(
+			int ccNumberOfaRelativeEncoder) {
+		EventProcessorMidiMessage result = buildShortMessage(
+				ShortMessage.CONTROL_CHANGE, 0, ccNumberOfaRelativeEncoder, 1);
+		return result;
+	}
+
+	public static EventProcessorMidiMessage buildLividDecrementCC(
+			int ccNumberOfaRelativeEncoder) {
+		EventProcessorMidiMessage result = buildShortMessage(
+				ShortMessage.CONTROL_CHANGE, 0, ccNumberOfaRelativeEncoder, 127);
+		return result;
+	}
+
 }

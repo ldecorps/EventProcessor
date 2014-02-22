@@ -1,10 +1,10 @@
 import decorps.eventprocessor.EventProcessor;
 import decorps.eventprocessor.InitialiseBankLayout;
-import decorps.eventprocessor.rules.LividEncoderOrButtonValueNewValue_SentToTetra;
+import decorps.eventprocessor.rules.LividEncoderOrButtonValue_NewValue_SendToTetra;
 import decorps.eventprocessor.rules.ProgramEditBufferDumpRequest;
 import decorps.eventprocessor.rules.RelativeEncoderChangeEchoesNewLEDRingValue;
 import decorps.eventprocessor.rules.SetEncodersAndLedIndicatorsRule;
-import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.dsi.MessageType;
 
 public class Main {
 
@@ -25,17 +25,17 @@ public class Main {
 	}
 
 	private void registerActions(EventProcessor eventProcessor) {
-		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
-				TetraParameter.ProgramChange, eventProcessor.fromTetraToTetra);
-		eventProcessor.registerAction(
-				new LividEncoderOrButtonValueNewValue_SentToTetra(),
-				TetraParameter.ANY_NOTE_OR_CC, eventProcessor.fromLividToTetra);
-		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
-				TetraParameter.ProgramEditBufferDataDump,
-				eventProcessor.fromTetraToLivid);
 		eventProcessor.registerAction(
 				new RelativeEncoderChangeEchoesNewLEDRingValue(),
-				TetraParameter.RELATIVE_ONLY, eventProcessor.fromTetraToLivid);
+				MessageType.RELATIVE_ONLY, eventProcessor.fromTetraToLivid);
+		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
+				MessageType.ProgramChange, eventProcessor.fromTetraToTetra);
+		eventProcessor.registerAction(
+				new LividEncoderOrButtonValue_NewValue_SendToTetra(),
+				MessageType.ANY_NOTE_OR_CC, eventProcessor.fromLividToTetra);
+		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
+				MessageType.ProgramEditBufferDataDump,
+				eventProcessor.fromTetraToLivid);
 
 	}
 

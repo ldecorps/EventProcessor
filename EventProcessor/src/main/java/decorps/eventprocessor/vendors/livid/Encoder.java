@@ -77,10 +77,6 @@ public class Encoder implements Controller {
 		return Set_LED_Ring_Style.WALK;
 	}
 
-	public int getCc() {
-		return id + 1;
-	}
-
 	public boolean isAbsolute() {
 		return programParameter.isAbsolute();
 	}

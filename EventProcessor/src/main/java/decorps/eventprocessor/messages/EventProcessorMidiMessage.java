@@ -13,7 +13,7 @@ import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
 import decorps.eventprocessor.vendors.dsi.ProgramDataDump;
 import decorps.eventprocessor.vendors.dsi.ProgramEditBufferDataDump;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
-import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.dsi.MessageType;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 
 public abstract class EventProcessorMidiMessage extends MidiMessage {
@@ -38,8 +38,8 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 		super(data);
 	}
 
-	public boolean is(TetraParameter tetraParameter) {
-		return tetraParameter.is(this);
+	public boolean is(MessageType messageType) {
+		return messageType.is(this);
 	}
 
 	public EventProcessorShortMessage getAsShortMessage() {
@@ -137,6 +137,14 @@ public abstract class EventProcessorMidiMessage extends MidiMessage {
 
 	public EventProcessorMidiMessage getMessageFromComposite(int i) {
 		return getAsComposite().getMessages().get(i);
+	}
+
+	public boolean isNRPN() {
+		return this instanceof EventProcessorNRPNMessage;
+	}
+
+	public boolean isComposite() {
+		return this instanceof EventProcessorMidiMessageComposite;
 	}
 
 }

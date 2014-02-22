@@ -23,14 +23,17 @@ public class Oscillator1ShapeMapTest {
 
 	@Before
 	public void createMap() {
+		BankLayout.createFourBanks();
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-
+		MapRepository.initialise();
 		cut = new Oscillator1ShapeMap();
 	}
 
 	@Test
 	public void zeroFromTetra_to_Button_Velocity0() throws Exception {
 		final Controller button = Oscillator1ShapeMap.getSawtoothButton();
+		ProgramParameterData.CurrentLayer.oscillator1Shape.setValue(button,
+				getRandomByteOtherThan((byte) 0));
 		assertThat((int) button.getValue(), not(0));
 
 		ProgramParameterData.CurrentLayer.oscillator1Shape.setValue(button,

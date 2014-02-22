@@ -20,9 +20,9 @@ import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 import decorps.eventprocessor.vendors.maps.Oscillator1ShapeMap;
 
-public class LividEncoderOrButtonValueNewValue_SentToTetraTest {
+public class LividEncoderOrButtonValue_NewValue_SendToTetraTest {
 
-	Rule cut = new LividEncoderOrButtonValueNewValue_SentToTetra();
+	Rule cut = new LividEncoderOrButtonValue_NewValue_SendToTetra();
 
 	@Before
 	public void initialise() {

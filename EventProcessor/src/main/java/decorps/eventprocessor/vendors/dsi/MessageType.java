@@ -6,7 +6,7 @@ import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.ControllerRepository;
 
-public enum TetraParameter {
+public enum MessageType {
 	Oscillator1Frequency {
 		@Override
 		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
@@ -68,6 +68,17 @@ public enum TetraParameter {
 		@Override
 		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
 			if (!eventProcessorMidiMessage.isCC())
+				return false;
+			final Controller controller = ControllerRepository
+					.getControllerForLividShortMessage(eventProcessorMidiMessage);
+			final boolean isAbsolute = controller.isAbsolute();
+			return !isAbsolute;
+		}
+	},
+	NRPN_RELATIVE_ONLY {
+		@Override
+		public boolean is(EventProcessorMidiMessage eventProcessorMidiMessage) {
+			if (!eventProcessorMidiMessage.isNRPN())
 				return false;
 			final Controller controller = ControllerRepository
 					.getControllerForLividShortMessage(eventProcessorMidiMessage);

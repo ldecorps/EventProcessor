@@ -34,6 +34,19 @@ public class RulesAwareReceiverWrapper implements Receiver {
 				.build(message);
 		if (shouldFilter(eventProcessorMidiMessage))
 			return;
+		if (eventProcessorMidiMessage.isComposite()) {
+			for (EventProcessorMidiMessage currentMessage : eventProcessorMidiMessage
+					.getAsComposite().getMessages())
+				send(currentMessage, timeStamp);
+		} else
+			doEventProcessorMidiMessage(message, eventProcessorMidiMessage);
+	}
+
+	private void doEventProcessorMidiMessage(MidiMessage message,
+			EventProcessorMidiMessage eventProcessorMidiMessage) {
+		long timeStamp;
+		if (shouldFilter(eventProcessorMidiMessage))
+			return;
 		System.out.print("Receiving " + BaseUtils.decodeMessage(message));
 		System.out.println(". Reseting timestamp to -1");
 		timeStamp = -1;
@@ -46,15 +59,12 @@ public class RulesAwareReceiverWrapper implements Receiver {
 			}
 			return;
 		}
-		EventProcessorMidiMessage newEventProcessorMidiMessage = eventProcessorMidiMessage;
 		for (Action action : actions) {
-			newEventProcessorMidiMessage = doAction(timeStamp,
-					newEventProcessorMidiMessage, action);
+			doAction(timeStamp, eventProcessorMidiMessage, action);
 		}
 		synchronized (wait) {
 			wait.notifyAll();
 		}
-
 	}
 
 	boolean shouldFilter(EventProcessorMidiMessage eventProcessorMidiMessage) {
@@ -66,12 +76,12 @@ public class RulesAwareReceiverWrapper implements Receiver {
 		return false;
 	}
 
-	public EventProcessorMidiMessage doAction(long timeStamp,
+	public void doAction(long timeStamp,
 			EventProcessorMidiMessage eventProcessorMidiMessage, Action action) {
 		if (!action.shouldTriggerOn(eventProcessorMidiMessage))
-			return eventProcessorMidiMessage;
+			return;
 		System.out.println("will react upon receiving "
-				+ action.tetraParameter.name());
+				+ action.messageType.name());
 		EventProcessorMidiMessage newEventProcessorMidiMessage = action.rule
 				.transform(eventProcessorMidiMessage);
 		System.out.println(" by sending to " + this.getClass().getSimpleName()
@@ -85,7 +95,6 @@ public class RulesAwareReceiverWrapper implements Receiver {
 			}
 		newEventProcessorMidiMessage.send(receiver, timeStamp);
 		this.midiMessages.add(newEventProcessorMidiMessage);
-		return newEventProcessorMidiMessage;
 	}
 
 	public EventProcessorShortMessage getFirstSentMidiMessage() {
@@ -107,5 +116,9 @@ public class RulesAwareReceiverWrapper implements Receiver {
 	public void close() {
 		receiver.close();
 		actions.clear();
+	}
+
+	public void send(EventProcessorMidiMessage eventProcessorMidiMessage) {
+		send(eventProcessorMidiMessage, -1);
 	}
 }

@@ -365,4 +365,9 @@ public class LinkFactory {
 		return build(tryToGetTetraOrTestingTetraTransmitter(),
 				tryToGetTetraOrTestingTetraReceiver());
 	}
+
+	public Link buildFromLividToLivid() {
+		return build(tryToGetLividOrTestingTransmitter(),
+				tryToGetLividCode2OrTestingLivideCode2Receiver());
+	}
 }

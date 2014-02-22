@@ -15,7 +15,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.rules.Rule;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMap;
-import decorps.eventprocessor.vendors.dsi.TetraParameter;
+import decorps.eventprocessor.vendors.dsi.MessageType;
 
 public class EventProcessor {
 	public final Link fromTetraToLivid;
@@ -24,6 +24,7 @@ public class EventProcessor {
 	final Set<Action> actions;
 	final LinkFactory linkFactory;
 	public final List<Link> links = new ArrayList<Link>();
+	public final Link fromLividToLivid;
 	private static EventProcessor instance;
 
 	static EventProcessor build() {
@@ -44,8 +45,11 @@ public class EventProcessor {
 		fromTetraToLivid = linkFactory.buildFromTetraToLivid();
 		fromLividToTetra = linkFactory.buildFromLividToTetra();
 		fromTetraToTetra = linkFactory.buildFromTetraToTetra();
+		fromLividToLivid = linkFactory.buildFromLividToLivid();
 		links.add(fromTetraToLivid);
 		links.add(fromLividToTetra);
+		links.add(fromTetraToTetra);
+		links.add(fromLividToLivid);
 	}
 
 	public void close() {
@@ -96,17 +100,16 @@ public class EventProcessor {
 	}
 
 	public void registerDefaultRule(Rule rule) {
-		registerAction(rule, TetraParameter.ANY_MESSAGE, fromTetraToLivid);
+		registerAction(rule, MessageType.ANY_MESSAGE, fromTetraToLivid);
 	}
 
-	public void registerAction(Rule rule, TetraParameter tetraParameter,
-			Link link) {
-		registerAction(rule, tetraParameter, link.transmitter, link.receiver);
+	public void registerAction(Rule rule, MessageType messageType, Link link) {
+		registerAction(rule, messageType, link.transmitter, link.receiver);
 	}
 
-	public void registerAction(Rule rule, TetraParameter tetraParameter,
+	public void registerAction(Rule rule, MessageType messageType,
 			Transmitter from, Receiver to) {
-		actions.add(Action.build(rule, tetraParameter, from, to));
+		actions.add(Action.build(rule, messageType, from, to));
 	}
 
 	public Set<Action> getActions() {
