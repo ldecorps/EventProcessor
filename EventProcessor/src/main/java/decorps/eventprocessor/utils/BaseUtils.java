@@ -48,6 +48,10 @@ public class BaseUtils {
 		return result;
 	}
 
+	static public byte[] hexasToBytes(String hexas) {
+		return hexaToBytes(hexas.split(" "));
+	}
+
 	static public String hexaToBinary(String... hexas) {
 		byte[] bytes = hexaToBytes(hexas);
 		return bytesToBinary(bytes);

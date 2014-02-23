@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class PanSpread extends ProgramParameter implements ZeroTo127Range {
+public class PanSpread extends ProgramParameter implements ZeroTo127Range,
+		Spread {
 
 	public PanSpread(int number, byte b) {
 		super(number, b);

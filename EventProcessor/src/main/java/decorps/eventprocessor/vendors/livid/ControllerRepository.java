@@ -59,4 +59,13 @@ public class ControllerRepository {
 		return cc;
 	}
 
+	public static Controller getControllerForCc(int ccNumber) {
+		for (Encoder encoder : BankLayout.CurrentBank.encoders) {
+			if (encoder.getCCOrNoteNumber() == ccNumber)
+				return encoder;
+		}
+		throw new EventProcessorException(
+				"Could not find encoder for cc number " + ccNumber);
+	}
+
 }

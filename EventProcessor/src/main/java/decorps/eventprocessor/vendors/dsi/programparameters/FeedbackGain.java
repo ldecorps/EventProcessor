@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class FeedbackGain extends ProgramParameter implements ZeroTo127Range {
+public class FeedbackGain extends ProgramParameter implements ZeroTo127Range,
+		Power {
 
 	public FeedbackGain(int number, byte b) {
 		super(number, b);

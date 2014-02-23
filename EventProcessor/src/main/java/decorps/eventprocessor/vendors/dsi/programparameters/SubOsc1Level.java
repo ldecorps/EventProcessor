@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class SubOsc1Level extends ProgramParameter implements ZeroTo127Range {
+public class SubOsc1Level extends ProgramParameter implements ZeroTo127Range,
+		Power {
 
 	public SubOsc1Level(int number, byte b) {
 		super(number, b);

@@ -58,13 +58,18 @@ public class Encoder implements Controller {
 	}
 
 	public int getCCOrNoteNumber() {
-		if (id < 8)
-			return id * 4 + 1;
-		if (id < 16)
-			return id * 4 - 30;
-		if (id < 24)
-			return id * 4 - 61;
-		return id * 4 - 92;
+		final byte encoderId = id;
+		return getNoteOrCcForEncoderId(encoderId);
+	}
+
+	public static int getNoteOrCcForEncoderId(final byte encoderId) {
+		if (encoderId < 8)
+			return encoderId * 4 + 1;
+		if (encoderId < 16)
+			return encoderId * 4 - 30;
+		if (encoderId < 24)
+			return encoderId * 4 - 61;
+		return encoderId * 4 - 92;
 	}
 
 	public int getEncoderStyle() {
@@ -100,5 +105,13 @@ public class Encoder implements Controller {
 	public void decrementUntil(int lowerLimit) {
 		while (programParameter.getValue() != lowerLimit)
 			programParameter.decrementValue();
+	}
+
+	public static int getLedRingIdForEncoder(byte encoderId) {
+		return encoderId + 33;
+	}
+
+	public Encoder asEncoder() {
+		return this;
 	}
 }

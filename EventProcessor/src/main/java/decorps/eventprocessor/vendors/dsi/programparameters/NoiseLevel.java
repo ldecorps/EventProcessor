@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class NoiseLevel extends ProgramParameter implements ZeroTo127Range {
+public class NoiseLevel extends ProgramParameter implements ZeroTo127Range,
+		Power {
 
 	public NoiseLevel(int number, byte b) {
 		super(number, b);

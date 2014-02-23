@@ -2,6 +2,7 @@ package decorps.eventprocessor.vendors.livid;
 
 import javax.sound.midi.ShortMessage;
 
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
@@ -99,5 +100,9 @@ public class Button implements Controller {
 
 		return (ccNumberOrNote - 1 - 4 * multipleOfFour) * 8 + 1
 				* multipleOfFour;
+	}
+
+	public Encoder asEncoder() {
+		throw new EventProcessorException("Button is not an encoder");
 	}
 }

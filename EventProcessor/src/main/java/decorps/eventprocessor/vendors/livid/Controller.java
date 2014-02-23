@@ -25,4 +25,6 @@ public interface Controller extends ValueRange {
 
 	boolean isButton();
 
+	public Encoder asEncoder();
+
 }

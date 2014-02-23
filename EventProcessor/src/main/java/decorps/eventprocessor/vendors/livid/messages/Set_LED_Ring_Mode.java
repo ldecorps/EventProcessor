@@ -6,6 +6,7 @@ import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
+import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class Set_LED_Ring_Mode extends EventProcessorMidiMessageComposite {
 
@@ -15,7 +16,7 @@ public class Set_LED_Ring_Mode extends EventProcessorMidiMessageComposite {
 	public static final int SPREAD = 3;
 
 	public Set_LED_Ring_Mode(int... payload) {
-		if (128 < payload.length)
+		if (32 < payload.length)
 			throw new EventProcessorException("too many arguments");
 		for (int i = 0; i < payload.length; i++) {
 			addCCFor(i, payload);
@@ -23,26 +24,12 @@ public class Set_LED_Ring_Mode extends EventProcessorMidiMessageComposite {
 	}
 
 	private void addCCFor(int i, int... payload) {
-		int bank = getBankFor(i);
-		final int CCNumber = i - (33 * bank) + 33;
-		final int velocity = payload[i] + 64 + (bank * 16);
+		final int ledRingCc = Encoder.getLedRingIdForEncoder((byte) i);
+		final int velocity = payload[i] + 64;
 		EventProcessorMidiMessage message = EventProcessorShortMessage
-				.buildShortMessage(ShortMessage.CONTROL_CHANGE, 15, CCNumber,
+				.buildShortMessage(ShortMessage.CONTROL_CHANGE, 15, ledRingCc,
 						velocity);
 		super.eventProcessorMidiMessages.add(message);
 	}
 
-	private int getBankFor(int i) {
-		// they mess the numbers here
-		final int spread = 2;
-		final int eq = 33;
-
-		if (i > 96)
-			return eq;
-		if (i > 64)
-			return spread;
-		if (i > 32)
-			return FILL;
-		return WALK;
-	}
 }

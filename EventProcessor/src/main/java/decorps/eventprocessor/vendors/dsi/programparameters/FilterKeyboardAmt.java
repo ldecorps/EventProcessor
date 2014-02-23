@@ -1,7 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
 public class FilterKeyboardAmt extends ProgramParameter implements
-		ZeroTo127Range {
+		ZeroTo127Range, Power {
 
 	public FilterKeyboardAmt(int number, byte b) {
 		super(number, b);

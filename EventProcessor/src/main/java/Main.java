@@ -25,14 +25,14 @@ public class Main {
 	}
 
 	private void registerActions(EventProcessor eventProcessor) {
-		eventProcessor.registerAction(
-				new RelativeEncoderChangeEchoesNewLEDRingValue(),
-				MessageType.RELATIVE_ONLY, eventProcessor.fromTetraToLivid);
 		eventProcessor.registerAction(new ProgramEditBufferDumpRequest(),
 				MessageType.ProgramChange, eventProcessor.fromTetraToTetra);
 		eventProcessor.registerAction(
 				new LividEncoderOrButtonValue_NewValue_SendToTetra(),
 				MessageType.ANY_NOTE_OR_CC, eventProcessor.fromLividToTetra);
+		eventProcessor.registerAction(
+				new RelativeEncoderChangeEchoesNewLEDRingValue(),
+				MessageType.RELATIVE_ONLY, eventProcessor.fromTetraToLivid);
 		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
 				MessageType.ProgramEditBufferDataDump,
 				eventProcessor.fromTetraToLivid);

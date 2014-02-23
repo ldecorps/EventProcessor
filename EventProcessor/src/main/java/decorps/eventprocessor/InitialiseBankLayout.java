@@ -31,11 +31,11 @@ public class InitialiseBankLayout {
 		}
 	}
 
-	private void setButtonToggleModeEnable() {
+	void setButtonToggleModeEnable() {
 		System.out.println("enabling toggle mode");
 		int[] allToggles = new int[32];
 		for (int i = 0; i < 32; i++)
-			allToggles[i] = 1;
+			allToggles[i] = (byte) 15;
 		final EventProcessorMidiMessage build_Button_Toggle_Mode_Enable = LividMessageFactory
 				.build_Button_Toggle_Mode_Enable(allToggles);
 		eventProcessor.sendToLivid(build_Button_Toggle_Mode_Enable);
@@ -64,8 +64,9 @@ public class InitialiseBankLayout {
 
 	private void setLedRingStyles() {
 		System.out.println("set led ring style");
+		final int[] encoderStyles = CurrentBank.getEncoderStylesOrderedByCc();
 		eventProcessor.sendToLivid(LividMessageFactory
-				.buildLED_Ring_Style(CurrentBank.getEncoderSyles()));
+				.buildLED_Ring_Style(encoderStyles));
 	}
 
 	private void applyMapping() {

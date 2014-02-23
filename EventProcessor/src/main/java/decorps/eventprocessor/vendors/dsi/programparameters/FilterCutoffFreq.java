@@ -1,7 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
 public class FilterCutoffFreq extends ProgramParameter implements
-		ZeroTo164Range {
+		ZeroTo164Range, Power {
 
 	public FilterCutoffFreq(int number, byte b) {
 		super(number, b);

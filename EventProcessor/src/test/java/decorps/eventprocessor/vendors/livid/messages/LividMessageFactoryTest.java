@@ -1,13 +1,14 @@
 package decorps.eventprocessor.vendors.livid.messages;
 
-import static decorps.eventprocessor.utils.BaseUtils.bytesToHexa;
+import static decorps.eventprocessor.utils.BaseUtils.*;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.*;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.SysexMessage;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
@@ -16,6 +17,7 @@ import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.ControllerRepository;
 import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class LividMessageFactoryTest {
@@ -62,8 +64,6 @@ public class LividMessageFactoryTest {
 	}
 
 	@Test
-	@Ignore
-	// FIXME fails in mvn clean test
 	public void shouldBuildMessageForSettingEncoderTypeAbsoluteOrRelative()
 			throws Exception {
 		final Encoder relativeParam = new Encoder();
@@ -72,16 +72,29 @@ public class LividMessageFactoryTest {
 		final Encoder absoluteParam = new Encoder();
 		absoluteParam.setProgramParameter(ProgramParameterTest
 				.newSampleAbsoluteParameter());
-		BankLayout.CurrentBank.encoders[0] = relativeParam;
+		int i = 1;
+		BankLayout.CurrentBank.encoders[ControllerRepository
+				.getControllerForCc(i++).getId()] = relativeParam;
+		BankLayout.CurrentBank.encoders[ControllerRepository
+				.getControllerForCc(i++).getId()] = absoluteParam;
+		BankLayout.CurrentBank.encoders[ControllerRepository
+				.getControllerForCc(i++).getId()] = relativeParam;
+		BankLayout.CurrentBank.encoders[ControllerRepository
+				.getControllerForCc(i++).getId()] = relativeParam;
+		BankLayout.CurrentBank.encoders[ControllerRepository
+				.getControllerForCc(i++).getId()] = relativeParam;
+		BankLayout.CurrentBank.encoders[ControllerRepository
+				.getControllerForCc(i++).getId()] = relativeParam;
 		BankLayout.CurrentBank.encoders[1] = relativeParam;
-		BankLayout.CurrentBank.encoders[2] = absoluteParam;
 
 		int[] encoderModes = BankLayout.CurrentBank.getEncoderModes();
 		EventProcessorMidiMessage message = LividMessageFactory
 				.buildMap_Encosion_Mode(encoderModes);
 
-		assertEquals("F0 00 01 61 04 10 03 00 00 00 00 00 00 00 F7",
-				bytesToHexa(message.getMessage()));
+		assertThat(
+				bytesToHexa(message.getMessage()),
+				startsWith("F0 00 01 61 04 11 "
+						+ binaryToHexa(StringUtils.reverse("101111"))));
 
 	}
 }

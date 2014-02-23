@@ -1,10 +1,13 @@
 package decorps.eventprocessor.vendors.livid.messages;
 
+import static decorps.eventprocessor.utils.BaseUtils.hexasToBytes;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 
 public class LividMessageFactory {
+
+	public static final byte[] ACK_Positive_Acknowledge = hexasToBytes("F0 00 01 61 04 7F F7");
 
 	public static EventProcessorMidiMessage buildRequest_all_LED_indicators() {
 		return new Request_all_LED_indicators();
@@ -25,8 +28,9 @@ public class LividMessageFactory {
 		return new Set_Encoder_Values(payload, 0x26, 32);
 	}
 
-	public static EventProcessorMidiMessage buildLED_Ring_Style(int... payload) {
-		return new Set_LED_Ring_Style(payload, 0x09, 0x32, 32);
+	public static EventProcessorMidiMessage buildLED_Ring_Style(
+			int... payloadAsCcNumbers) {
+		return new Set_LED_Ring_Style(payloadAsCcNumbers, 0x09, 0x32, 32);
 	}
 
 	public static EventProcessorMidiMessage buildSet_LED_Ring_Mode(

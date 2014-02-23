@@ -13,6 +13,7 @@ import decorps.eventprocessor.vendors.livid.BankLayout;
 public class InitialiseBankLayoutTest {
 	EventProcessor eventProcessor = EventProcessorTest
 			.getInstanceWithoutActions();
+	InitialiseBankLayout cut = new InitialiseBankLayout(eventProcessor);
 
 	@Test
 	public void initialiseSetsTheCurrentProgramFromTetra() throws Exception {
@@ -24,5 +25,15 @@ public class InitialiseBankLayoutTest {
 		assertNotNull(BankLayout.programParameterData);
 		assertSame(ProgramParameterDataTest.sampleProgramParameterData,
 				BankLayout.programParameterData);
+	}
+
+	@Test
+	public void allButtonToggles() throws Exception {
+		cut.setButtonToggleModeEnable();
+	}
+
+	@Test
+	public void initialise() throws Exception {
+		cut.initialise();
 	}
 }
