@@ -1,5 +1,6 @@
 package decorps.eventprocessor;
 
+import static decorps.eventprocessor.utils.BaseUtils.decodeMessage;
 import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
@@ -38,6 +39,7 @@ public class InitialiseBankLayout {
 			allToggles[i] = (byte) 15;
 		final EventProcessorMidiMessage build_Button_Toggle_Mode_Enable = LividMessageFactory
 				.build_Button_Toggle_Mode_Enable(allToggles);
+		System.out.println(decodeMessage(build_Button_Toggle_Mode_Enable));
 		eventProcessor.sendToLivid(build_Button_Toggle_Mode_Enable);
 
 	}

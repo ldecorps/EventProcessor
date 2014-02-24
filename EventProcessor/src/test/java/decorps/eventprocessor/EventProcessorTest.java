@@ -171,7 +171,7 @@ public class EventProcessorTest {
 	private void registerRuleThatUpdatesValue() {
 		cut.registerAction(
 				new LividEncoderOrButtonValue_NewValue_SendToTetra(),
-				MessageType.ANY_NOTE_OR_CC, cut.fromLividToTetra);
+				MessageType.ANY_NOTE_OR_CC, cut.fromLividToLivid);
 	}
 
 	private EventProcessorMidiMessage buildLividEncoderForFineFreqTurnedClockwise() {

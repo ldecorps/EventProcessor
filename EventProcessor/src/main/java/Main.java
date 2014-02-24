@@ -36,6 +36,9 @@ public class Main {
 		eventProcessor.registerAction(new SetEncodersAndLedIndicatorsRule(),
 				MessageType.ProgramEditBufferDataDump,
 				eventProcessor.fromTetraToLivid);
+		eventProcessor.registerAction(
+				new RelativeEncoderChangeEchoesNewLEDRingValue(),
+				MessageType.RELATIVE_ONLY, eventProcessor.fromLividToLivid);
 
 	}
 

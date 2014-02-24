@@ -60,8 +60,7 @@ public class LividMessageFactory {
 
 	public static EventProcessorMidiMessage build_Button_Toggle_Mode_Enable(
 			int... payload) {
-		return new Button_Toggle_Mode_Enable(payload, (byte) 0x09, (byte) 0x36,
-				32);
+		return new Button_Toggle_Mode_Enable(payload, (byte) 0x36, 32);
 	}
 
 }

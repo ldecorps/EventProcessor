@@ -123,6 +123,8 @@ public class RulesAwareReceiverWrapper implements Receiver {
 
 	public void doAction(long timeStamp,
 			EventProcessorMidiMessage eventProcessorMidiMessage, Action action) {
+		if (!action.out.equals(this))
+			return;
 		if (!action.shouldTriggerOn(eventProcessorMidiMessage))
 			return;
 		System.out.println(action + " will react upon receiving "

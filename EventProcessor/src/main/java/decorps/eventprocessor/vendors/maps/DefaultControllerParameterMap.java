@@ -78,7 +78,8 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 			EventProcessorMidiMessage eventProcessorMidiMessage) {
 		int newCcValue = eventProcessorMidiMessage.getAsShortMessage()
 				.getData2();
-		programParameter.setValue(getController(), (byte) newCcValue);
+		final Controller controller = getController();
+		programParameter.setValue(controller, (byte) newCcValue);
 		return EventProcessorNRPNMessage
 				.buildEventProcessorNRPNMessage(programParameter);
 	}
