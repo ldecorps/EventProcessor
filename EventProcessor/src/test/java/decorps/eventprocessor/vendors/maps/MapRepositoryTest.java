@@ -50,6 +50,7 @@ public class MapRepositoryTest {
 	@Test
 	public void currentBankIsInitialiseWithRemainingProgramParametersInOrder()
 			throws Exception {
+		BankLayout.CurrentBank.initialiseControllers();
 		MapRepository.maps.clear();
 		ProgramParameter programParameter = MapRepository
 				.nextParameterNotMapped();

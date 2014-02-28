@@ -30,7 +30,7 @@ public class LividMessageFactory {
 
 	public static EventProcessorMidiMessage buildLED_Ring_Style(
 			int... payloadAsCcNumbers) {
-		return new Set_LED_Ring_Style(payloadAsCcNumbers, 0x09, 0x32, 32);
+		return new Set_LED_Ring_Style(payloadAsCcNumbers, 0x32, 32);
 	}
 
 	public static EventProcessorMidiMessage buildSet_LED_Ring_Mode(

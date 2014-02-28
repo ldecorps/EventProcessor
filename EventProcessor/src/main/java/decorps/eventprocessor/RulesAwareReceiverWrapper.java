@@ -9,8 +9,6 @@ import java.util.Set;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
@@ -69,7 +67,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 			assignLastReceivedMessage(message);
 			return false;
 		}
-		if (!ArrayUtils.isEquals(lastReceivedMessage.getMessage(),
+		if (!BaseUtils.ArrayEquals(lastReceivedMessage.getMessage(),
 				message.getMessage())) {
 			assignLastReceivedMessage(message);
 			return false;
@@ -113,7 +111,7 @@ public class RulesAwareReceiverWrapper implements Receiver {
 				&& eventProcessorMidiMessage.getAsShortMessage().getCommand() == 0xF0;
 		if (isSystemMessage)
 			return true;
-		final boolean isLividAck = ArrayUtils.isEquals(
+		final boolean isLividAck = BaseUtils.ArrayEquals(
 				eventProcessorMidiMessage.getMessage(),
 				LividMessageFactory.ACK_Positive_Acknowledge);
 		if (isLividAck)

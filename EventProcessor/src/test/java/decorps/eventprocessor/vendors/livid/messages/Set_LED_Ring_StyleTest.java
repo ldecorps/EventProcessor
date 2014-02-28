@@ -12,6 +12,7 @@ import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class Set_LED_Ring_StyleTest {
+
 	@Before
 	public void initialise() {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;

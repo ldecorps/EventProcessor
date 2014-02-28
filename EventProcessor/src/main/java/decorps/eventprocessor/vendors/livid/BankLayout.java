@@ -130,8 +130,11 @@ public class BankLayout {
 	public int[] getEncoderStylesOrderedByCc() {
 		int[] result = new int[32];
 		for (int i = 0; i < 32; i = i + 1) {
-			result[i] = ControllerRepository.getControllerForCc(i + 1)
-					.asEncoder().getEncoderStyle();
+			final Controller controllerForCc = ControllerRepository
+					.getControllerForCc(i + 1);
+			final Encoder asEncoder = controllerForCc.asEncoder();
+			final int encoderStyle = asEncoder.getEncoderStyle();
+			result[i] = encoderStyle;
 		}
 		return result;
 	}

@@ -16,29 +16,6 @@ public abstract class AbstractLividCode2SysexMessage extends
 				maximumLength));
 	}
 
-	public AbstractLividCode2SysexMessage(int[] data, int specificByte1,
-			int specificByte2, int maximumLength) {
-		super(buildWithSpecificByteAndPayloadSize(data, specificByte1,
-				specificByte2, maximumLength));
-	}
-
-	private static byte[] buildWithSpecificByteAndPayloadSize(int[] bytes,
-			int specificByte1, int specificByte2, int maximumLength) {
-		checkSizeIsNotMoreThan(maximumLength, bytes);
-		byte[] result = buildSpecificLividCode2Sysex(maximumLength,
-				specificByte1, specificByte2);
-		result = addSpecificLividCode2Payload(result, bytes);
-		return result;
-	}
-
-	private static byte[] buildSpecificLividCode2Sysex(int maximumLength,
-			int specificByte1, int specificByte2) {
-		byte[] result = buildEmptyLivideCode2Sysex(maximumLength);
-		result[signatureLength] = (byte) specificByte1;
-		result[signatureLength + 1] = (byte) specificByte2;
-		return result;
-	}
-
 	static byte[] buildWithSpecificByteAndPayloadSize(int[] bytes,
 			int specifyingBit, int maximumLength) {
 		checkSizeIsNotMoreThan(maximumLength, bytes);

@@ -1,5 +1,6 @@
 package decorps.eventprocessor.vendors.livid;
 
+import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
@@ -65,7 +66,7 @@ public class ControllerRepository {
 				return encoder;
 		}
 		throw new EventProcessorException(
-				"Could not find encoder for cc number " + ccNumber);
+				"Could not find encoder for cc number " + ccNumber
+						+ " on bank " + CurrentBank.bankNumber);
 	}
-
 }

@@ -141,7 +141,10 @@ public class MapRepository {
 
 	private static void assignProgramParameterToController(
 			ProgramParameter programParameter, Controller controller) {
-		BankLayout.getCurrentBank().encoders[controller.getId()]
+		final byte controllerId = controller.getId();
+		if (controllerId > 31)
+			return;
+		BankLayout.getCurrentBank().encoders[controllerId]
 				.setProgramParameter(programParameter);
 	}
 
