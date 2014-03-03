@@ -1,11 +1,14 @@
 package decorps.eventprocessor.vendors.maps;
 
 import static decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest.getRandomByteOtherThan;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+
+import java.util.List;
 
 import javax.sound.midi.ShortMessage;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,14 +20,16 @@ import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.livid.Button;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.ControllerRepository;
 
 public class Oscillator1ShapeMapTest {
 	Oscillator1ShapeMap cut;
 
 	@Before
+	@After
 	public void createMap() {
-		BankLayout.createFourBanks();
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
+		BankLayout.createFourBanks();
 		MapRepository.initialise();
 		cut = new Oscillator1ShapeMap();
 	}
@@ -85,6 +90,18 @@ public class Oscillator1ShapeMapTest {
 
 		assertEquals(4,
 				nrpn.getAsEventProcessorNRPNMessage().NRPNControllerValue);
+	}
 
+	@Test
+	public void newMap_hasRegisterParameterWithButton() throws Exception {
+		final List<Controller> controllers = cut.getControllers();
+		Button button = controllers.get(0).asButton();
+		assertThat(ControllerRepository.getButtonById(button.getId()),
+				sameInstance(button));
+
+		assertThat(
+				button.getProgramParameter(),
+				allOf(sameInstance(cut.programParameter),
+						not(sameInstance(ProgramParameter.nullParameter))));
 	}
 }

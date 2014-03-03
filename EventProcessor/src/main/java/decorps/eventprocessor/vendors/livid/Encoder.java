@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
+import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.dsi.programparameters.Centered;
 import decorps.eventprocessor.vendors.dsi.programparameters.Power;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
@@ -113,5 +114,9 @@ public class Encoder implements Controller {
 
 	public Encoder asEncoder() {
 		return this;
+	}
+
+	public Button asButton() {
+		throw new EventProcessorException("Encoder is not an encoder");
 	}
 }

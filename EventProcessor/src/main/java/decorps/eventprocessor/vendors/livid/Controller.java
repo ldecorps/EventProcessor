@@ -27,4 +27,6 @@ public interface Controller extends ValueRange {
 
 	public Encoder asEncoder();
 
+	public Button asButton();
+
 }

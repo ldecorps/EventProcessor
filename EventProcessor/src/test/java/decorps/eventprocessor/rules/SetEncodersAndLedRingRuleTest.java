@@ -9,7 +9,7 @@ import org.junit.Test;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorMidiMessageComposite;
 import decorps.eventprocessor.vendors.dsi.DsiTetraMapTest;
-import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
@@ -21,9 +21,7 @@ public class SetEncodersAndLedRingRuleTest {
 	@Test
 	public void itSpitsOut_OneSetAllIndicator_and_OneSetAllEncoderValues_sysex()
 			throws Exception {
-		BankLayout.programParameterData = ProgramParameterData
-				.build(DsiTetraMapTest.sampleEditbufferProgramDataDump
-						.getMessage());
+		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 		MapRepository.initialise();
 		EventProcessorMidiMessage result = cut
 				.transform(eventProcessorMidiMessage);

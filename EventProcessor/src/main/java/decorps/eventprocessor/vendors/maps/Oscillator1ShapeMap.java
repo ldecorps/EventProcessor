@@ -2,6 +2,7 @@ package decorps.eventprocessor.vendors.maps;
 
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.Layer;
+import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
 import decorps.eventprocessor.vendors.dsi.messages.EventProcessorNRPNMessage;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.BankLayout;
@@ -47,9 +48,11 @@ public class Oscillator1ShapeMap extends DefaultControllerParameterMap {
 	}
 
 	private static ProgramParameter registerParameter() {
-		final Layer currentLayer = BankLayout.getCurrentProgramParameterData()
-				.currentLayer();
-		return currentLayer.oscillator1Shape;
+		final ProgramParameterData currentProgramParameterData = BankLayout
+				.getCurrentProgramParameterData();
+		final Layer currentLayer = currentProgramParameterData.currentLayer();
+		final ProgramParameter oscillator1Shape = currentLayer.oscillator1Shape;
+		return oscillator1Shape;
 	}
 
 	@Override

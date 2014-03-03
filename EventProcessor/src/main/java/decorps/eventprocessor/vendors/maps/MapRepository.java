@@ -72,6 +72,7 @@ public class MapRepository {
 	}
 
 	public static void initialise() {
+		maps.clear();
 		registerSpecificMaps();
 		completeInitialisationWithDefaultMaps();
 	}
@@ -141,11 +142,7 @@ public class MapRepository {
 
 	private static void assignProgramParameterToController(
 			ProgramParameter programParameter, Controller controller) {
-		final byte controllerId = controller.getId();
-		if (controllerId > 31)
-			return;
-		BankLayout.getCurrentBank().encoders[controllerId]
-				.setProgramParameter(programParameter);
+		controller.setProgramParameter(programParameter);
 	}
 
 	public static boolean contains(EventProcessorMap map) {

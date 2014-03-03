@@ -9,14 +9,18 @@ import org.junit.Test;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
-import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class Set_LED_Ring_StyleTest {
 
 	@Before
 	public void initialise() {
+		System.out.println("starting Set_LED_Ring_StyleTest before");
+		// BankLayout.programParameterData =
+		// ProgramParameterDataTest.sampleProgramParameterData;
+		// BankLayout.createFourBanks();
+		// MapRepository.initialise();
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		MapRepository.initialise();
+		System.out.println("done with Set_LED_Ring_StyleTest before");
 	}
 
 	@Test
@@ -28,8 +32,10 @@ public class Set_LED_Ring_StyleTest {
 		int encoder24Style = CurrentBank.encoders[24].getEncoderStyle();
 		int encoder01Style = CurrentBank.encoders[1].getEncoderStyle();
 
+		final int[] encoderStylesOrderedByCc = CurrentBank
+				.getEncoderStylesOrderedByCc();
 		EventProcessorMidiMessage initialiseLEDRingStyle = LividMessageFactory
-				.buildLED_Ring_Style(CurrentBank.getEncoderStylesOrderedByCc());
+				.buildLED_Ring_Style(encoderStylesOrderedByCc);
 
 		assertRingStyle(encoder00Style, initialiseLEDRingStyle, 6);
 		assertRingStyle(encoder08Style, initialiseLEDRingStyle, 7);

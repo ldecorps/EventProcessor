@@ -1,6 +1,10 @@
 package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.messages.EventProcessorShortMessage;
@@ -61,12 +65,47 @@ public class ControllerRepository {
 	}
 
 	public static Controller getControllerForCc(int ccNumber) {
+		List<Integer> listOfCcs = new ArrayList<Integer>();
 		for (Encoder encoder : BankLayout.CurrentBank.encoders) {
-			if (encoder.getCCOrNoteNumber() == ccNumber)
+			final int ccOrNoteNumber = encoder.getCCOrNoteNumber();
+			listOfCcs.add(ccOrNoteNumber);
+			if (ccOrNoteNumber == ccNumber)
+				return encoder;
+		}
+		for (Button button : BankLayout.CurrentBank.buttons) {
+			final int ccOrNoteNumber = button.getCCOrNoteNumber();
+			listOfCcs.add(ccOrNoteNumber);
+			if (ccOrNoteNumber == ccNumber)
+				return button;
+		}
+		throw new EventProcessorException(
+				"Could not find encoder for cc number " + ccNumber
+						+ " on bank " + CurrentBank.bankNumber + ". List of "
+						+ listOfCcs.size() + " available Ccs: " + listOfCcs);
+	}
+
+	public static Encoder getEncoderForCc(int ccNumber) {
+		List<Integer> listOfCcs = new ArrayList<Integer>();
+		for (Encoder encoder : BankLayout.CurrentBank.encoders) {
+			final int ccOrNoteNumber = encoder.getCCOrNoteNumber();
+			listOfCcs.add(ccOrNoteNumber);
+			if (ccOrNoteNumber == ccNumber)
 				return encoder;
 		}
 		throw new EventProcessorException(
 				"Could not find encoder for cc number " + ccNumber
-						+ " on bank " + CurrentBank.bankNumber);
+						+ " on bank " + CurrentBank.bankNumber + ". List of "
+						+ listOfCcs.size() + " available Ccs: " + listOfCcs
+						+ ". List of encoder ids: "
+						+ BankLayout.getListOfEncodersIdsForBank(0));
+	}
+
+	public static Button getButtonById(byte buttonId) {
+		for (Button button : BankLayout.CurrentBank.buttons) {
+			if (buttonId == button.id)
+				return button;
+		}
+		throw new EventProcessorException("Could not find button id "
+				+ buttonId);
 	}
 }

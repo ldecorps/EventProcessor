@@ -105,4 +105,8 @@ public class Button implements Controller {
 	public Encoder asEncoder() {
 		throw new EventProcessorException("Button is not an encoder");
 	}
+
+	public Button asButton() {
+		return this;
+	}
 }

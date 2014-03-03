@@ -8,6 +8,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.SysexMessage;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,8 +24,10 @@ import decorps.eventprocessor.vendors.livid.Encoder;
 public class LividMessageFactoryTest {
 
 	@Before
+	@After
 	public void initialise() {
 		EventProcessorTest.getInstanceWithoutActions().initialise();
+		BankLayout.createFourBanks();
 	}
 
 	@Test

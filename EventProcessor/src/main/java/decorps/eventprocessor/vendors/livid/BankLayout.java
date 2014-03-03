@@ -1,6 +1,10 @@
 package decorps.eventprocessor.vendors.livid;
 
 import static decorps.eventprocessor.utils.BaseUtils.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.ParameterFactory;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterData;
@@ -11,7 +15,7 @@ public class BankLayout {
 	public final Encoder[] encoders = new Encoder[32];
 	public static final BankLayout[] AllBanks = createFourBanks();
 	public static BankLayout CurrentBank = AllBanks[0];
-	public static BankLayout Bank1 = AllBanks[0];
+	public static final BankLayout Bank1 = AllBanks[0];
 	public static BankLayout Bank2 = AllBanks[1];
 	public static BankLayout Bank3 = AllBanks[2];
 	public static BankLayout Bank4 = AllBanks[3];
@@ -21,6 +25,7 @@ public class BankLayout {
 	public final int bankNumber;
 
 	public static BankLayout[] createFourBanks() {
+		System.out.println("creating banks...");
 		BankLayout[] allBanks = new BankLayout[4];
 		for (int i = 0; i < allBanks.length; i++)
 			allBanks[i] = new BankLayout(i);
@@ -33,8 +38,10 @@ public class BankLayout {
 	}
 
 	public void initialiseControllers() {
+		System.out.println("initialising encoders for bank " + bankNumber);
 		nextEncoderId = 0;
 		nextButtonId = 0;
+
 		for (int i = 0; i < buttons.length; i++)
 			buttons[i] = new Button();
 		for (int i = 0; i < encoders.length; i++)
@@ -94,7 +101,8 @@ public class BankLayout {
 	}
 
 	public void switchButtonOn(int i) {
-		buttons[i - 1].switchOn();
+		final Button button = buttons[i - 1];
+		button.switchOn();
 	}
 
 	public boolean isButtonSwitchedOff(int i) {
@@ -130,10 +138,9 @@ public class BankLayout {
 	public int[] getEncoderStylesOrderedByCc() {
 		int[] result = new int[32];
 		for (int i = 0; i < 32; i = i + 1) {
-			final Controller controllerForCc = ControllerRepository
-					.getControllerForCc(i + 1);
-			final Encoder asEncoder = controllerForCc.asEncoder();
-			final int encoderStyle = asEncoder.getEncoderStyle();
+			final Encoder encoderForCc = ControllerRepository
+					.getEncoderForCc(i + 1);
+			final int encoderStyle = encoderForCc.getEncoderStyle();
 			result[i] = encoderStyle;
 		}
 		return result;
@@ -184,6 +191,14 @@ public class BankLayout {
 			Class<? extends ProgramParameter> programParameterClass) {
 		return ParameterFactory
 				.getCurrentProgramParameterForClass(programParameterClass);
+	}
+
+	public static List<Integer> getListOfEncodersIdsForBank(int bankNumber) {
+		Encoder[] encoders = AllBanks[bankNumber].encoders;
+		List<Integer> encoderIds = new ArrayList<Integer>();
+		for (Encoder encoder : encoders)
+			encoderIds.add(new Integer(encoder.getId()));
+		return encoderIds;
 	}
 
 }

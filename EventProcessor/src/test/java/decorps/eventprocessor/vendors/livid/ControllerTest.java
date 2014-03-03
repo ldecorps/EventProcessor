@@ -53,6 +53,10 @@ public class ControllerTest {
 		public Encoder asEncoder() {
 			throw new EventProcessorException("Not Implemented Yet");
 		}
+
+		public Button asButton() {
+			throw new EventProcessorException("Not Implemented Yet");
+		}
 	};
 	static int testEncoderNextId = 0;
 

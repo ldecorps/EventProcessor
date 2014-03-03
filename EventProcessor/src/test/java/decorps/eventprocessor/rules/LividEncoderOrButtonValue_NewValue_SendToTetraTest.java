@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import javax.sound.midi.ShortMessage;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,6 +26,7 @@ public class LividEncoderOrButtonValue_NewValue_SendToTetraTest {
 	Rule cut = new LividEncoderOrButtonValue_NewValue_SendToTetra();
 
 	@Before
+	@After
 	public void initialise() {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
 		MapRepository.initialise();

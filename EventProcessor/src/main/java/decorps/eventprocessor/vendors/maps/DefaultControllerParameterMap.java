@@ -64,14 +64,12 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 
 	public DefaultControllerParameterMap(ProgramParameter programParameter,
 			Controller... controllers) {
-		synchronized (DefaultControllerParameterMap.class) {
-			for (Controller controller : controllers) {
-				controller.setProgramParameter(programParameter);
-				this.controllers.add(controller);
-			}
-			this.programParameter = programParameter;
-			MapRepository.register(this);
+		for (Controller controller : controllers) {
+			controller.setProgramParameter(programParameter);
+			this.controllers.add(controller);
 		}
+		this.programParameter = programParameter;
+		MapRepository.register(this);
 	}
 
 	public EventProcessorMidiMessage mapLividCcToTetraNrpn(
