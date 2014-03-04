@@ -10,10 +10,10 @@ import javax.sound.midi.SysexMessage;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import decorps.eventprocessor.EventProcessor;
-import decorps.eventprocessor.EventProcessorTest;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.utils.BaseUtils;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameterTest;
@@ -26,7 +26,7 @@ public class LividMessageFactoryTest {
 	@Before
 	@After
 	public void initialise() {
-		EventProcessorTest.getInstanceWithoutActions().initialise();
+		// EventProcessorTest.getInstanceWithoutActions().initialise();
 		BankLayout.createFourBanks();
 	}
 
@@ -43,6 +43,7 @@ public class LividMessageFactoryTest {
 	}
 
 	@Test
+	@Ignore
 	public void canLitAllLeds() throws Exception {
 		EventProcessor envProc = EventProcessor.getInstance();
 		for (int i = 0; i <= 0x7f; i++) {

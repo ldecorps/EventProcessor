@@ -36,9 +36,6 @@ public class Main {
 		eventProcessor.registerAction(
 				new RelativeEncoderChangeEchoesNewLEDRingValue(),
 				MessageType.RELATIVE_ONLY, eventProcessor.fromLividToLivid);
-		eventProcessor.registerAction(
-				new RelativeEncoderChangeEchoesNewLEDRingValue(),
-				MessageType.RELATIVE_ONLY, eventProcessor.fromLividToLivid);
 	}
 
 }

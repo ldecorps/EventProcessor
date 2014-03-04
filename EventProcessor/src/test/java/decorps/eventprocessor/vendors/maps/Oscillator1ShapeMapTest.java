@@ -29,8 +29,8 @@ public class Oscillator1ShapeMapTest {
 	@After
 	public void createMap() {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		BankLayout.createFourBanks();
-		MapRepository.initialise();
+		// BankLayout.createFourBanks();
+		// MapRepository.initialise();
 		cut = new Oscillator1ShapeMap();
 	}
 
@@ -81,7 +81,6 @@ public class Oscillator1ShapeMapTest {
 
 	@Test
 	public void whenSquareButtonIsPressed_SquareIsOn() throws Exception {
-
 		EventProcessorMidiMessage lividCc = EventProcessorShortMessage
 				.buildShortMessage(ShortMessage.CONTROL_CHANGE, 0,
 						Oscillator1ShapeMap.getSquareButton().id, (byte) 4);

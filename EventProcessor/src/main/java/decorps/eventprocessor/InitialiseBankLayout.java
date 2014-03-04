@@ -34,11 +34,14 @@ public class InitialiseBankLayout {
 
 	void setButtonToggleModeEnable() {
 		System.out.println("enabling toggle mode");
-		int[] allToggles = new int[32];
-		for (int i = 0; i < 32; i++)
-			allToggles[i] = (byte) 15;
+		int[] toggle = new int[12];
+		for (int i = 0; i < 8; i++)
+			toggle[i] = (byte) 15;
+		for (int i = 8; i < 12; i++)
+			toggle[i] = (byte) 0;
+
 		final EventProcessorMidiMessage build_Button_Toggle_Mode_Enable = LividMessageFactory
-				.build_Button_Toggle_Mode_Enable(allToggles);
+				.build_Button_Toggle_Mode_Enable(toggle);
 		System.out.println(decodeMessage(build_Button_Toggle_Mode_Enable));
 		eventProcessor.sendToLivid(build_Button_Toggle_Mode_Enable);
 
