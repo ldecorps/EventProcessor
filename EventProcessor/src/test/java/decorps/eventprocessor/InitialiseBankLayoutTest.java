@@ -36,4 +36,5 @@ public class InitialiseBankLayoutTest {
 	public void initialise() throws Exception {
 		cut.initialise();
 	}
+
 }

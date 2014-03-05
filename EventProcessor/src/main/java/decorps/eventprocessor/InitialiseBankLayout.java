@@ -3,9 +3,12 @@ package decorps.eventprocessor;
 import static decorps.eventprocessor.utils.BaseUtils.decodeMessage;
 import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
+import decorps.eventprocessor.messages.EventProcessorShortMessage;
 import decorps.eventprocessor.vendors.dsi.messages.DsiMessageFactory;
 import decorps.eventprocessor.vendors.dsi.programparameters.ProgramParameter;
 import decorps.eventprocessor.vendors.livid.BankLayout;
+import decorps.eventprocessor.vendors.livid.ControllerRepository;
+import decorps.eventprocessor.vendors.livid.Encoder;
 import decorps.eventprocessor.vendors.livid.messages.LividMessageFactory;
 import decorps.eventprocessor.vendors.maps.MapRepository;
 
@@ -29,6 +32,17 @@ public class InitialiseBankLayout {
 			setLedRingStyles();
 			setEncoderSpeed();
 			setButtonToggleModeEnable();
+			setCcsForAbsoluteEncoders();
+		}
+	}
+
+	private void setCcsForAbsoluteEncoders() {
+		for (Encoder encoder : ControllerRepository.getControllers()) {
+			if (!encoder.isAbsolute()) {
+				final EventProcessorMidiMessage ccForRelativeEncoder = EventProcessorShortMessage
+						.buildForRelativeEncoder(encoder);
+				eventProcessor.sendToLivid(ccForRelativeEncoder);
+			}
 		}
 	}
 

@@ -9,15 +9,13 @@ import org.junit.Test;
 import decorps.eventprocessor.messages.EventProcessorMidiMessage;
 import decorps.eventprocessor.vendors.dsi.ProgramParameterDataTest;
 import decorps.eventprocessor.vendors.livid.BankLayout;
-import decorps.eventprocessor.vendors.maps.MapRepository;
 
 public class Set_LED_Ring_StyleTest {
 
 	@Before
 	public void initialise() {
 		BankLayout.programParameterData = ProgramParameterDataTest.sampleProgramParameterData;
-		BankLayout.createFourBanks();
-		MapRepository.initialise();
+		BankLayout.CurrentBank.initialiseControllers();
 	}
 
 	@Test

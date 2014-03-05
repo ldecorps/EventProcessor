@@ -11,14 +11,14 @@ import decorps.eventprocessor.vendors.livid.Controller;
 import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class DefaultControllerParameterMap implements EventProcessorMap {
+	final List<Controller> controllers = new ArrayList<Controller>();
+	final ProgramParameter programParameter;
+
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + " [controllers=" + controllers
 				+ ", programParameter=" + programParameter + "]";
 	}
-
-	final List<Controller> controllers = new ArrayList<Controller>();
-	final ProgramParameter programParameter;
 
 	public List<Controller> getControllers() {
 		return controllers;

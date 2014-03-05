@@ -3,6 +3,7 @@ package decorps.eventprocessor.vendors.livid;
 import static decorps.eventprocessor.vendors.livid.BankLayout.CurrentBank;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
@@ -107,5 +108,9 @@ public class ControllerRepository {
 		}
 		throw new EventProcessorException("Could not find button id "
 				+ buttonId);
+	}
+
+	public static List<Encoder> getControllers() {
+		return Arrays.asList(CurrentBank.encoders);
 	}
 }

@@ -13,13 +13,18 @@ public class ParameterFactory {
 	private final int offset;
 	int parameterIndex = 0;
 	static List<ProgramParameter> layerAParameters = new ArrayList<ProgramParameter>();
+	static List<ProgramParameter> layerBParameters = new ArrayList<ProgramParameter>();
 
 	public ProgramParameter buildNextParameter() throws InstantiationException,
 			IllegalAccessException, InvocationTargetException,
 			NoSuchMethodException {
 		final ProgramParameter programParameter = instanciateParameter(
 				parametersClasses, data, offset, parameterIndex++);
-		layerAParameters.add(programParameter);
+		if (0 == offset)
+			layerAParameters.add(programParameter);
+		else
+			layerBParameters.add(programParameter);
+
 		return programParameter;
 	}
 
@@ -43,15 +48,16 @@ public class ParameterFactory {
 					+ parameterIndex
 					+ " "
 					+ data[offset + parameterIndex]);
-			return parametersClasses[parameterIndex].getConstructor(int.class,
-					byte.class).newInstance(parameterIndex,
-					data[offset + parameterIndex]);
+			final ProgramParameter newInstance = parametersClasses[parameterIndex]
+					.getConstructor(int.class, byte.class).newInstance(
+							parameterIndex, data[offset + parameterIndex]);
+			return newInstance;
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new EventProcessorException("missing parameter class", e);
 		}
 	}
 
-	public static ProgramParameter getCurrentProgramParameterForClass(
+	public static ProgramParameter getCurrentProgramParameterLayerAForClass(
 			Class<? extends ProgramParameter> programParameterClass) {
 		for (ProgramParameter programParameter : layerAParameters) {
 			if (programParameterClass.isAssignableFrom(programParameter

@@ -8,6 +8,7 @@ import javax.sound.midi.ShortMessage;
 
 import decorps.eventprocessor.exceptions.EventProcessorException;
 import decorps.eventprocessor.vendors.livid.Controller;
+import decorps.eventprocessor.vendors.livid.Encoder;
 
 public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static ShortMessage NullShortMessage = new ShortMessage();
@@ -179,6 +180,14 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 			int ccNumberOfaRelativeEncoder) {
 		EventProcessorMidiMessage result = buildShortMessage(
 				ShortMessage.CONTROL_CHANGE, 0, ccNumberOfaRelativeEncoder, 127);
+		return result;
+	}
+
+	public static EventProcessorMidiMessage buildForRelativeEncoder(
+			Encoder encoder) {
+		EventProcessorMidiMessage result = buildShortMessage(
+				ShortMessage.CONTROL_CHANGE, 0, encoder.getCCOrNoteNumber(),
+				encoder.getRebasedValue());
 		return result;
 	}
 

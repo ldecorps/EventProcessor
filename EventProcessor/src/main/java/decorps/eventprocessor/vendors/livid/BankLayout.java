@@ -16,9 +16,9 @@ public class BankLayout {
 	public static final BankLayout[] AllBanks = createFourBanks();
 	public static BankLayout CurrentBank = AllBanks[0];
 	public static final BankLayout Bank1 = AllBanks[0];
-	public static BankLayout Bank2 = AllBanks[1];
-	public static BankLayout Bank3 = AllBanks[2];
-	public static BankLayout Bank4 = AllBanks[3];
+	public static final BankLayout Bank2 = AllBanks[1];
+	public static final BankLayout Bank3 = AllBanks[2];
+	public static final BankLayout Bank4 = AllBanks[3];
 	public static byte nextEncoderId;
 	public static byte nextButtonId;
 	public static ProgramParameterData programParameterData;
@@ -190,7 +190,7 @@ public class BankLayout {
 	public static ProgramParameter getCurrentProgramParameter(
 			Class<? extends ProgramParameter> programParameterClass) {
 		return ParameterFactory
-				.getCurrentProgramParameterForClass(programParameterClass);
+				.getCurrentProgramParameterLayerAForClass(programParameterClass);
 	}
 
 	public static List<Integer> getListOfEncodersIdsForBank(int bankNumber) {

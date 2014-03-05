@@ -15,18 +15,19 @@ public class RelativeEncoderChangeEchoesNewLEDRingValue implements Rule {
 
 		int newValue = getRebasedValue(shortMessage);
 
-		final EventProcessorMidiMessage buildShortMessage = EventProcessorShortMessage.buildShortMessage(
-				shortMessage.getCommand(), shortMessage.getChannel(),
-				shortMessage.getData1(), newValue);
+		final EventProcessorMidiMessage buildShortMessage = EventProcessorShortMessage
+				.buildShortMessage(shortMessage.getCommand(),
+						shortMessage.getChannel(), shortMessage.getData1(),
+						newValue);
 		return buildShortMessage;
-
 	}
 
 	private int getRebasedValue(EventProcessorShortMessage shortMessage) {
 		final int data1 = shortMessage.getData1();
 		Encoder encoder = BankLayout.CurrentBank.getEncoderForCc(data1);
 		ProgramParameter programParameter = encoder.getProgramParameter();
-		return programParameter.getRebasedValue();
+		final byte rebasedValue = programParameter.getRebasedValue();
+		return rebasedValue;
 	}
 
 }
