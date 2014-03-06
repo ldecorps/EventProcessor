@@ -109,4 +109,8 @@ public class Button implements Controller {
 	public Button asButton() {
 		return this;
 	}
+
+	public int getLedRingCc() {
+		throw new EventProcessorException("Not Implemented Yet");
+	}
 }

@@ -35,6 +35,8 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 
 		int ccNumberAssociatedToARelativeEncoder = ControllerRepository
 				.getCcNumberAssociatedToaRelativeEncoder();
+		int ccOfTheCorrespondingLedRing = ControllerRepository
+				.getLedRingCcForLividCc(ccNumberAssociatedToARelativeEncoder);
 		assertThat("should find at least one relative encoder",
 				ccNumberAssociatedToARelativeEncoder, greaterThan(0));
 
@@ -45,8 +47,8 @@ public class RelativeEncoderChangeEchoesNewLEDRingValueTest {
 
 		EventProcessorMidiMessage result = cut.transform(ccComingOutOfLivid);
 
-		assertEquals(ccNumberAssociatedToARelativeEncoder, result
-				.getAsShortMessage().getData1());
+		assertEquals(ccOfTheCorrespondingLedRing, result.getAsShortMessage()
+				.getData1());
 		assertFalse(relativeValue == result.getAsShortMessage().getData2());
 	}
 

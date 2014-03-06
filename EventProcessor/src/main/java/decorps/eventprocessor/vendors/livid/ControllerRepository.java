@@ -113,4 +113,11 @@ public class ControllerRepository {
 	public static List<Encoder> getControllers() {
 		return Arrays.asList(CurrentBank.encoders);
 	}
+
+	public static int getLedRingCcForLividCc(int lividCc) {
+		final Encoder encoderForCc = getEncoderForCc(lividCc);
+		final int encoderId = encoderForCc.getCCOrNoteNumber();
+		final int ledRingCc = encoderId + 32;
+		return ledRingCc;
+	}
 }

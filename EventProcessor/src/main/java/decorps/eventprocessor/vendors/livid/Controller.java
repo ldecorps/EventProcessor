@@ -29,4 +29,6 @@ public interface Controller extends ValueRange {
 
 	public Button asButton();
 
+	public int getLedRingCc();
+
 }

@@ -74,7 +74,6 @@ public class MapRepository {
 	public static void initialise() {
 		maps.clear();
 		registerSpecificMaps();
-		completeInitialisationWithDefaultMaps();
 	}
 
 	private static void registerSpecificMaps() {

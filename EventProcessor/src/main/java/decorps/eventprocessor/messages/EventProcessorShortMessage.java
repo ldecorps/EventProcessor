@@ -186,7 +186,7 @@ public class EventProcessorShortMessage extends EventProcessorMidiMessage {
 	public static EventProcessorMidiMessage buildForRelativeEncoder(
 			Encoder encoder) {
 		EventProcessorMidiMessage result = buildShortMessage(
-				ShortMessage.CONTROL_CHANGE, 0, encoder.getCCOrNoteNumber(),
+				ShortMessage.CONTROL_CHANGE, 0, encoder.getLedRingCc(),
 				encoder.getRebasedValue());
 		return result;
 	}

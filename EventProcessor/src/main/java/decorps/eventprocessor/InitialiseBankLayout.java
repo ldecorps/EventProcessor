@@ -41,7 +41,10 @@ public class InitialiseBankLayout {
 			if (!encoder.isAbsolute()) {
 				final EventProcessorMidiMessage ccForRelativeEncoder = EventProcessorShortMessage
 						.buildForRelativeEncoder(encoder);
-				eventProcessor.sendToLivid(ccForRelativeEncoder);
+				{
+					System.out.println("Sending " + ccForRelativeEncoder);
+					eventProcessor.sendToLivid(ccForRelativeEncoder);
+				}
 			}
 		}
 	}

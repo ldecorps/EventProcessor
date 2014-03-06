@@ -119,4 +119,10 @@ public class Encoder implements Controller {
 	public Button asButton() {
 		throw new EventProcessorException("Encoder is not an encoder");
 	}
+
+	public int getLedRingCc() {
+		final int ccNumber = getNoteOrCcForEncoderId(id);
+		final int ledRingCc = ccNumber + 32;
+		return ledRingCc;
+	}
 }

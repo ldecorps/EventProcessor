@@ -57,6 +57,10 @@ public class ControllerTest {
 		public Button asButton() {
 			throw new EventProcessorException("Not Implemented Yet");
 		}
+
+		public int getLedRingCc() {
+			throw new EventProcessorException("Not Implemented Yet");
+		}
 	};
 	static int testEncoderNextId = 0;
 
