@@ -120,4 +120,13 @@ public class ControllerRepository {
 		final int ledRingCc = encoderId + 32;
 		return ledRingCc;
 	}
+
+	public static Encoder getEncoderById(int encoderId) {
+		for (Encoder encoder : BankLayout.CurrentBank.encoders) {
+			if (encoderId == encoder.id)
+				return encoder;
+		}
+		throw new EventProcessorException("Could not find encoder id "
+				+ encoderId);
+	}
 }

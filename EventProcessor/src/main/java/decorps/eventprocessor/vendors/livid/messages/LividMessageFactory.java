@@ -63,4 +63,11 @@ public class LividMessageFactory {
 		return new Button_Toggle_Mode_Enable(payload, (byte) 0x36, 12);
 	}
 
+	public static EventProcessorMidiMessage build_Request_Button_mapping() {
+		return new Request_Button_mapping(new int[] { 0x0b }, (byte) 0x7, 1);
+	}
+
+	public static EventProcessorMidiMessage build_Map_Buttons(int... payload) {
+		return new Map_Buttons(payload, (byte) 0x0B, 45);
+	}
 }

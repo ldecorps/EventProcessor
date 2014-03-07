@@ -99,7 +99,7 @@ public class DefaultControllerParameterMap implements EventProcessorMap {
 			Class<? extends ProgramParameter> programParameterClass,
 			int encoderId) {
 		ProgramParameter programParameter = BankLayout
-				.getCurrentProgramParameter(programParameterClass);
+				.getCurrentProgramParameterALayer(programParameterClass);
 		new DefaultControllerParameterMap(programParameter,
 				new Encoder[] { BankLayout.CurrentBank.encoders[encoderId] });
 	}

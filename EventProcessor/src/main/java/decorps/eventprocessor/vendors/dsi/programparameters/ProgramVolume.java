@@ -1,6 +1,7 @@
 package decorps.eventprocessor.vendors.dsi.programparameters;
 
-public class ProgramVolume extends ProgramParameter implements ZeroTo127Range {
+public class ProgramVolume extends ProgramParameter implements ZeroTo127Range,
+		Power {
 
 	public ProgramVolume(int number, byte b) {
 		super(number, b);

@@ -74,11 +74,11 @@ public class Encoder implements Controller {
 	}
 
 	public int getEncoderStyle() {
-		if (this instanceof Power)
+		if (programParameter instanceof Power)
 			return Set_LED_Ring_Style.FILL;
-		if (this instanceof Centered)
+		if (programParameter instanceof Centered)
 			return Set_LED_Ring_Style.EQ;
-		if (this instanceof Spread)
+		if (programParameter instanceof Spread)
 			return Set_LED_Ring_Style.SPREAD;
 		return Set_LED_Ring_Style.WALK;
 	}

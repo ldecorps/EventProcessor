@@ -187,7 +187,7 @@ public class BankLayout {
 		return CurrentBank;
 	}
 
-	public static ProgramParameter getCurrentProgramParameter(
+	public static ProgramParameter getCurrentProgramParameterALayer(
 			Class<? extends ProgramParameter> programParameterClass) {
 		return ParameterFactory
 				.getCurrentProgramParameterLayerAForClass(programParameterClass);
